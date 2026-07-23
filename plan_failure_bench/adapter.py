@@ -89,6 +89,9 @@ def _api_key(config: ModelConfig) -> str | None:
 def _request(config: ModelConfig) -> tuple[str, dict, dict]:
     base = config.base_url.rstrip("/")
     key = _api_key(config)
+    # Some API gateways block the default Python-urllib user agent outright
+    # (Cloudflare bot filtering returns 403 Forbidden), so identify honestly.
+    common = {"Content-Type": "application/json", "User-Agent": "plan-failure-bench/0.0.1"}
     if config.backend == "openai_chat":
         url = f"{base}/chat/completions"
         payload = {
@@ -98,7 +101,7 @@ def _request(config: ModelConfig) -> tuple[str, dict, dict]:
         }
         if config.temperature is not None:
             payload["temperature"] = config.temperature
-        headers = {"Content-Type": "application/json"}
+        headers = dict(common)
         if key is not None:
             headers["Authorization"] = f"Bearer {key}"
         return url, payload, headers
@@ -109,7 +112,8 @@ def _request(config: ModelConfig) -> tuple[str, dict, dict]:
             "max_tokens": config.max_tokens,
             "messages": [],
         }
-        headers = {"Content-Type": "application/json", "anthropic-version": "2023-06-01"}
+        headers = dict(common)
+        headers["anthropic-version"] = "2023-06-01"
         if key is not None:
             headers["x-api-key"] = key
         return url, payload, headers
