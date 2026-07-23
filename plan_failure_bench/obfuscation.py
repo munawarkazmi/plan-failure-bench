@@ -35,10 +35,21 @@ from .schema import Environment, GLOBAL_ACTIONS, SchemaError
 
 OBFUSCATION_SEED = 20260723
 
+# Version 2: tokens carry a guaranteed minimum pairwise edit distance and
+# unique opening syllables. Version 1 tokens (mulgol, mulquo, mullus) were
+# confusable enough that copy errors and hallucinations could not be told
+# apart in the results. Records store the version they were produced under.
+OBFUSCATION_VERSION = 2
+_MIN_TOKEN_DISTANCE = 3
+
 _STATE_WORDS = ("open", "closed", "locked")
 _SYLLABLES = (
     "vek", "zor", "mul", "tra", "fen", "gol", "pri", "sna", "dur", "kel",
     "bof", "wix", "yam", "ral", "tez", "quo", "pim", "lus", "cra", "hib",
+    "dro", "fal", "gri", "hup", "jat", "kov", "lem", "nid", "osk", "pru",
+    "rok", "sib", "tam", "urv", "wob", "yex", "zam", "bli", "cho", "darv",
+    "ekk", "gorn", "hyx", "ilm", "juv", "klo", "nuv", "olt", "pli", "rux",
+    "syb", "tull", "wep", "zol", "quin", "marn",
 )
 _RESERVED = frozenset(
     "room rooms door doors item items robot gripper plan infeasible clarify action "
@@ -54,6 +65,7 @@ class Obfuscation:
     phrase_map: tuple[tuple[str, str], ...]
     token_map: tuple[tuple[str, str], ...]
     leak_words: tuple[str, ...]
+    version: int = OBFUSCATION_VERSION
 
     def apply(self, text: str) -> str:
         return _substitute(_substitute(text, self.phrase_map), self.token_map)
@@ -85,11 +97,36 @@ def _substitute(text: str, pairs: tuple[tuple[str, str], ...]) -> str:
     return text
 
 
-def _make_token(rng: random.Random, taken: set[str]) -> str:
-    while True:
-        word = "".join(rng.choice(_SYLLABLES) for _ in range(rng.randint(2, 3)))
-        if word not in taken:
-            return word
+def _levenshtein(a: str, b: str) -> int:
+    previous = list(range(len(b) + 1))
+    for i, ca in enumerate(a, start=1):
+        current = [i]
+        for j, cb in enumerate(b, start=1):
+            current.append(min(previous[j] + 1, current[j - 1] + 1, previous[j - 1] + (ca != cb)))
+        previous = current
+    return previous[-1]
+
+
+def _make_token(rng: random.Random, taken: set[str], tokens: list[str], used_first: set[str]) -> str:
+    """A nonsense token visually distinct from every token generated so far.
+
+    Distinct means: an unused opening syllable while the pool lasts, and at
+    least _MIN_TOKEN_DISTANCE edits from every existing token. Without this,
+    tokens built from a small syllable pool are confusable enough that a
+    model's copy errors are indistinguishable from hallucination.
+    """
+    fresh_firsts = [s for s in _SYLLABLES if s not in used_first]
+    for _ in range(500):
+        first = rng.choice(fresh_firsts or list(_SYLLABLES))
+        rest = rng.sample([s for s in _SYLLABLES if s != first], rng.randint(1, 2))
+        word = first + "".join(rest)
+        if word in taken:
+            continue
+        if any(_levenshtein(word, t) < _MIN_TOKEN_DISTANCE for t in tokens):
+            continue
+        used_first.add(first)
+        return word
+    raise SchemaError("could not generate a sufficiently distinct obfuscation token")
 
 
 def load_lexicon(path: str | Path) -> dict:
@@ -118,8 +155,9 @@ def build_obfuscation(env: Environment, lexicon: dict) -> Obfuscation:
 
     taken = set(words) | set(_RESERVED)
     token_map: list[tuple[str, str]] = []
+    used_first: set[str] = set()
     for w in words:
-        t = _make_token(rng, taken)
+        t = _make_token(rng, taken, [t for _, t in token_map], used_first)
         taken.add(t)
         token_map.append((w, t))
     # Plural surface forms map to pluralised tokens, so "cups" and

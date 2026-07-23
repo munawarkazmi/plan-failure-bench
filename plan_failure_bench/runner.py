@@ -108,6 +108,7 @@ def run_suite(
             "clarify_candidates": list(seed.clarify_candidates) or None,
             "response": response_text,
             "response_canonical": canonical_text if obf is not None else None,
+            "obfuscation_version": obf.version if obf is not None else None,
             "timestamp": time.time(),
         }
         record.update(check_seed(env, seed, canonical_text))

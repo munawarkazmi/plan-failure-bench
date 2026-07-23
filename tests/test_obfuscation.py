@@ -51,6 +51,28 @@ class TestMapping:
     def test_loader_helper(self):
         assert load_obfuscation(ENV, REPO_ROOT / "environments") == OBF
 
+    def test_tokens_pairwise_distinct(self):
+        from plan_failure_bench.obfuscation import _MIN_TOKEN_DISTANCE, _levenshtein
+
+        stems = {w: t for w, t in OBF.token_map}
+        base = [t for w, t in OBF.token_map if not (w.endswith("s") and w[:-1] in stems)]
+        for i, a in enumerate(base):
+            for b in base[i + 1 :]:
+                assert _levenshtein(a, b) >= _MIN_TOKEN_DISTANCE, (a, b)
+
+    def test_version_recorded_in_records(self):
+        from plan_failure_bench.runner import run_suite
+
+        def refuser(prompt, seed):
+            return '{"infeasible": {"reason": "unreachable"}}'
+
+        obf_records = run_suite(
+            SEEDS, {"house_01": ENV}, TEMPLATE, refuser, "m", "obfuscated", obfuscations={"house_01": OBF}
+        )
+        plain_records = run_suite(SEEDS, {"house_01": ENV}, TEMPLATE, refuser, "m", "plain")
+        assert all(r["obfuscation_version"] == OBF.version for r in obf_records)
+        assert all(r["obfuscation_version"] is None for r in plain_records)
+
 
 class TestNoSemanticLeak:
     LEAKABLE = sorted({w for w, _ in OBF.token_map} | set(OBF.leak_words))
