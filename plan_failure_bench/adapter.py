@@ -15,6 +15,7 @@ in the config and are never written to disk or results.
 
 from __future__ import annotations
 
+import http.client
 import json
 import os
 import time
@@ -171,7 +172,9 @@ def call_model(config: ModelConfig, prompt: str, transport=None) -> ModelRespons
             if exc.code not in _RETRYABLE_STATUS:
                 raise AdapterError(f"model {config.name!r}: HTTP {exc.code}: {exc.reason}") from exc
             delay = _retry_delay(exc, attempt)
-        except urllib.error.URLError as exc:
+        except (urllib.error.URLError, TimeoutError, ConnectionError, http.client.HTTPException) as exc:
+            # Dropped connections and read timeouts surface as raw socket or
+            # http.client errors, not URLError; all are transient here.
             last_error = exc
             delay = float(2**attempt)
         if attempt < _MAX_ATTEMPTS:
