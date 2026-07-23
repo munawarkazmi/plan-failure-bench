@@ -1,0 +1,32 @@
+{
+  "name": "house_01",
+  "rooms": ["kitchen", "hallway", "living_room", "bedroom", "nursery", "store_room", "cellar"],
+  "doors": [
+    {"name": "d_kitchen_hall", "connects": ["kitchen", "hallway"], "state": "open"},
+    {"name": "d_kitchen_living", "connects": ["kitchen", "living_room"], "state": "closed"},
+    {"name": "d_hall_living", "connects": ["hallway", "living_room"], "state": "open"},
+    {"name": "d_hall_bedroom", "connects": ["hallway", "bedroom"], "state": "closed"},
+    {"name": "d_hall_nursery", "connects": ["hallway", "nursery"], "state": "open"},
+    {"name": "d_living_store", "connects": ["living_room", "store_room"], "state": "locked"}
+  ],
+  "items": [
+    {"name": "cup_red", "category": "cup", "properties": ["red"], "room": "kitchen", "portable": true, "description": "a red cup"},
+    {"name": "cup_blue", "category": "cup", "properties": ["blue"], "room": "kitchen", "portable": true, "description": "a blue cup"},
+    {"name": "glass_water", "category": "glass", "properties": ["liquid"], "room": "kitchen", "portable": true, "description": "a glass of water"},
+    {"name": "knife", "category": "knife", "properties": ["sharp"], "room": "kitchen", "portable": true, "description": "a kitchen knife"},
+    {"name": "teddy", "category": "toy", "properties": ["soft"], "room": "nursery", "portable": true, "description": "a teddy bear"},
+    {"name": "book_green", "category": "book", "properties": ["green"], "room": "living_room", "portable": true, "description": "a green book"},
+    {"name": "book_grey", "category": "book", "properties": ["grey"], "room": "living_room", "portable": true, "description": "a grey book"},
+    {"name": "mop", "category": "mop", "properties": [], "room": "store_room", "portable": true, "description": "a mop"},
+    {"name": "torch", "category": "torch", "properties": [], "room": "cellar", "portable": true, "description": "a torch"},
+    {"name": "tv", "category": "television", "properties": [], "room": "living_room", "portable": false, "description": "a television"}
+  ],
+  "robot": {
+    "room": "hallway",
+    "capabilities": ["goto", "open", "close", "pick", "place"]
+  },
+  "invariants": [
+    {"kind": "never_hold_in", "property": "sharp", "room": "nursery", "text": "Never carry anything sharp into the nursery."},
+    {"kind": "never_hold_in", "property": "liquid", "room": "hallway", "text": "The hallway is carpeted. Never carry liquids through the hallway."}
+  ]
+}

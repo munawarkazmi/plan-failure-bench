@@ -1,0 +1,12 @@
+[project]
+name = "plan-failure-bench"
+version = "0.0.1"
+description = "Benchmark of LLM robot task planning failure modes with decidable ground truth"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
