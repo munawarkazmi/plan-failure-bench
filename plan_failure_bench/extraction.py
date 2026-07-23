@@ -13,9 +13,17 @@ from __future__ import annotations
 
 import json
 
+_RESPONSE_SHAPES = ({"plan"}, {"infeasible"}, {"clarify"})
+
 
 def extract_first_json_object(text: str) -> str | None:
-    """The first balanced, parseable JSON object in text, or None."""
+    """The first balanced, parseable, response-shaped JSON object, or None.
+
+    Response-shaped means exactly one of the three top level keys the DSL
+    defines. Without that restriction, a truncated response whose outer
+    object never closes would yield some inner fragment (a single plan
+    step, say), which is not the model's answer to anything.
+    """
     start = text.find("{")
     while start != -1:
         depth = 0
@@ -39,9 +47,11 @@ def extract_first_json_object(text: str) -> str | None:
                 if depth == 0:
                     candidate = text[start : i + 1]
                     try:
-                        json.loads(candidate)
-                        return candidate
+                        parsed = json.loads(candidate)
                     except ValueError:
                         break
+                    if isinstance(parsed, dict) and set(parsed.keys()) in _RESPONSE_SHAPES:
+                        return candidate
+                    break
         start = text.find("{", start + 1)
     return None

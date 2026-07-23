@@ -37,8 +37,12 @@ class TestExtraction:
         assert json.loads(extract_first_json_object(text)) == {"infeasible": {"reason": "unreachable"}}
 
     def test_braces_inside_strings(self):
-        text = 'note {"a": "curly } inside", "b": 1} tail'
-        assert json.loads(extract_first_json_object(text)) == {"a": "curly } inside", "b": 1}
+        text = 'note {"clarify": {"candidates": ["curly}name", "cup_blue"]}} tail'
+        assert json.loads(extract_first_json_object(text))["clarify"]["candidates"][0] == "curly}name"
+
+    def test_non_response_objects_skipped(self):
+        text = '{"note": "context"} and then {"plan": []}'
+        assert json.loads(extract_first_json_object(text)) == {"plan": []}
 
     def test_unbalanced_json_is_none(self):
         assert extract_first_json_object('{"plan": [{"action": "goto", "args": ["x"]}]') is None
