@@ -14,10 +14,10 @@ OPENAI_CONFIG = ModelConfig(
     name="local", backend="openai_chat", base_url="http://localhost:8080/v1", model="qwen"
 )
 ANTHROPIC_CONFIG = ModelConfig(
-    name="claude",
+    name="anthropic_api",
     backend="anthropic",
     base_url="https://api.anthropic.com/v1",
-    model="claude-opus-4-8",
+    model="example-model-id",
     api_key_env="FAKE_ANTHROPIC_KEY",
     temperature=None,
 )
@@ -77,9 +77,9 @@ class TestAnthropicBackend:
 class TestConfigLoading:
     def test_example_config_loads(self):
         configs = load_model_configs(REPO_ROOT / "configs" / "models.example.json")
-        assert set(configs) == {"local_qwen", "claude_opus"}
-        assert configs["claude_opus"].backend == "anthropic"
-        assert configs["claude_opus"].temperature is None
+        assert set(configs) == {"local_qwen", "anthropic_api"}
+        assert configs["anthropic_api"].backend == "anthropic"
+        assert configs["anthropic_api"].temperature is None
 
     def test_bad_backend_rejected(self, tmp_path):
         p = tmp_path / "m.json"
