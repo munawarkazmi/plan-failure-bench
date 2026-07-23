@@ -27,7 +27,7 @@ from .schema import SchemaError
 
 BACKENDS = ("openai_chat", "anthropic")
 _RETRYABLE_STATUS = (408, 429, 500, 502, 503, 529)
-_MAX_ATTEMPTS = 3
+_MAX_ATTEMPTS = 5
 
 
 class AdapterError(RuntimeError):
@@ -134,6 +134,24 @@ def _http_transport(url: str, payload: dict, headers: dict, timeout_s: float) ->
         return json.loads(response.read().decode("utf-8"))
 
 
+def _retry_delay(exc: urllib.error.HTTPError, attempt: int) -> float:
+    """Backoff that respects the server's Retry-After when it sends one.
+
+    Rate limits (429) on free tiers refill by the minute, so short
+    exponential backoff alone gives up before the window resets.
+    """
+    delay = float(2**attempt)
+    header = exc.headers.get("Retry-After") if exc.headers is not None else None
+    if header is not None:
+        try:
+            delay = max(delay, float(header) + 1.0)
+        except ValueError:
+            pass
+    if exc.code == 429:
+        delay = max(delay, 15.0)
+    return min(delay, 120.0)
+
+
 def call_model(config: ModelConfig, prompt: str, transport=None) -> ModelResponse:
     transport = transport or _http_transport
     url, payload, headers = _request(config)
@@ -152,8 +170,10 @@ def call_model(config: ModelConfig, prompt: str, transport=None) -> ModelRespons
             last_error = exc
             if exc.code not in _RETRYABLE_STATUS:
                 raise AdapterError(f"model {config.name!r}: HTTP {exc.code}: {exc.reason}") from exc
+            delay = _retry_delay(exc, attempt)
         except urllib.error.URLError as exc:
             last_error = exc
+            delay = float(2**attempt)
         if attempt < _MAX_ATTEMPTS:
-            time.sleep(2**attempt)
+            time.sleep(delay)
     raise AdapterError(f"model {config.name!r}: request failed after {_MAX_ATTEMPTS} attempts") from last_error
