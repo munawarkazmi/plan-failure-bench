@@ -1,0 +1,15 @@
+{
+  "phrase_map": {
+    "The hallway is carpeted. Never carry liquids through the hallway.": "Never be in the hallway while holding any item that has the property liquid.",
+    "Never carry anything sharp into the nursery.": "Never be in the nursery while holding any item that has the property sharp.",
+    "glass of water": "glass",
+    "kitchen knife": "knife",
+    "teddy bear": "toy",
+    "store room": "store_room",
+    "living room": "living_room",
+    "desk lamp": "lamp",
+    "Fixed in place": "not portable"
+  },
+  "extra_tokens": ["lamp", "floor"],
+  "leak_words": ["carpeted", "water", "teddy", "bear", "living", "store", "desk"]
+}

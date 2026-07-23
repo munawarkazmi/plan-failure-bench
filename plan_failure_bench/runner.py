@@ -23,6 +23,7 @@ from .checker import CheckResult, check_response
 from .dsl import ClarifyResponse, InfeasibleResponse
 from .instructions import Seed, load_seeds
 from .loader import load_environment
+from .obfuscation import load_obfuscation
 from .prompts import build_prompt, load_template, prompt_sha256
 from .schema import Environment, Goal
 
@@ -78,13 +79,24 @@ def run_suite(
     model_name: str,
     condition: str = "plain",
     out_path: str | Path | None = None,
+    obfuscations: dict | None = None,
 ) -> list[dict]:
-    """call_fn(prompt, seed) -> raw response text. Injectable for tests."""
+    """call_fn(prompt, seed) -> raw response text. Injectable for tests.
+
+    With obfuscations (env name to Obfuscation), the model sees the
+    obfuscated prompt and its raw response is inverted back to canonical
+    vocabulary before checking. The record keeps the raw response as the
+    model produced it, plus the canonical form the checker judged.
+    """
     records = []
     for seed in seeds:
         env = environments[seed.environment]
         prompt = build_prompt(template, env, seed.instruction)
+        obf = obfuscations.get(seed.environment) if obfuscations else None
+        if obf is not None:
+            prompt = obf.apply(prompt)
         response_text = call_fn(prompt, seed)
+        canonical_text = obf.invert(response_text) if obf is not None else response_text
         record = {
             "seed_id": seed.id,
             "label": seed.label,
@@ -95,9 +107,10 @@ def run_suite(
             "expected_terminal": list(seed.expected_terminal) if seed.expected_terminal else None,
             "clarify_candidates": list(seed.clarify_candidates) or None,
             "response": response_text,
+            "response_canonical": canonical_text if obf is not None else None,
             "timestamp": time.time(),
         }
-        record.update(check_seed(env, seed, response_text))
+        record.update(check_seed(env, seed, canonical_text))
         records.append(record)
     if out_path is not None:
         out_path = Path(out_path)
@@ -137,12 +150,20 @@ def main() -> None:
     template = load_template(args.prompt)
     out_path = args.out or f"results/{config.name}_{args.condition}.jsonl"
 
+    obfuscations = None
+    if args.condition == "obfuscated":
+        obfuscations = {
+            name: load_obfuscation(env, args.environments_dir) for name, env in environments.items()
+        }
+
     def call_fn(prompt: str, seed: Seed) -> str:
         response = call_model(config, prompt)
         print(f"{seed.id}: {response.latency_s:.1f}s")
         return response.text
 
-    records = run_suite(seeds, environments, template, call_fn, config.name, args.condition, out_path)
+    records = run_suite(
+        seeds, environments, template, call_fn, config.name, args.condition, out_path, obfuscations
+    )
     print(f"wrote {len(records)} records to {out_path}")
 
 
