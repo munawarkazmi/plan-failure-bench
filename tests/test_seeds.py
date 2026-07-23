@@ -1,0 +1,188 @@
+"""Proof obligations for the seed suite.
+
+Every planted label carries a mechanical obligation, and this module
+re-proves all of them on each test run:
+
+- valid, precondition_trap, sequencing_trap, feasible constraint_trap:
+  the reference plan validates, and pyperplan agrees with the checker.
+- decoy plans produce exactly the declared trap verdict.
+- unreachable_goal: provably unreachable, and still unreachable with the
+  full action vocabulary granted.
+- missing_capability: provably unreachable under the robot's profile, not
+  provable with the granted capability, and the capability plan validates
+  in the augmented environment.
+- infeasible constraint_trap: provably infeasible only because of an
+  invariant.
+- ambiguous_referent: at least two same category bindings, each with a
+  validating reference plan and no infeasibility proof.
+
+Plus suite wide hygiene: label counts, unique ids and instructions, and
+no em or en dashes anywhere in the seed file.
+"""
+
+import dataclasses
+from collections import Counter
+from pathlib import Path
+
+import pytest
+
+from plan_failure_bench.checker import check_response
+from plan_failure_bench.differential import ground_task, run_plan
+from plan_failure_bench.instructions import load_seeds, steps_to_text
+from plan_failure_bench.loader import load_environment
+from plan_failure_bench.pddl import compile_domain, compile_problem, translate_plan
+from plan_failure_bench.reachability import classify_infeasibility
+from plan_failure_bench.schema import GLOBAL_ACTIONS
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+SEEDS_PATH = REPO_ROOT / "instructions" / "seeds_house_01.json"
+SEEDS = load_seeds(SEEDS_PATH)
+ENVS = {"house_01": load_environment(REPO_ROOT / "environments" / "house_01.json")}
+
+EXPECTED_COUNTS = {
+    "valid": 9,
+    "unreachable_goal": 4,
+    "missing_capability": 3,
+    "ambiguous_referent": 3,
+    "precondition_trap": 4,
+    "sequencing_trap": 3,
+    "constraint_trap": 4,
+}
+
+
+def env_for(seed):
+    return ENVS[seed.environment]
+
+
+def augmented(env, capability):
+    return dataclasses.replace(env, capabilities=env.capabilities | {capability})
+
+
+def full_vocabulary(env):
+    return dataclasses.replace(env, capabilities=frozenset(GLOBAL_ACTIONS))
+
+
+def assert_plan_valid_both_ways(env, goal, steps):
+    ours = check_response(env, goal, steps_to_text(steps))
+    assert ours.verdict == "valid", ours
+    translated = translate_plan(env, steps)
+    assert translated.failed_index is None, translated
+    task = ground_task(compile_domain(env), compile_problem(env, goal))
+    theirs = run_plan(task, translated.names)
+    assert theirs.status == "valid", theirs
+
+
+class TestSuiteHygiene:
+    def test_count(self):
+        assert len(SEEDS) == 30
+
+    def test_label_distribution(self):
+        assert Counter(s.label for s in SEEDS) == EXPECTED_COUNTS
+
+    def test_instructions_unique(self):
+        texts = [s.instruction for s in SEEDS]
+        assert len(set(texts)) == len(texts)
+
+    def test_no_em_or_en_dashes_anywhere(self):
+        raw = SEEDS_PATH.read_text(encoding="utf-8")
+        assert "—" not in raw, "em dash found in seed file"
+        assert "–" not in raw, "en dash found in seed file"
+
+    def test_instruction_sentence_shape(self):
+        for s in SEEDS:
+            assert s.instruction[0].isupper() and s.instruction.endswith("."), s.id
+
+    def test_every_seed_has_notes(self):
+        for s in SEEDS:
+            assert len(s.notes) > 40, s.id
+
+
+class TestFeasibleSeeds:
+    FEASIBLE = [s for s in SEEDS if s.reference_plan is not None]
+
+    @pytest.mark.parametrize("seed", FEASIBLE, ids=lambda s: s.id)
+    def test_reference_plan_validates_both_ways(self, seed):
+        assert_plan_valid_both_ways(env_for(seed), seed.goal, seed.reference_plan)
+
+    @pytest.mark.parametrize("seed", FEASIBLE, ids=lambda s: s.id)
+    def test_no_spurious_infeasibility_proof(self, seed):
+        assert classify_infeasibility(env_for(seed), seed.goal) is None, seed.id
+
+
+class TestDecoys:
+    DECOYED = [s for s in SEEDS if s.decoy_plan is not None]
+
+    @pytest.mark.parametrize("seed", DECOYED, ids=lambda s: s.id)
+    def test_decoy_produces_declared_verdict(self, seed):
+        result = check_response(env_for(seed), seed.goal, steps_to_text(seed.decoy_plan))
+        assert result.verdict == seed.decoy_verdict, (seed.id, result)
+
+
+class TestUnreachableSeeds:
+    UNREACHABLE = [s for s in SEEDS if s.label == "unreachable_goal" and s.goal is not None]
+
+    @pytest.mark.parametrize("seed", UNREACHABLE, ids=lambda s: s.id)
+    def test_provably_unreachable_even_with_full_vocabulary(self, seed):
+        env = env_for(seed)
+        assert classify_infeasibility(env, seed.goal) == "unreachable", seed.id
+        assert classify_infeasibility(full_vocabulary(env), seed.goal) == "unreachable", seed.id
+
+    def test_nonexistent_object_seed_names_nothing_real(self):
+        (seed,) = [s for s in SEEDS if s.id == "u4"]
+        env = env_for(seed)
+        assert not any(i.category == "lamp" for i in env.items)
+        assert "lamp" not in {i.name for i in env.items}
+
+
+class TestMissingCapabilitySeeds:
+    WITH_GOAL = [s for s in SEEDS if s.label == "missing_capability" and s.goal is not None]
+
+    @pytest.mark.parametrize("seed", WITH_GOAL, ids=lambda s: s.id)
+    def test_infeasible_under_profile_feasible_under_grant(self, seed):
+        env = env_for(seed)
+        assert classify_infeasibility(env, seed.goal) == "unreachable", seed.id
+        granted = augmented(env, seed.granted_capability)
+        assert classify_infeasibility(granted, seed.goal) is None, seed.id
+        assert_plan_valid_both_ways(granted, seed.goal, seed.capability_reference_plan)
+
+    def test_inexpressible_seed_relies_on_absent_verb(self):
+        (seed,) = [s for s in SEEDS if s.id == "m3"]
+        assert not {"mop", "wipe", "scrub", "clean"} & set(GLOBAL_ACTIONS)
+
+
+class TestConstraintSeeds:
+    INFEASIBLE = [s for s in SEEDS if s.label == "constraint_trap" and s.expected_terminal is not None]
+
+    @pytest.mark.parametrize("seed", INFEASIBLE, ids=lambda s: s.id)
+    def test_infeasible_only_because_of_invariant(self, seed):
+        assert classify_infeasibility(env_for(seed), seed.goal) == "constraint", seed.id
+
+
+class TestAmbiguousSeeds:
+    AMBIGUOUS = [s for s in SEEDS if s.label == "ambiguous_referent"]
+
+    @pytest.mark.parametrize("seed", AMBIGUOUS, ids=lambda s: s.id)
+    def test_bindings_share_a_category(self, seed):
+        env = env_for(seed)
+        categories = {env.item(a.binding).category for a in seed.alternatives}
+        assert len(categories) == 1, (seed.id, categories)
+        category = categories.pop()
+        matching = [i.name for i in env.items if i.category == category]
+        assert sorted(matching) == list(seed.clarify_candidates), seed.id
+
+    @pytest.mark.parametrize("seed", AMBIGUOUS, ids=lambda s: s.id)
+    def test_every_binding_is_feasible(self, seed):
+        env = env_for(seed)
+        for alt in seed.alternatives:
+            assert classify_infeasibility(env, alt.goal) is None, (seed.id, alt.binding)
+            assert_plan_valid_both_ways(env, alt.goal, alt.reference_plan)
+
+
+class TestPlanLengthDistribution:
+    def test_reference_plan_lengths_are_recorded(self):
+        # Intent documentation as much as a test: if the suite's length
+        # profile drifts, this fails loudly instead of silently.
+        lengths = sorted(
+            len(s.reference_plan) for s in SEEDS if s.reference_plan is not None
+        )
+        assert lengths == [1, 1, 2, 3, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 9, 11, 12]
