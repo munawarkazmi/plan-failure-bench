@@ -45,6 +45,10 @@ class ModelConfig:
     temperature: float | None = 0.0
     max_tokens: int = 2000
     timeout_s: float = 180.0
+    # Minimum seconds between request starts. Set this to stay under a
+    # provider's requests-per-minute cap instead of bouncing off it: for a
+    # cap of N per minute, 60/N plus a second of slack.
+    min_interval_s: float = 0.0
 
 
 @dataclass(frozen=True)
@@ -54,7 +58,17 @@ class ModelResponse:
     latency_s: float
 
 
-_CONFIG_KEYS = {"name", "backend", "base_url", "model", "api_key_env", "temperature", "max_tokens", "timeout_s"}
+_CONFIG_KEYS = {
+    "name",
+    "backend",
+    "base_url",
+    "model",
+    "api_key_env",
+    "temperature",
+    "max_tokens",
+    "timeout_s",
+    "min_interval_s",
+}
 
 
 def load_model_configs(path: str | Path) -> dict[str, ModelConfig]:

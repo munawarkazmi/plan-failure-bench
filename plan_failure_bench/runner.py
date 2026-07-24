@@ -198,7 +198,13 @@ def main() -> None:
         seeds, append = plan_resume(seeds, out_path, config.name, args.condition)
         print(f"resuming: {len(seeds)} seeds remaining for {out_path}")
 
+    last_start = [0.0]
+
     def call_fn(prompt: str, seed: Seed) -> str:
+        wait = config.min_interval_s - (time.monotonic() - last_start[0])
+        if wait > 0:
+            time.sleep(wait)
+        last_start[0] = time.monotonic()
         response = call_model(config, prompt)
         print(f"{seed.id}: {response.latency_s:.1f}s")
         return response.text
