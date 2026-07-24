@@ -4,3 +4,14 @@ __pycache__/
 .venv/
 venv/
 configs/models.json
+
+# LaTeX build artefacts; the PDF is committed at milestones only.
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.bbl
+paper/*.blg
+paper/*.fls
+paper/*.fdb_latexmk
+paper/*.synctex.gz
+paper/*.run.xml

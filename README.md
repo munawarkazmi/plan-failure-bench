@@ -154,6 +154,15 @@ conditions):
 Per-seed detail for every run: [docs/seed_review.md](docs/seed_review.md).
 Raw records: [results/](results/).
 
+## Working paper
+
+A living draft lives in [paper/](paper/), completed as the research
+completes; [paper/STATUS.md](paper/STATUS.md) tracks section status
+honestly (nothing is ticked that cannot be inspected in this
+repository). Its results tables are generated from the committed run
+records by `tools/build_paper_results.py` and are never edited by hand,
+so the paper cannot drift from the data.
+
 ## The worlds
 
 ```mermaid
