@@ -10,6 +10,7 @@ from plan_failure_bench.rescore import rescore_records
 from plan_failure_bench.runner import load_records
 
 seeds = load_seeds("instructions/seeds_house_01.json")
+office_seeds = load_seeds("instructions/seeds_office_01.json")
 envs = {"house_01": load_environment("environments/house_01.json")}
 
 RUNS = [
@@ -55,11 +56,15 @@ lines = [
     "",
 ]
 
-for seed in seeds:
+def seed_heading(seed):
     expected = "plan expected"
     if seed.expected_terminal is not None:
         expected = " ".join(str(x) for x in seed.expected_terminal) + " expected"
-    lines.append(f"## {seed.id} ({seed.label}, {expected})")
+    return f"## {seed.environment} {seed.id} ({seed.label}, {expected})"
+
+
+for seed in seeds:
+    lines.append(seed_heading(seed))
     lines.append("")
     lines.append(f"**Instruction:** {seed.instruction}")
     lines.append("")
@@ -72,7 +77,21 @@ for seed in seeds:
         lines.append(f"| {name} | {observed_verdict(record)} | {note(record)} |")
     lines.append("")
 
+lines.append("# office_01 seeds (no model runs yet)")
+lines.append("")
+lines.append("Wording and rationale only. No model has been run against this")
+lines.append("environment, so there is no behaviour to report; run tables will")
+lines.append("appear here once results exist.")
+lines.append("")
+for seed in office_seeds:
+    lines.append(seed_heading(seed))
+    lines.append("")
+    lines.append(f"**Instruction:** {seed.instruction}")
+    lines.append("")
+    lines.append(f"*Author note:* {seed.notes}")
+    lines.append("")
+
 os.makedirs("docs", exist_ok=True)
 with open("docs/seed_review.md", "w", encoding="utf-8") as f:
     f.write("\n".join(lines) + "\n")
-print("wrote docs/seed_review.md with", len(seeds), "seeds")
+print("wrote docs/seed_review.md with", len(seeds) + len(office_seeds), "seeds")

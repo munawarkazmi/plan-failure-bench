@@ -102,7 +102,7 @@ not claims.
 Per-seed detail for all four runs: [docs/seed_review.md](docs/seed_review.md).
 Raw records: [results/](results/).
 
-## The world
+## The worlds
 
 ```mermaid
 graph LR
@@ -115,12 +115,38 @@ graph LR
   cellar[cellar, no doors]
 ```
 
-One hand-built environment so far: seven rooms, six doors, ten items, two
-trajectory invariants (nothing sharp into the nursery, no liquids through
-the carpeted hallway), a robot that cannot unlock. Every trap family has a
-surface here, including discriminative pairs: the same knife is legal to
-move in one seed and refusable in another; the same constraint wording has
-a compliant route in one seed and none in another.
+house_01: seven rooms, six doors, ten items, two trajectory invariants
+(nothing sharp into the nursery, no liquids through the carpeted hallway),
+a robot that cannot unlock. Every trap family has a surface here, including
+discriminative pairs: the same knife is legal to move in one seed and
+refusable in another; the same constraint wording has a compliant route in
+one seed and none in another. All model results so far are on this
+environment.
+
+```mermaid
+graph LR
+  lobby ---|open| canteen
+  canteen ---|open| server_room
+  server_room ---|open| workshop
+  workshop ---|closed| studio
+  studio ---|open| lobby
+  lobby ---|closed| office
+  workshop ---|locked| supply_room
+  archive ---|open| strong_room
+```
+
+office_01: nine rooms, eight doors, eleven items, its own 30-seed suite
+and obfuscation lexicon, no model runs yet. Structural contrasts with
+house_01: a five-room ring reachable through open doors, so route choice
+is pervasive (house_01 has one cycle, kitchen to hallway to living room,
+but only through a closed door); a `never_enter` room sitting on the ring,
+so the short route between two reachable rooms can silently violate an
+invariant by movement alone; a `never_hold_in` property carried by three
+items rather than one; a two-room annex whose isolation is never stated
+and must be read off the connection list (the cellar's isolation is
+stated outright); ambiguous referents in different rooms; and a decoy
+that traps the single-slot gripper itself. The same label distribution as
+house_01 keeps confusion matrix columns comparable across environments.
 
 ## Ground truth guarantees
 
@@ -153,6 +179,15 @@ python -m plan_failure_bench.runner --config configs/models.json --model <name> 
 python -m plan_failure_bench.runner --config configs/models.json --model <name> --condition obfuscated
 ```
 
+The default seed suite is house_01. For office_01, pass the suite and an
+output path explicitly; the default output name does not include the
+environment, so omitting `--out` would collide with the house results
+file for the same model and condition:
+
+```
+python -m plan_failure_bench.runner --config configs/models.json --model <name> --condition plain --seeds instructions/seeds_office_01.json --out results/<name>_office_plain.jsonl
+```
+
 Score any results file, strict header plus lenient report:
 
 ```
@@ -165,7 +200,7 @@ python -m plan_failure_bench.rescore results/<file>.jsonl
 |---|---|
 | `plan_failure_bench/` | schema, checker, DSL, PDDL, proofs, prompts, adapters, runner, metrics, obfuscation |
 | `environments/` | world definitions and per-environment obfuscation lexicons |
-| `instructions/` | the 30-seed suite with labels and proof-bearing annotations |
+| `instructions/` | one 30-seed suite per environment, with labels and proof-bearing annotations |
 | `prompts/` | the fixed disclosure prompt, recorded verbatim |
 | `results/` | raw run records, one JSON object per seed per line |
 | `docs/` | per-seed review sheet and figures |
@@ -179,11 +214,13 @@ Stated here so nobody has to discover them:
   non-reasoning. A reasoning model run is the next experiment; if such
   models clear the traps cleanly, that materially narrows the claim, and
   the suite is built to find that out cheaply.
-- **One environment.** Every current finding is entangled with house_01's
-  topology and its two invariants, which share one structural pattern
-  (never carry X through Y). A second environment with different topology
-  and a `never_enter` style invariant is the next authoring task; all
-  label proofs re-verify automatically for any new environment.
+- **All findings are single-environment.** Every current model finding is
+  entangled with house_01's topology and its two invariants, which share
+  one structural pattern (never carry X through Y). The second
+  environment, office_01, is now authored and machine-proved (different
+  topology, a `never_enter` invariant, new trap shapes; every label proof
+  re-verifies in CI), but no model has been run against it, so it has not
+  yet discharged this limitation.
 - **Single sample per seed.** Current counts are one decode each. The
   planned protocol is k=5 samples per seed at temperature 0.7, reported as
   per-seed verdict consistency; the runner already supports it via
