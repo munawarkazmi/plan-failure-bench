@@ -107,8 +107,22 @@ run on office_01. Counts, not rates; hypotheses, not claims.
   level only: the nonexistent stapler is refused while both disconnected
   annex seeds are planned into, and the fixed photocopier is missed even
   though the fixed television was house_01's one non-hallucination
-  detection. The figure above remains house_01 only; one office run does
+  detection. The figure above remains house_01 only; two office runs do
   not yet warrant a panel.
+- **Obfuscation makes Qwen refuse, on both environments.** office_01
+  obfuscated (v2 tokens): strict format failures rise to 13/30 (plain:
+  4/30), and under lenient extraction detection rises to 3/13 with false
+  positives 2/17 (plain: 1/13 and 0/17); house_01 obfuscated shows the
+  same direction (3/13, 3/17). Its only exact-reason detections anywhere
+  are the two greasy-into-canteen constraint seeds, which it silently
+  complied with in plain English; the never-enter constraint seed is
+  still planned into, and one new false positive refuses a feasible
+  canteen delivery of a non-greasy item on constraint grounds. Hypothesis
+  at this n: removing semantics pushes Qwen from silent compliance
+  towards structural constraint matching, at the cost of format
+  discipline and new false positives. Zero hallucinated-entity verdicts
+  on the office lexicon (house v2: 1), so the token distinctness
+  guarantee is doing its job on a second vocabulary.
 
 Per-seed detail for every run: [docs/seed_review.md](docs/seed_review.md).
 Raw records: [results/](results/).
@@ -147,8 +161,8 @@ graph LR
 ```
 
 office_01: nine rooms, eight doors, eleven items, its own 30-seed suite
-and obfuscation lexicon, one model run so far (Qwen 2.5 7B, plain).
-Structural contrasts with house_01: a five-room ring reachable through open doors, so route choice
+and obfuscation lexicon, two model runs so far (Qwen 2.5 7B, plain and
+obfuscated). Structural contrasts with house_01: a five-room ring reachable through open doors, so route choice
 is pervasive (house_01 has one cycle, kitchen to hallway to living room,
 but only through a closed door); a `never_enter` room sitting on the ring,
 so the short route between two reachable rooms can silently violate an
@@ -228,8 +242,9 @@ Stated here so nobody has to discover them:
 - **Findings are still nearly single-environment.** The second
   environment, office_01, is authored and machine-proved (different
   topology, a `never_enter` invariant, new trap shapes; every label proof
-  re-verifies in CI), and its first run exists: Qwen's house failure
-  profile replicated on it. Every other finding remains entangled with
+  re-verifies in CI), and its first runs exist: Qwen's house failure
+  profile replicated on it in both conditions. Every other finding
+  remains entangled with
   house_01's topology and its two invariants, which share one structural
   pattern (never carry X through Y); office runs for the remaining models
   are pending quota.

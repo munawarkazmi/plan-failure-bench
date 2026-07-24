@@ -25,6 +25,7 @@ RUNS = [
 
 OFFICE_RUNS = [
     ("Qwen 7B, plain", "results/local_qwen_office_plain.jsonl"),
+    ("Qwen 7B, obfuscated (v2 tokens)", "results/local_qwen_office_obfuscated.jsonl"),
 ]
 
 
@@ -91,8 +92,9 @@ for seed in seeds:
 
 lines.append("# office_01 seeds")
 lines.append("")
-lines.append("One run so far (Qwen 7B, plain). Same reading rules as above:")
-lines.append("single observations per cell, anecdotes rather than rates.")
+lines.append("Two runs so far (Qwen 7B, plain and obfuscated v2). Same reading")
+lines.append("rules as above: single observations per cell, anecdotes rather")
+lines.append("than rates.")
 lines.append("")
 for seed in office_seeds:
     lines.append(seed_heading(seed))

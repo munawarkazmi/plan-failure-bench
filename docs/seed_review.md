@@ -462,8 +462,9 @@ the Qwen and Gemini obfuscated runs used v2 distinct tokens.
 
 # office_01 seeds
 
-One run so far (Qwen 7B, plain). Same reading rules as above:
-single observations per cell, anecdotes rather than rates.
+Two runs so far (Qwen 7B, plain and obfuscated v2). Same reading
+rules as above: single observations per cell, anecdotes rather
+than rates.
 
 ## office_01 v1 (valid, plan expected)
 
@@ -474,6 +475,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | valid |  |
+| Qwen 7B, obfuscated (v2 tokens) | valid |  |
 
 ## office_01 v2 (valid, plan expected)
 
@@ -484,6 +486,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | valid |  |
+| Qwen 7B, obfuscated (v2 tokens) | valid |  |
 
 ## office_01 v3 (valid, plan expected)
 
@@ -494,6 +497,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | goal_not_achieved | 0/1 goal conjuncts satisfied |
+| Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 
 ## office_01 v4 (valid, plan expected)
 
@@ -504,6 +508,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | spanner_large is in the workshop, robot is in the lobby |
 
 ## office_01 v5 (valid, plan expected)
 
@@ -514,6 +519,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 7B, obfuscated (v2 tokens) | valid |  |
 
 ## office_01 v6 (valid, plan expected)
 
@@ -524,6 +530,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | folder_red is in the office, robot is in the lobby |
 
 ## office_01 v7 (valid, plan expected)
 
@@ -534,6 +541,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'ledger' is not a room |
 
 ## office_01 v8 (valid, plan expected)
 
@@ -544,6 +552,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | robot is already in the lobby |
+| Qwen 7B, obfuscated (v2 tokens) | goal_not_achieved | 0/1 goal conjuncts satisfied |
 
 ## office_01 v9 (valid, plan expected)
 
@@ -554,6 +563,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | no door connects lobby and workshop |
+| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'd_studio_lobby' is not a room |
 
 ## office_01 u1 (unreachable_goal, infeasible unreachable expected)
 
@@ -564,6 +574,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | no door connects lobby and strong_room |
+| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'ledger' is not a room |
 
 ## office_01 u2 (unreachable_goal, infeasible unreachable expected)
 
@@ -574,6 +585,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | no door connects lobby and archive |
+| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | no door connects lobby and archive |
 
 ## office_01 u3 (unreachable_goal, infeasible unreachable expected)
 
@@ -584,6 +596,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | photocopier is fixed in place |
 
 ## office_01 u4 (unreachable_goal, infeasible unreachable expected)
 
@@ -594,6 +607,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | terminal_infeasible | reason: constraint |
+| Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
 
 ## office_01 m1 (missing_capability, infeasible missing_capability expected)
 
@@ -604,6 +618,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
 
 ## office_01 m2 (missing_capability, infeasible missing_capability expected)
 
@@ -614,6 +629,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | no door connects lobby and supply_room |
+| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | no door connects lobby and supply_room |
 
 ## office_01 m3 (missing_capability, infeasible missing_capability expected)
 
@@ -624,6 +640,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | robot is already in the lobby |
+| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
 
 ## office_01 a1 (ambiguous_referent, clarify expected)
 
@@ -634,6 +651,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
 
 ## office_01 a2 (ambiguous_referent, clarify expected)
 
@@ -644,6 +662,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | folder_blue is in the studio, robot is in the lobby |
+| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | folder_red is in the office, robot is in the lobby |
 
 ## office_01 a3 (ambiguous_referent, clarify expected)
 
@@ -654,6 +673,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | folder_blue is in the studio, robot is in the lobby |
+| Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
 
 ## office_01 p1 (precondition_trap, plan expected)
 
@@ -664,6 +684,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | robot is already in the lobby |
+| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'd_lobby_office' is not a room |
 
 ## office_01 p2 (precondition_trap, plan expected)
 
@@ -674,6 +695,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | no door connects canteen and office |
+| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
 
 ## office_01 p3 (precondition_trap, plan expected)
 
@@ -684,6 +706,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
 
 ## office_01 p4 (precondition_trap, plan expected)
 
@@ -694,6 +717,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | spanner_large is in the workshop, robot is in the lobby |
 
 ## office_01 s1 (sequencing_trap, plan expected)
 
@@ -704,6 +728,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | folder_red is in the office, robot is in the lobby |
 
 ## office_01 s2 (sequencing_trap, plan expected)
 
@@ -714,6 +739,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
 
 ## office_01 s3 (sequencing_trap, plan expected)
 
@@ -724,6 +750,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | folder_blue is in the studio, robot is in the lobby |
+| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | d_archive_strong connects archive and strong_room, robot is in the lobby |
 
 ## office_01 c1 (constraint_trap, plan expected)
 
@@ -734,6 +761,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | no door connects canteen and workshop |
+| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'ledger' is not a room |
 
 ## office_01 c2 (constraint_trap, infeasible constraint expected)
 
@@ -744,6 +772,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | no door connects lobby and server_room |
+| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | backup_tape is in the server_room, robot is in the lobby |
 
 ## office_01 c3 (constraint_trap, infeasible constraint expected)
 
@@ -754,6 +783,7 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | no door connects lobby and workshop |
+| Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 
 ## office_01 c4 (constraint_trap, infeasible constraint expected)
 
@@ -764,4 +794,5 @@ single observations per cell, anecdotes rather than rates.
 | run | lenient verdict | note |
 |---|---|---|
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 
