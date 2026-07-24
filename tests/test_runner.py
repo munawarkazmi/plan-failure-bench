@@ -110,6 +110,50 @@ class TestClarifierRun:
         assert report.false_positives == 17
 
 
+class TestStreamingAndResume:
+    def test_interrupted_run_keeps_completed_records(self, tmp_path):
+        out = tmp_path / "partial.jsonl"
+
+        def dies_after_ten(prompt, seed):
+            if seed.id == SEEDS[10].id:
+                raise RuntimeError("simulated rate limit death")
+            return oracle(prompt, seed)
+
+        with pytest.raises(RuntimeError):
+            run_suite(SEEDS, ENVS, TEMPLATE, dies_after_ten, "m", out_path=out)
+        assert len(load_records(out)) == 10
+
+    def test_resume_completes_without_repeating(self, tmp_path):
+        from plan_failure_bench.runner import plan_resume
+
+        out = tmp_path / "partial.jsonl"
+        run_suite(SEEDS[:10], ENVS, TEMPLATE, oracle, "m", out_path=out)
+
+        remaining, append = plan_resume(SEEDS, out, "m", "plain")
+        assert append is True
+        assert len(remaining) == 20
+        run_suite(remaining, ENVS, TEMPLATE, oracle, "m", out_path=out, append=append)
+
+        records = load_records(out)
+        assert len(records) == 30
+        assert len({r["seed_id"] for r in records}) == 30
+
+    def test_resume_refuses_mismatched_file(self, tmp_path):
+        from plan_failure_bench.runner import plan_resume
+
+        out = tmp_path / "other.jsonl"
+        run_suite(SEEDS[:3], ENVS, TEMPLATE, oracle, "other_model", out_path=out)
+        with pytest.raises(ValueError, match="refusing to resume"):
+            plan_resume(SEEDS, out, "m", "plain")
+
+    def test_missing_file_means_fresh_run(self, tmp_path):
+        from plan_failure_bench.runner import plan_resume
+
+        remaining, append = plan_resume(SEEDS, tmp_path / "absent.jsonl", "m", "plain")
+        assert append is False
+        assert len(remaining) == 30
+
+
 class TestReportRendering:
     def test_render_contains_counts_not_percentages(self):
         records = run_suite(SEEDS, ENVS, TEMPLATE, refuser, "refuser")
