@@ -26,6 +26,8 @@ RUNS = [
 OFFICE_RUNS = [
     ("Qwen 7B, plain", "results/local_qwen_office_plain.jsonl"),
     ("Qwen 7B, obfuscated (v2 tokens)", "results/local_qwen_office_obfuscated.jsonl"),
+    ("Gemini 3.1 Flash Lite, plain", "results/gemini_flash_lite_office_plain.jsonl"),
+    ("Gemini 3.1 Flash Lite, obfuscated (v2 tokens)", "results/gemini_flash_lite_office_obfuscated.jsonl"),
 ]
 
 
@@ -92,9 +94,9 @@ for seed in seeds:
 
 lines.append("# office_01 seeds")
 lines.append("")
-lines.append("Two runs so far (Qwen 7B, plain and obfuscated v2). Same reading")
-lines.append("rules as above: single observations per cell, anecdotes rather")
-lines.append("than rates.")
+lines.append("Four runs so far (Qwen 7B and Gemini 3.1 Flash Lite, each plain")
+lines.append("and obfuscated v2). Same reading rules as above: single")
+lines.append("observations per cell, anecdotes rather than rates.")
 lines.append("")
 for seed in office_seeds:
     lines.append(seed_heading(seed))

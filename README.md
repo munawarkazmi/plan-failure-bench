@@ -67,8 +67,8 @@ sound over-approximating search; ambiguity is proved by counting bindings.
 
 ## First results
 
-Three models, two conditions, 30 seeds each on house_01, plus one first
-run on office_01. Counts, not rates; hypotheses, not claims.
+Three models, two conditions, 30 seeds each on house_01, plus four runs
+on office_01. Counts, not rates; hypotheses, not claims.
 
 ![Planted versus observed confusion matrices for six runs](docs/img/confusion_matrices.png)
 
@@ -93,11 +93,12 @@ run on office_01. Counts, not rates; hypotheses, not claims.
   1 under obfuscation: its over-refusal is driven by surface semantics.
   Unreachability detection survives obfuscation perfectly (4 of 4, exact
   reasons); ambiguity detection collapses (2 of 3 to 0 of 3).
-- **One diagnosis is missing from every model tested.** All four models
-  detect missing-capability seeds as infeasible, and none has ever given
-  the exact reason: the distinction between "sealed off" and "I lack the
-  unlock capability" is proved decidable by the suite and produced by no
-  model so far.
+- **One diagnosis is missing from every run on both environments.**
+  Models regularly detect missing-capability seeds as infeasible, and
+  none has ever given the exact reason (office_01: Gemini calls the
+  locked supply room "unreachable" or "constraint"): the distinction
+  between "sealed off" and "I lack the unlock capability" is proved
+  decidable by the suite and produced by no model so far.
 - **Qwen's failure profile replicates on the second environment.** First
   office_01 run (Qwen 2.5 7B, plain): 4/30 strict format failures (house:
   3/30), and under lenient extraction zero false positives (0/17), 1/13
@@ -107,8 +108,7 @@ run on office_01. Counts, not rates; hypotheses, not claims.
   level only: the nonexistent stapler is refused while both disconnected
   annex seeds are planned into, and the fixed photocopier is missed even
   though the fixed television was house_01's one non-hallucination
-  detection. The figure above remains house_01 only; two office runs do
-  not yet warrant a panel.
+  detection.
 - **Obfuscation makes Qwen refuse, on both environments.** office_01
   obfuscated (v2 tokens): strict format failures rise to 13/30 (plain:
   4/30), and under lenient extraction detection rises to 3/13 with false
@@ -123,6 +123,33 @@ run on office_01. Counts, not rates; hypotheses, not claims.
   discipline and new false positives. Zero hallucinated-entity verdicts
   on the office lexicon (house v2: 1), so the token distinctness
   guarantee is doing its job on a second vocabulary.
+
+Four office_01 runs now exist (Qwen and Gemini Flash Lite, each in both
+conditions):
+
+![Planted versus observed confusion matrices for the four office_01 runs](docs/img/confusion_matrices_office.png)
+
+- **Gemini Flash Lite finds office_01 harder, and its over-refusal again
+  collapses under obfuscation.** Office plain: 10/13 traps detected with
+  7/17 false positives (house: 12/13 with 4/17); office obfuscated: 5/13
+  with 2/17 (house: 7/13 with 1/17). The false positive drop under
+  obfuscation now replicates on a second environment, in both cases
+  refusals of feasible instructions on constraint grounds. It also
+  solved its first ordering trap in any run (the nine step office s1;
+  house was 0 of 7, office is 1 of 7), and on the ambiguous spanner seed
+  it silently picked a binding and routed through the forbidden server
+  room, the first constraint_violation observed on office_01. Format is
+  no longer perfect: one unrecoverable response per office condition
+  (house: zero in both).
+- **Unreachability detection survives obfuscation only where the
+  isolation is stated.** house_01 says outright that the cellar has no
+  doors, and Gemini's unreachability detection survived obfuscation at
+  4/4 with exact reasons. office_01's annex isolation must be inferred
+  from the connection list, and under obfuscation office unreachability
+  drops from 3/4 to 1/4, the survivor being the nonexistent stapler
+  rather than any topology seed. Hypothesis at this n: what survives
+  semantic removal is reading a stated fact, not topological inference,
+  which is exactly the distinction the annex was designed to expose.
 
 Per-seed detail for every run: [docs/seed_review.md](docs/seed_review.md).
 Raw records: [results/](results/).
@@ -161,8 +188,9 @@ graph LR
 ```
 
 office_01: nine rooms, eight doors, eleven items, its own 30-seed suite
-and obfuscation lexicon, two model runs so far (Qwen 2.5 7B, plain and
-obfuscated). Structural contrasts with house_01: a five-room ring reachable through open doors, so route choice
+and obfuscation lexicon, four model runs so far (Qwen 2.5 7B and Gemini
+3.1 Flash Lite, each plain and obfuscated). Structural contrasts with
+house_01: a five-room ring reachable through open doors, so route choice
 is pervasive (house_01 has one cycle, kitchen to hallway to living room,
 but only through a closed door); a `never_enter` room sitting on the ring,
 so the short route between two reachable rooms can silently violate an
@@ -229,7 +257,7 @@ python -m plan_failure_bench.rescore results/<file>.jsonl
 | `prompts/` | the fixed disclosure prompt, recorded verbatim |
 | `results/` | raw run records, one JSON object per seed per line |
 | `docs/` | per-seed review sheet and figures |
-| `tests/` | 294 tests: proofs, differential corpus, pipeline stubs |
+| `tests/` | 529 tests: proofs for both suites, differential corpus, pipeline stubs |
 
 ## Known limitations and roadmap
 
@@ -239,15 +267,14 @@ Stated here so nobody has to discover them:
   non-reasoning. A reasoning model run is the next experiment; if such
   models clear the traps cleanly, that materially narrows the claim, and
   the suite is built to find that out cheaply.
-- **Findings are still nearly single-environment.** The second
-  environment, office_01, is authored and machine-proved (different
-  topology, a `never_enter` invariant, new trap shapes; every label proof
-  re-verifies in CI), and its first runs exist: Qwen's house failure
-  profile replicated on it in both conditions. Every other finding
-  remains entangled with
-  house_01's topology and its two invariants, which share one structural
-  pattern (never carry X through Y); office runs for the remaining models
-  are pending quota.
+- **Cross-environment coverage is partial.** office_01 is authored and
+  machine-proved (different topology, a `never_enter` invariant, new
+  trap shapes; every label proof re-verifies in CI) and has four runs:
+  Qwen and Gemini Flash Lite each replicated the direction of their
+  house failure profiles on it, in both conditions. Llama has no office
+  runs yet (pending Groq quota), so every Llama finding remains
+  entangled with house_01's topology and its two invariants, which share
+  one structural pattern (never carry X through Y).
 - **Single sample per seed.** Current counts are one decode each. The
   planned protocol is k=5 samples per seed at temperature 0.7, reported as
   per-seed verdict consistency; the runner already supports it via
