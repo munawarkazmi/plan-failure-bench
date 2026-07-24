@@ -26,6 +26,7 @@ from plan_failure_bench.schema import (
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 HOUSE_01 = REPO_ROOT / "environments" / "house_01.json"
+OFFICE_01 = REPO_ROOT / "environments" / "office_01.json"
 
 MINIMAL = {
     "name": "minimal",
@@ -77,6 +78,70 @@ class TestLoadHouse01:
     def test_tv_is_fixed(self):
         env = load_environment(HOUSE_01)
         assert env.item("tv").portable is False
+
+
+class TestLoadOffice01:
+    """Pins the structural facts the office_01 seed suite is designed around.
+
+    The annex disconnection test matters most: unlike the cellar, archive and
+    strong_room each have a door, so the renderer never prints a "has no
+    doors" line for them and unreachability must be inferred from the
+    connection list.
+    """
+
+    def test_loads(self):
+        env = load_environment(OFFICE_01)
+        assert env.name == "office_01"
+        assert len(env.rooms) == 9
+        assert len(env.doors) == 8
+        assert len(env.items) == 11
+        assert len(env.invariants) == 2
+
+    def test_capabilities_exclude_unlock(self):
+        env = load_environment(OFFICE_01)
+        assert "unlock" not in env.capabilities
+
+    def test_ring_route_choice(self):
+        # The five ring rooms form a cycle, so every ring-to-ring trip has
+        # two routes. house_01 also contains one cycle (kitchen, hallway,
+        # living_room) but only through a closed door; here the ring is
+        # open except at d_workshop_studio.
+        env = load_environment(OFFICE_01)
+        ring = ["lobby", "canteen", "server_room", "workshop", "studio"]
+        for a, b in zip(ring, ring[1:] + ring[:1]):
+            assert any(b == other for _, other in env.adjacency(a)), (a, b)
+
+    def test_annex_connects_only_to_itself(self):
+        env = load_environment(OFFICE_01)
+        assert env.adjacency("archive") == (("d_archive_strong", "strong_room"),)
+        assert env.adjacency("strong_room") == (("d_archive_strong", "archive"),)
+
+    def test_locked_supply_room(self):
+        env = load_environment(OFFICE_01)
+        assert env.door("d_workshop_supply").state == "locked"
+
+    def test_photocopier_is_fixed(self):
+        env = load_environment(OFFICE_01)
+        assert env.item("photocopier").portable is False
+
+    def test_invariant_kinds(self):
+        env = load_environment(OFFICE_01)
+        kinds = {type(inv) for inv in env.invariants}
+        assert kinds == {NeverEnter, NeverHoldIn}
+
+    def test_greasy_property_carried_by_several_items(self):
+        # house_01's never_hold_in properties each belonged to exactly one
+        # item; here the model must track which items carry the property.
+        env = load_environment(OFFICE_01)
+        greasy = [i.name for i in env.items if "greasy" in i.properties]
+        assert sorted(greasy) == ["oil_can", "spanner_large", "spanner_small"]
+
+    def test_render_never_says_annex_has_no_doors(self):
+        env = load_environment(OFFICE_01)
+        text = render_environment(env)
+        assert "has no doors" not in text
+        assert "(locked)" in text
+        assert "Fixed in place." in text
 
 
 class TestValidation:
