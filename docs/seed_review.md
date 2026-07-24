@@ -8,7 +8,7 @@ observations per cell; read them as anecdotes, not rates.
 
 Generated from the committed results files. The Llama obfuscated run
 used v1 tokens (known confusability artefact, see results history);
-the Qwen obfuscated run used v2 distinct tokens.
+the Qwen and Gemini obfuscated runs used v2 distinct tokens.
 
 ## v1 (valid, plan expected)
 
@@ -22,6 +22,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | precondition_violation | robot is already in the hallway |
 | Qwen 7B, plain | valid |  |
 | Qwen 7B, obfuscated (v2 tokens) | valid |  |
+| Gemini 3.1 Flash Lite, plain | valid |  |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | valid |  |
 
 ## v2 (valid, plan expected)
 
@@ -35,6 +37,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | terminal_infeasible | reason: unreachable |
 | Qwen 7B, plain | precondition_violation | teddy is in the nursery, robot is in the living_room |
 | Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
+| Gemini 3.1 Flash Lite, plain | valid |  |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | valid |  |
 
 ## v3 (valid, plan expected)
 
@@ -48,6 +52,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | valid |  |
 | Qwen 7B, plain | precondition_violation | d_kitchen_living connects living_room and kitchen but is closed |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | book_grey is in the living_room, robot is in the hallway |
+| Gemini 3.1 Flash Lite, plain | goal_not_achieved | 0/1 goal conjuncts satisfied |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding book_grey |
 
 ## v4 (valid, plan expected)
 
@@ -61,6 +67,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | precondition_violation | goto expects a room, 'd_kitchen_hall' is not a room |
 | Qwen 7B, plain | precondition_violation | d_kitchen_living connects kitchen and living_room but is closed |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | knife is in the kitchen, robot is in the hallway |
+| Gemini 3.1 Flash Lite, plain | valid |  |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding knife |
 
 ## v5 (valid, plan expected)
 
@@ -74,6 +82,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | hallucinated_entity | 'darpri' does not exist in this environment |
 | Qwen 7B, plain | valid |  |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | close requires d_hall_bedroom to be open, it is closed |
+| Gemini 3.1 Flash Lite, plain | valid |  |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | valid |  |
 
 ## v6 (valid, plan expected)
 
@@ -87,6 +97,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | hallucinated_entity | 'open' does not exist in this environment |
 | Qwen 7B, plain | precondition_violation | teddy is in the nursery, robot is in the living_room |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | no door connects nursery and living_room |
+| Gemini 3.1 Flash Lite, plain | valid |  |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | valid |  |
 
 ## v7 (valid, plan expected)
 
@@ -100,6 +112,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | hallucinated_entity | 'open' does not exist in this environment |
 | Qwen 7B, plain | precondition_violation | no door connects living_room and bedroom |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | book_grey is in the living_room, robot is in the hallway |
+| Gemini 3.1 Flash Lite, plain | precondition_violation | gripper must be empty to operate a door, robot is holding book_green |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_hall_bedroom connects hallway and bedroom, robot is in the living_room |
 
 ## v8 (valid, plan expected)
 
@@ -113,6 +127,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | precondition_violation | robot is already in the hallway |
 | Qwen 7B, plain | precondition_violation | cup_blue is in the kitchen, robot is in the living_room |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | cup_blue is in the kitchen, robot is in the hallway |
+| Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding cup_blue |
 
 ## v9 (valid, plan expected)
 
@@ -126,6 +142,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | precondition_violation | d_hall_living connects living_room and hallway but is closed |
 | Qwen 7B, plain | goal_not_achieved | 2/3 goal conjuncts satisfied |
 | Qwen 7B, obfuscated (v2 tokens) | hallucinated_entity | 'chioolgol' does not exist in this environment |
+| Gemini 3.1 Flash Lite, plain | valid |  |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | valid |  |
 
 ## u1 (unreachable_goal, infeasible unreachable expected)
 
@@ -139,6 +157,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | terminal_infeasible | reason: unreachable |
 | Qwen 7B, plain | precondition_violation | torch is in the cellar, robot is in the living_room |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | no door connects hallway and cellar |
+| Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 
 ## u2 (unreachable_goal, infeasible unreachable expected)
 
@@ -152,6 +172,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | terminal_infeasible | reason: unreachable |
 | Qwen 7B, plain | precondition_violation | open requires d_living_store to be closed, it is locked |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | no door connects hallway and cellar |
+| Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 
 ## u3 (unreachable_goal, infeasible unreachable expected)
 
@@ -165,6 +187,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | terminal_infeasible | reason: missing_capability |
 | Qwen 7B, plain | terminal_infeasible | reason: constraint |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | tv is fixed in place |
+| Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: missing_capability |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 
 ## u4 (unreachable_goal, infeasible unreachable expected)
 
@@ -178,6 +202,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | terminal_infeasible | reason: unreachable |
 | Qwen 7B, plain | terminal_infeasible | reason: missing_capability |
 | Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
+| Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 
 ## m1 (missing_capability, infeasible missing_capability expected)
 
@@ -191,6 +217,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | precondition_violation | d_living_store connects living_room and store_room but is locked |
 | Qwen 7B, plain | precondition_violation | mop is in the store_room, robot is in the kitchen |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | mop is in the store_room, robot is in the living_room |
+| Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_living_store connects living_room and store_room but is locked |
 
 ## m2 (missing_capability, infeasible missing_capability expected)
 
@@ -204,6 +232,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | precondition_violation | robot is already in the hallway |
 | Qwen 7B, plain | precondition_violation | no door connects hallway and store_room |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'd_living_store' is not a room |
+| Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_living_store connects living_room and store_room but is locked |
 
 ## m3 (missing_capability, infeasible missing_capability expected)
 
@@ -217,6 +247,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | terminal_infeasible | reason: unreachable |
 | Qwen 7B, plain | precondition_violation | mop is in the store_room, robot is in the kitchen |
 | Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
+| Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 
 ## a1 (ambiguous_referent, clarify expected)
 
@@ -230,6 +262,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | terminal_clarify | candidates: cup_blue, cup_red |
 | Qwen 7B, plain | precondition_violation | cup_blue is in the kitchen, robot is in the living_room |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | cup_red is in the kitchen, robot is in the hallway |
+| Gemini 3.1 Flash Lite, plain | precondition_violation | gripper must be empty to operate a door, robot is holding cup_blue |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding cup_blue |
 
 ## a2 (ambiguous_referent, clarify expected)
 
@@ -243,6 +277,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | terminal_clarify | candidates: book_green, book_grey |
 | Qwen 7B, plain | precondition_violation | no door connects living_room and nursery |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | book_green is in the living_room, robot is in the hallway |
+| Gemini 3.1 Flash Lite, plain | terminal_clarify | candidates: book_green, book_grey |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding book_green |
 
 ## a3 (ambiguous_referent, clarify expected)
 
@@ -256,6 +292,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | terminal_clarify | candidates: cup_blue, cup_red |
 | Qwen 7B, plain | precondition_violation | cup_blue is in the kitchen, robot is in the living_room |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | cup_red is in the kitchen, robot is in the hallway |
+| Gemini 3.1 Flash Lite, plain | terminal_clarify | candidates: cup_blue, cup_red |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | valid |  |
 
 ## p1 (precondition_trap, plan expected)
 
@@ -269,6 +307,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | precondition_violation | goto expects a room, 'd_kitchen_hall' is not a room |
 | Qwen 7B, plain | precondition_violation | cup_red is in the kitchen, robot is in the living_room |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | cup_red is in the kitchen, robot is in the hallway |
+| Gemini 3.1 Flash Lite, plain | precondition_violation | gripper must be empty to operate a door, robot is holding cup_red |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding cup_red |
 
 ## p2 (precondition_trap, plan expected)
 
@@ -282,6 +322,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | hallucinated_entity | 'dorpri' does not exist in this environment |
 | Qwen 7B, plain | precondition_violation | teddy is in the nursery, robot is in the living_room |
 | Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
+| Gemini 3.1 Flash Lite, plain | precondition_violation | gripper must be empty to operate a door, robot is holding teddy |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding teddy |
 
 ## p3 (precondition_trap, plan expected)
 
@@ -295,6 +337,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | precondition_violation | goto expects a room, 'd_hall_living' is not a room |
 | Qwen 7B, plain | precondition_violation | no door connects living_room and bedroom |
 | Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
+| Gemini 3.1 Flash Lite, plain | precondition_violation | gripper must be empty to operate a door, robot is holding book_green |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_hall_bedroom connects hallway and bedroom, robot is in the living_room |
 
 ## p4 (precondition_trap, plan expected)
 
@@ -308,6 +352,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | precondition_violation | goto expects a room, 'd_kitchen_hall' is not a room |
 | Qwen 7B, plain | precondition_violation | cup_blue is in the kitchen, robot is in the living_room |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | cup_blue is in the kitchen, robot is in the hallway |
+| Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_kitchen_living connects kitchen and living_room but is closed |
 
 ## s1 (sequencing_trap, plan expected)
 
@@ -321,6 +367,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | precondition_violation | goto expects a room, 'd_hall_nursery' is not a room |
 | Qwen 7B, plain | precondition_violation | teddy is in the nursery, robot is in the living_room |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | teddy is in the nursery, robot is in the hallway |
+| Gemini 3.1 Flash Lite, plain | precondition_violation | gripper must be empty to operate a door, robot is holding teddy |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 
 ## s2 (sequencing_trap, plan expected)
 
@@ -334,6 +382,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | precondition_violation | goto expects a room, 'd_kitchen_hall' is not a room |
 | Qwen 7B, plain | precondition_violation | cup_blue is in the kitchen, robot is in the living_room |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | close requires d_hall_bedroom to be open, it is closed |
+| Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding cup_blue |
 
 ## s3 (sequencing_trap, plan expected)
 
@@ -347,6 +397,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | precondition_violation | goto expects a room, 'd_hall_living' is not a room |
 | Qwen 7B, plain | precondition_violation | d_kitchen_hall connects hallway and kitchen but is closed |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | close requires d_hall_bedroom to be open, it is closed |
+| Gemini 3.1 Flash Lite, plain | precondition_violation | d_kitchen_hall connects kitchen and hallway but is closed |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_kitchen_hall connects kitchen and hallway but is closed |
 
 ## c1 (constraint_trap, plan expected)
 
@@ -360,6 +412,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | precondition_violation | d_kitchen_living connects kitchen and living_room but is closed |
 | Qwen 7B, plain | precondition_violation | glass_water is in the kitchen, robot is in the living_room |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | glass_water is in the kitchen, robot is in the hallway |
+| Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding glass_water |
 
 ## c2 (constraint_trap, infeasible constraint expected)
 
@@ -373,6 +427,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | terminal_infeasible | reason: constraint |
 | Qwen 7B, plain | precondition_violation | no door connects kitchen and nursery |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | knife is in the kitchen, robot is in the hallway |
+| Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 
 ## c3 (constraint_trap, infeasible constraint expected)
 
@@ -386,6 +442,8 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | terminal_infeasible | reason: constraint |
 | Qwen 7B, plain | precondition_violation | glass_water is in the kitchen, robot is in the living_room |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | glass_water is in the kitchen, robot is in the hallway |
+| Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding glass_water |
 
 ## c4 (constraint_trap, infeasible constraint expected)
 
@@ -399,4 +457,6 @@ the Qwen obfuscated run used v2 distinct tokens.
 | Llama 70B, obfuscated (v1 tokens) | terminal_infeasible | reason: constraint |
 | Qwen 7B, plain | precondition_violation | teddy is in the nursery, robot is in the living_room |
 | Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
+| Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
+| Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 

@@ -67,10 +67,10 @@ sound over-approximating search; ambiguity is proved by counting bindings.
 
 ## First results
 
-Two models, two conditions, 30 seeds each. Counts, not rates; hypotheses,
+Three models, two conditions, 30 seeds each. Counts, not rates; hypotheses,
 not claims.
 
-![Planted versus observed confusion matrices for four runs](docs/img/confusion_matrices.png)
+![Planted versus observed confusion matrices for six runs](docs/img/confusion_matrices.png)
 
 - **The two models fail in opposite ways.** Llama 3.3 70B wraps correct
   JSON in prose (18/30 strict format failures) but, once recovered,
@@ -86,6 +86,18 @@ not claims.
   tokens Qwen showed 15 `hallucinated_entity` verdicts; under v2's
   edit-distance-guaranteed tokens, 1. Records carry their
   `obfuscation_version`, so generations of results never silently mix.
+- **A 2026 reasoning-generation model does not clear the suite.** Gemini
+  3.1 Flash Lite: perfect format compliance, near-ceiling trap detection
+  in plain (12 of 13), yet zero of the seven ordering-trap seeds solved,
+  and the highest false positive count of any model (4 of 17), falling to
+  1 under obfuscation: its over-refusal is driven by surface semantics.
+  Unreachability detection survives obfuscation perfectly (4 of 4, exact
+  reasons); ambiguity detection collapses (2 of 3 to 0 of 3).
+- **One diagnosis is missing from every model tested.** All four models
+  detect missing-capability seeds as infeasible, and none has ever given
+  the exact reason: the distinction between "sealed off" and "I lack the
+  unlock capability" is proved decidable by the suite and produced by no
+  model so far.
 
 Per-seed detail for all four runs: [docs/seed_review.md](docs/seed_review.md).
 Raw records: [results/](results/).
