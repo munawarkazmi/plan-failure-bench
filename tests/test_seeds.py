@@ -80,6 +80,15 @@ SUITES = (
         inexpressible_verbs=frozenset({"mop", "wipe", "scrub", "clean"}),
         reference_plan_lengths=(1, 1, 2, 3, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 9, 11, 12),
     ),
+    Suite(
+        environment="office_01",
+        seeds_path=REPO_ROOT / "instructions" / "seeds_office_01.json",
+        nonexistent_seed="u4",
+        nonexistent_words=frozenset({"stapler"}),
+        inexpressible_seed="m3",
+        inexpressible_verbs=frozenset({"photocopy", "copy", "print", "scan"}),
+        reference_plan_lengths=(1, 1, 2, 3, 3, 4, 5, 5, 6, 6, 6, 7, 8, 8, 9, 10, 15),
+    ),
 )
 
 ENVS = {

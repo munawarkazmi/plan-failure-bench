@@ -31,6 +31,8 @@ OFFICE_ENV = load_environment(REPO_ROOT / "environments" / "office_01.json")
 OFFICE_LEXICON = load_lexicon(REPO_ROOT / "environments" / "office_01.obfuscation.json")
 OFFICE_OBF = build_obfuscation(OFFICE_ENV, OFFICE_LEXICON)
 
+OFFICE_SEEDS = load_seeds(REPO_ROOT / "instructions" / "seeds_office_01.json")
+
 # Both obfuscations derive from the same fixed generator seed, so their
 # token lists partially coincide. That is harmless (environments never
 # share a prompt) but means office tokens must never be assumed distinct
@@ -38,6 +40,15 @@ OFFICE_OBF = build_obfuscation(OFFICE_ENV, OFFICE_LEXICON)
 BOTH = [
     pytest.param(ENV, LEXICON, OBF, id="house_01"),
     pytest.param(OFFICE_ENV, OFFICE_LEXICON, OFFICE_OBF, id="office_01"),
+]
+SUITES = [
+    pytest.param(ENV, SEEDS, OBF, id="house_01"),
+    pytest.param(OFFICE_ENV, OFFICE_SEEDS, OFFICE_OBF, id="office_01"),
+]
+SEED_PARAMS = [
+    pytest.param(env.values[0], seed, env.values[2], id=f"{env.id}-{seed.id}")
+    for env in SUITES
+    for seed in env.values[1]
 ]
 
 
@@ -92,33 +103,20 @@ class TestMapping:
 
 
 class TestNoSemanticLeak:
-    LEAKABLE = sorted({w for w, _ in OBF.token_map} | set(OBF.leak_words))
-
-    @pytest.mark.parametrize("seed", SEEDS, ids=lambda s: s.id)
-    def test_prompt_is_leak_free(self, seed):
-        prompt = OBF.apply(build_prompt(TEMPLATE, ENV, seed.instruction))
-        for word in self.LEAKABLE:
+    @pytest.mark.parametrize("env, seed, obf", SEED_PARAMS)
+    def test_prompt_is_leak_free(self, env, seed, obf):
+        leakable = sorted({w for w, _ in obf.token_map} | set(obf.leak_words))
+        prompt = obf.apply(build_prompt(TEMPLATE, env, seed.instruction))
+        for word in leakable:
             assert not re.search(rf"\b{re.escape(word)}\b", prompt, re.IGNORECASE), (
                 seed.id,
                 word,
             )
 
-    def test_invariant_texts_gone(self):
-        prompt = OBF.apply(build_prompt(TEMPLATE, ENV, "x."))
-        for inv in ENV.invariants:
-            assert inv.text not in prompt
-
-    def test_office_environment_text_is_leak_free(self):
-        # Per-seed office leak coverage arrives with the office seed suite;
-        # this proves the environment description alone leaks nothing.
-        leakable = sorted({w for w, _ in OFFICE_OBF.token_map} | set(OFFICE_OBF.leak_words))
-        prompt = OFFICE_OBF.apply(build_prompt(TEMPLATE, OFFICE_ENV, "x."))
-        for word in leakable:
-            assert not re.search(rf"\b{re.escape(word)}\b", prompt, re.IGNORECASE), word
-
-    def test_office_invariant_texts_gone(self):
-        prompt = OFFICE_OBF.apply(build_prompt(TEMPLATE, OFFICE_ENV, "x."))
-        for inv in OFFICE_ENV.invariants:
+    @pytest.mark.parametrize("env, seeds, obf", SUITES)
+    def test_invariant_texts_gone(self, env, seeds, obf):
+        prompt = obf.apply(build_prompt(TEMPLATE, env, "x."))
+        for inv in env.invariants:
             assert inv.text not in prompt
 
     def test_states_renamed_consistently(self):
@@ -137,8 +135,9 @@ class TestNoSemanticLeak:
 
 
 class TestRoundTrip:
-    def all_plans(self):
-        for seed in SEEDS:
+    @staticmethod
+    def all_plans(seeds):
+        for seed in seeds:
             for plan in (seed.reference_plan, seed.decoy_plan, seed.capability_reference_plan):
                 if plan is not None:
                     yield seed.id, steps_to_text(plan)
@@ -146,34 +145,37 @@ class TestRoundTrip:
                 yield seed.id, steps_to_text(alt.reference_plan)
             yield seed.id, canonical_response(seed)
 
-    def test_apply_then_invert_is_identity(self):
-        for seed_id, text in self.all_plans():
-            assert OBF.invert(OBF.apply(text)) == text, seed_id
+    @pytest.mark.parametrize("env, seeds, obf", SUITES)
+    def test_apply_then_invert_is_identity(self, env, seeds, obf):
+        for seed_id, text in self.all_plans(seeds):
+            assert obf.invert(obf.apply(text)) == text, seed_id
 
-    def test_apply_actually_changes_plans(self):
-        text = steps_to_text(SEEDS[0].reference_plan)
-        assert OBF.apply(text) != text
+    @pytest.mark.parametrize("env, seeds, obf", SUITES)
+    def test_apply_actually_changes_plans(self, env, seeds, obf):
+        text = steps_to_text(seeds[0].reference_plan)
+        assert obf.apply(text) != text
 
 
 class TestEndToEndEquivalence:
-    def test_obfuscated_oracle_scores_identically_to_plain_oracle(self):
+    @pytest.mark.parametrize("env, seeds, obf", SUITES)
+    def test_obfuscated_oracle_scores_identically_to_plain_oracle(self, env, seeds, obf):
         def plain_oracle(prompt, seed):
             return canonical_response(seed)
 
         def obfuscated_oracle(prompt, seed):
             # A model that understands the obfuscated world perfectly
             # answers in the obfuscated vocabulary.
-            return OBF.apply(canonical_response(seed))
+            return obf.apply(canonical_response(seed))
 
-        plain = run_suite(SEEDS, {"house_01": ENV}, TEMPLATE, plain_oracle, "oracle", "plain")
+        plain = run_suite(seeds, {env.name: env}, TEMPLATE, plain_oracle, "oracle", "plain")
         obfuscated = run_suite(
-            SEEDS,
-            {"house_01": ENV},
+            seeds,
+            {env.name: env},
             TEMPLATE,
             obfuscated_oracle,
             "oracle",
             "obfuscated",
-            obfuscations={"house_01": OBF},
+            obfuscations={env.name: obf},
         )
 
         for p, o in zip(plain, obfuscated):
@@ -188,19 +190,24 @@ class TestEndToEndEquivalence:
         assert all(s.detected == s.total for s in report.per_label.values())
         assert all(s.reason_correct == s.total for s in report.per_label.values())
 
-    def test_obfuscated_refuser_records_raw_and_canonical(self):
+    @pytest.mark.parametrize("env, seeds, obf", SUITES)
+    def test_obfuscated_refuser_records_raw_and_canonical(self, env, seeds, obf):
         def refuser(prompt, seed):
             return json.dumps({"infeasible": {"reason": "unreachable"}})
 
         records = run_suite(
-            SEEDS,
-            {"house_01": ENV},
+            seeds,
+            {env.name: env},
             TEMPLATE,
             refuser,
             "refuser",
             "obfuscated",
-            obfuscations={"house_01": OBF},
+            obfuscations={env.name: obf},
         )
         report = detection_report(records)
+        # Both suites plant 17 seeds whose expected response is not an
+        # infeasible terminal (9 valid, 4 precondition, 3 sequencing, and
+        # the one feasible constraint seed), so a blanket refuser scores
+        # 17 false positives in each.
         assert report.false_positives == 17
         assert records[0]["response_canonical"] == records[0]["response"]
