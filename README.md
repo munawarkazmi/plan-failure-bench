@@ -67,8 +67,8 @@ sound over-approximating search; ambiguity is proved by counting bindings.
 
 ## First results
 
-Three models, two conditions, 30 seeds each. Counts, not rates; hypotheses,
-not claims.
+Three models, two conditions, 30 seeds each on house_01, plus one first
+run on office_01. Counts, not rates; hypotheses, not claims.
 
 ![Planted versus observed confusion matrices for six runs](docs/img/confusion_matrices.png)
 
@@ -98,8 +98,19 @@ not claims.
   the exact reason: the distinction between "sealed off" and "I lack the
   unlock capability" is proved decidable by the suite and produced by no
   model so far.
+- **Qwen's failure profile replicates on the second environment.** First
+  office_01 run (Qwen 2.5 7B, plain): 4/30 strict format failures (house:
+  3/30), and under lenient extraction zero false positives (0/17), 1/13
+  traps detected, and 2/9 valid seeds solved, all mirroring its house
+  numbers (0/17, 2/13, 2/9). In both environments the solved valid seeds
+  are exactly the one and two step floor cases, and detection is object
+  level only: the nonexistent stapler is refused while both disconnected
+  annex seeds are planned into, and the fixed photocopier is missed even
+  though the fixed television was house_01's one non-hallucination
+  detection. The figure above remains house_01 only; one office run does
+  not yet warrant a panel.
 
-Per-seed detail for all four runs: [docs/seed_review.md](docs/seed_review.md).
+Per-seed detail for every run: [docs/seed_review.md](docs/seed_review.md).
 Raw records: [results/](results/).
 
 ## The worlds
@@ -136,8 +147,8 @@ graph LR
 ```
 
 office_01: nine rooms, eight doors, eleven items, its own 30-seed suite
-and obfuscation lexicon, no model runs yet. Structural contrasts with
-house_01: a five-room ring reachable through open doors, so route choice
+and obfuscation lexicon, one model run so far (Qwen 2.5 7B, plain).
+Structural contrasts with house_01: a five-room ring reachable through open doors, so route choice
 is pervasive (house_01 has one cycle, kitchen to hallway to living room,
 but only through a closed door); a `never_enter` room sitting on the ring,
 so the short route between two reachable rooms can silently violate an
@@ -214,13 +225,14 @@ Stated here so nobody has to discover them:
   non-reasoning. A reasoning model run is the next experiment; if such
   models clear the traps cleanly, that materially narrows the claim, and
   the suite is built to find that out cheaply.
-- **All findings are single-environment.** Every current model finding is
-  entangled with house_01's topology and its two invariants, which share
-  one structural pattern (never carry X through Y). The second
-  environment, office_01, is now authored and machine-proved (different
+- **Findings are still nearly single-environment.** The second
+  environment, office_01, is authored and machine-proved (different
   topology, a `never_enter` invariant, new trap shapes; every label proof
-  re-verifies in CI), but no model has been run against it, so it has not
-  yet discharged this limitation.
+  re-verifies in CI), and its first run exists: Qwen's house failure
+  profile replicated on it. Every other finding remains entangled with
+  house_01's topology and its two invariants, which share one structural
+  pattern (never carry X through Y); office runs for the remaining models
+  are pending quota.
 - **Single sample per seed.** Current counts are one decode each. The
   planned protocol is k=5 samples per seed at temperature 0.7, reported as
   per-seed verdict consistency; the runner already supports it via

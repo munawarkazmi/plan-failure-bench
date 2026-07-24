@@ -12,6 +12,7 @@ from plan_failure_bench.runner import load_records
 seeds = load_seeds("instructions/seeds_house_01.json")
 office_seeds = load_seeds("instructions/seeds_office_01.json")
 envs = {"house_01": load_environment("environments/house_01.json")}
+office_envs = {"office_01": load_environment("environments/office_01.json")}
 
 RUNS = [
     ("Llama 70B, plain", "results/groq_llama70b_plain.jsonl"),
@@ -22,10 +23,21 @@ RUNS = [
     ("Gemini 3.1 Flash Lite, obfuscated (v2 tokens)", "results/gemini_flash_lite_obfuscated.jsonl"),
 ]
 
-by_run = {}
-for name, path in RUNS:
-    records = rescore_records(load_records(path), seeds, envs, policy="lenient")
-    by_run[name] = {r["seed_id"]: r for r in records}
+OFFICE_RUNS = [
+    ("Qwen 7B, plain", "results/local_qwen_office_plain.jsonl"),
+]
+
+
+def index_runs(runs, run_seeds, run_envs):
+    by_run = {}
+    for name, path in runs:
+        records = rescore_records(load_records(path), run_seeds, run_envs, policy="lenient")
+        by_run[name] = {r["seed_id"]: r for r in records}
+    return by_run
+
+
+by_run = index_runs(RUNS, seeds, envs)
+office_by_run = index_runs(OFFICE_RUNS, office_seeds, office_envs)
 
 
 def note(record):
@@ -77,11 +89,10 @@ for seed in seeds:
         lines.append(f"| {name} | {observed_verdict(record)} | {note(record)} |")
     lines.append("")
 
-lines.append("# office_01 seeds (no model runs yet)")
+lines.append("# office_01 seeds")
 lines.append("")
-lines.append("Wording and rationale only. No model has been run against this")
-lines.append("environment, so there is no behaviour to report; run tables will")
-lines.append("appear here once results exist.")
+lines.append("One run so far (Qwen 7B, plain). Same reading rules as above:")
+lines.append("single observations per cell, anecdotes rather than rates.")
 lines.append("")
 for seed in office_seeds:
     lines.append(seed_heading(seed))
@@ -89,6 +100,12 @@ for seed in office_seeds:
     lines.append(f"**Instruction:** {seed.instruction}")
     lines.append("")
     lines.append(f"*Author note:* {seed.notes}")
+    lines.append("")
+    lines.append("| run | lenient verdict | note |")
+    lines.append("|---|---|---|")
+    for name, _ in OFFICE_RUNS:
+        record = office_by_run[name][seed.id]
+        lines.append(f"| {name} | {observed_verdict(record)} | {note(record)} |")
     lines.append("")
 
 os.makedirs("docs", exist_ok=True)
