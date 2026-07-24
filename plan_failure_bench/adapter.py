@@ -170,7 +170,15 @@ def call_model(config: ModelConfig, prompt: str, transport=None) -> ModelRespons
         except urllib.error.HTTPError as exc:
             last_error = exc
             if exc.code not in _RETRYABLE_STATUS:
-                raise AdapterError(f"model {config.name!r}: HTTP {exc.code}: {exc.reason}") from exc
+                # Error bodies usually say exactly what the server objected
+                # to; losing them turns a one-line fix into archaeology.
+                try:
+                    body = exc.read().decode("utf-8", errors="replace")[:400]
+                except Exception:
+                    body = ""
+                raise AdapterError(
+                    f"model {config.name!r}: HTTP {exc.code} {exc.reason}: {body}"
+                ) from exc
             delay = _retry_delay(exc, attempt)
         except (urllib.error.URLError, TimeoutError, ConnectionError, http.client.HTTPException) as exc:
             # Dropped connections and read timeouts surface as raw socket or
