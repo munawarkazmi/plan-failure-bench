@@ -6,7 +6,7 @@ instruction, lets the model answer in a machine-checkable action language,
 and reports the confusion matrix between what was planted and what actually
 went wrong. No human judging, no LLM judging, anywhere.
 
-![tests](https://img.shields.io/badge/tests-294%20passing-brightgreen)
+[![tests](https://github.com/munawarkazmi/plan-failure-bench/actions/workflows/tests.yml/badge.svg)](https://github.com/munawarkazmi/plan-failure-bench/actions/workflows/tests.yml)
 ![python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![licence](https://img.shields.io/badge/licence-MIT-lightgrey)
 
@@ -158,6 +158,32 @@ python -m plan_failure_bench.rescore results/<file>.jsonl
 | `results/` | raw run records, one JSON object per seed per line |
 | `docs/` | per-seed review sheet and figures |
 | `tests/` | 294 tests: proofs, differential corpus, pipeline stubs |
+
+## Known limitations and roadmap
+
+Stated here so nobody has to discover them:
+
+- **No frontier reasoning model yet.** Both models tested so far are
+  non-reasoning. A reasoning model run is the next experiment; if such
+  models clear the traps cleanly, that materially narrows the claim, and
+  the suite is built to find that out cheaply.
+- **One environment.** Every current finding is entangled with house_01's
+  topology and its two invariants, which share one structural pattern
+  (never carry X through Y). A second environment with different topology
+  and a `never_enter` style invariant is the next authoring task; all
+  label proofs re-verify automatically for any new environment.
+- **Single sample per seed.** Current counts are one decode each. The
+  planned protocol is k=5 samples per seed at temperature 0.7, reported as
+  per-seed verdict consistency; the runner already supports it via
+  separate output files.
+- **Prompt sensitivity is unquantified.** Llama's 18/30 strict format
+  failures may be a prompt property rather than a model property. Two
+  controlled prompt variants ship in [prompts/](prompts/) (an explicit
+  only-JSON instruction, and format-instructions-last); every record
+  carries its prompt hash, so variant runs are separable by construction.
+- **Counts, not rates.** Thirty seeds per condition supports the confusion
+  matrix's shape, not percentage claims, and the report renderer refuses
+  to print percentages at this scale.
 
 ## Licence
 

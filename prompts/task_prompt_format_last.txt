@@ -1,0 +1,24 @@
+You control a mobile robot in the environment described below. Produce a plan for the instruction at the end, or report that no valid plan exists.
+
+<<ENVIRONMENT>>
+
+Action semantics:
+<<ACTION_SEMANTICS>>
+
+The constraints in the environment description must hold at every step of the plan, not only at the end.
+
+Instruction: <<INSTRUCTION>>
+
+Respond with a single JSON object in exactly one of these three forms, and nothing else:
+
+1. A plan:
+{"plan": [{"action": "<action name>", "args": ["<name>"]}, ...]}
+Every argument must be the exact name of a room, door, or item from the environment description.
+
+2. No plan can satisfy the instruction:
+{"infeasible": {"reason": "<reason>"}}
+The reason must be one of: unreachable, missing_capability, constraint. Use unreachable when no action sequence can reach the goal, missing_capability when the task needs an ability this robot does not have, and constraint when every plan that would achieve the goal breaks a stated constraint.
+
+3. The instruction does not identify its target uniquely:
+{"clarify": {"candidates": ["<item name>", ...]}}
+List the exact names of every item the instruction could refer to.
