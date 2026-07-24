@@ -27,6 +27,19 @@ TEMPLATE = load_template(REPO_ROOT / "prompts" / "task_prompt.txt")
 LEXICON = load_lexicon(REPO_ROOT / "environments" / "house_01.obfuscation.json")
 OBF = build_obfuscation(ENV, LEXICON)
 
+OFFICE_ENV = load_environment(REPO_ROOT / "environments" / "office_01.json")
+OFFICE_LEXICON = load_lexicon(REPO_ROOT / "environments" / "office_01.obfuscation.json")
+OFFICE_OBF = build_obfuscation(OFFICE_ENV, OFFICE_LEXICON)
+
+# Both obfuscations derive from the same fixed generator seed, so their
+# token lists partially coincide. That is harmless (environments never
+# share a prompt) but means office tokens must never be assumed distinct
+# from house tokens in tests.
+BOTH = [
+    pytest.param(ENV, LEXICON, OBF, id="house_01"),
+    pytest.param(OFFICE_ENV, OFFICE_LEXICON, OFFICE_OBF, id="office_01"),
+]
+
 
 def canonical_response(seed):
     if seed.expected_terminal is None:
@@ -37,25 +50,29 @@ def canonical_response(seed):
 
 
 class TestMapping:
-    def test_deterministic(self):
-        again = build_obfuscation(ENV, LEXICON)
-        assert again == OBF
+    @pytest.mark.parametrize("env, lexicon, obf", BOTH)
+    def test_deterministic(self, env, lexicon, obf):
+        again = build_obfuscation(env, lexicon)
+        assert again == obf
 
-    def test_bijective_and_disjoint(self):
-        sources = [w for w, _ in OBF.token_map]
-        targets = [t for _, t in OBF.token_map]
+    @pytest.mark.parametrize("env, lexicon, obf", BOTH)
+    def test_bijective_and_disjoint(self, env, lexicon, obf):
+        sources = [w for w, _ in obf.token_map]
+        targets = [t for _, t in obf.token_map]
         assert len(set(sources)) == len(sources)
         assert len(set(targets)) == len(targets)
         assert not set(sources) & set(targets)
 
-    def test_loader_helper(self):
-        assert load_obfuscation(ENV, REPO_ROOT / "environments") == OBF
+    @pytest.mark.parametrize("env, lexicon, obf", BOTH)
+    def test_loader_helper(self, env, lexicon, obf):
+        assert load_obfuscation(env, REPO_ROOT / "environments") == obf
 
-    def test_tokens_pairwise_distinct(self):
+    @pytest.mark.parametrize("env, lexicon, obf", BOTH)
+    def test_tokens_pairwise_distinct(self, env, lexicon, obf):
         from plan_failure_bench.obfuscation import _MIN_TOKEN_DISTANCE, _levenshtein
 
-        stems = {w: t for w, t in OBF.token_map}
-        base = [t for w, t in OBF.token_map if not (w.endswith("s") and w[:-1] in stems)]
+        stems = {w: t for w, t in obf.token_map}
+        base = [t for w, t in obf.token_map if not (w.endswith("s") and w[:-1] in stems)]
         for i, a in enumerate(base):
             for b in base[i + 1 :]:
                 assert _levenshtein(a, b) >= _MIN_TOKEN_DISTANCE, (a, b)
@@ -89,6 +106,19 @@ class TestNoSemanticLeak:
     def test_invariant_texts_gone(self):
         prompt = OBF.apply(build_prompt(TEMPLATE, ENV, "x."))
         for inv in ENV.invariants:
+            assert inv.text not in prompt
+
+    def test_office_environment_text_is_leak_free(self):
+        # Per-seed office leak coverage arrives with the office seed suite;
+        # this proves the environment description alone leaks nothing.
+        leakable = sorted({w for w, _ in OFFICE_OBF.token_map} | set(OFFICE_OBF.leak_words))
+        prompt = OFFICE_OBF.apply(build_prompt(TEMPLATE, OFFICE_ENV, "x."))
+        for word in leakable:
+            assert not re.search(rf"\b{re.escape(word)}\b", prompt, re.IGNORECASE), word
+
+    def test_office_invariant_texts_gone(self):
+        prompt = OFFICE_OBF.apply(build_prompt(TEMPLATE, OFFICE_ENV, "x."))
+        for inv in OFFICE_ENV.invariants:
             assert inv.text not in prompt
 
     def test_states_renamed_consistently(self):

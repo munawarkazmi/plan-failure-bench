@@ -1,0 +1,14 @@
+{
+  "phrase_map": {
+    "Food is prepared in the canteen. Never carry anything greasy into the canteen.": "Never be in the canteen while holding any item that has the property greasy.",
+    "server room": "server_room",
+    "supply room": "supply_room",
+    "strong room": "strong_room",
+    "oil can": "oilcan",
+    "backup tape": "tape",
+    "staff handbook": "handbook",
+    "Fixed in place": "not portable"
+  },
+  "extra_tokens": ["stapler", "photocopy"],
+  "leak_words": ["server", "supply", "strong", "staff", "backup", "oil", "food", "prepared"]
+}
