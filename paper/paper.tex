@@ -91,13 +91,75 @@ model notices when planning is the wrong response altogether.
 
 \section{Related work}
 
-\emph{This section is not yet written; see \texttt{STATUS.md}. The
-review will position \benchname{} against LLM planning evaluations
-including PlanBench \citep{valmeekam2023planbench} and critical studies
-of LLM planning ability \citep{valmeekam2023planning}, from which the
-obfuscated condition inherits the Mystery Blocksworld idea, and against
-classical plan validation tooling; the differential oracle used here is
-pyperplan \citep{alkhazraji2020pyperplan}.}
+\emph{Draft status: this section was written from memory and every
+citation in it is unverified against the source; the verification list
+at the end of the section is part of the draft and will be discharged,
+item by item, before any claim here is treated as established. Nothing
+in this section should be quoted until then.}
+
+\textbf{Evaluating LLM planning.} PlanBench established systematic
+evaluation of LLM planning over symbolic domains and its successors
+have repeatedly found generation weak \citep{valmeekam2023planbench,
+valmeekam2023planning}. The same line introduced Mystery Blocksworld,
+obfuscating a familiar domain to separate reasoning from lexical
+recall, and found that plan generation collapses; \benchname{} inherits
+that manipulation but applies it as a versioned bijection and asks a
+different question, namely which \emph{judgements} survive semantic
+removal, not only whether generation does. Pipeline alternatives such
+as LLM+P hand the search problem to a classical planner and use the
+model only for formalisation \citep{liu2023llmp}; \benchname{} instead
+measures the model as the planner, because the failure modes of that
+configuration are what the benchmark exists to characterise.
+
+\textbf{Feasibility, ambiguity, and safety as separate literatures.}
+Each trap family here has a single-family predecessor. Plancraft
+includes impossible crafting tasks and reports that models rarely say
+so \citep{dagan2024plancraft}. AmbiK collects ambiguous kitchen
+instructions \citep{ivanova2024ambik}, and the asking-for-help line,
+KnowNo's calibrated uncertainty and CLARA's command classification,
+treats clarification as a first-class robot behaviour
+\citep{ren2023knowno, park2024clara}. SafeAgentBench shows embodied
+agents complying with hazardous instructions \citep{yin2024safeagentbench}.
+On the refusal side, XSTest documents exaggerated safety behaviour in
+chat models, refusals driven by surface features of safe prompts
+\citep{rottger2024xstest}. \benchname{} crosses these families in one
+decidable instrument with a shared response protocol, which is what
+permits its headline pairing: detection counts are never reported
+without false positives on feasible instructions, so an always-refusing
+model cannot look good, and the obfuscated condition tests whether
+refusal behaviour is anchored to surface semantics, which our early
+results suggest it is, in opposite directions for different models.
+
+\textbf{Error taxonomies and ground truth.} The Embodied Agent
+Interface catalogues fine-grained error types across goal
+interpretation, decomposition, sequencing, and transition modelling
+\citep{li2024embodied}. \benchname{} differs in direction: instead of
+classifying observed errors after the fact, it plants exactly one
+labelled trap per instruction and reports the confusion matrix between
+planted and observed, asking whether models fail as predicted. Doing
+that credibly requires ground truth that defends itself, which places
+this work in the plan-validation tradition of VAL \citep{howey2004val}:
+verdicts come from a deterministic checker differentially tested
+against an independent PDDL executor, pyperplan
+\citep{alkhazraji2020pyperplan}, labels are proofs re-run in continuous
+integration, and no human or model judgement appears anywhere in the
+scoring loop, a property that, to our knowledge, no benchmark above
+holds in full.
+
+\textbf{Verification list for this section.} (1) Confirm bibliographic
+details of every entry cited above: authors, venues, years. (2) Confirm
+Plancraft reports models rarely declaring impossibility, and with what
+metric, so the comparison to our false positive pairing is stated
+fairly. (3) Confirm whether any Mystery Blocksworld follow-up separates
+infeasibility detection from plan generation under obfuscation; if one
+exists, our detection-survives-execution-collapses dissociation must be
+positioned as replication. (4) Confirm whether AmbiK or the KnowNo line
+reports a paired over-asking rate, the clarification analogue of our
+false positive column. (5) Confirm whether SafeAgentBench or successors
+manipulate surface semantics when measuring refusal, which would
+anticipate our semantic over-refusal finding. (6) Search post-2024 work
+on feasibility communication and over-refusal in embodied planning that
+this list does not yet name.
 
 \section{Benchmark design}
 
