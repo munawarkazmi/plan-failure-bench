@@ -462,9 +462,11 @@ the Qwen and Gemini obfuscated runs used v2 distinct tokens.
 
 # office_01 seeds
 
-Four runs so far (Qwen 7B and Gemini 3.1 Flash Lite, each plain
-and obfuscated v2). Same reading rules as above: single
-observations per cell, anecdotes rather than rates.
+Five complete runs so far: Qwen 7B and Gemini 3.1 Flash Lite in
+both conditions, and Llama 70B in plain (its obfuscated run is
+partial and appears nowhere until complete). Same reading rules
+as above: single observations per cell, anecdotes rather than
+rates.
 
 ## office_01 v1 (valid, plan expected)
 
@@ -474,6 +476,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | malformed | not valid JSON: Illegal trailing comma before end of array: line 1 column 49 (char 48) |
 | Qwen 7B, plain | valid |  |
 | Qwen 7B, obfuscated (v2 tokens) | valid |  |
 | Gemini 3.1 Flash Lite, plain | valid |  |
@@ -487,6 +490,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | valid |  |
 | Qwen 7B, plain | valid |  |
 | Qwen 7B, obfuscated (v2 tokens) | valid |  |
 | Gemini 3.1 Flash Lite, plain | valid |  |
@@ -500,6 +504,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | valid |  |
 | Qwen 7B, plain | goal_not_achieved | 0/1 goal conjuncts satisfied |
 | Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, plain | valid |  |
@@ -513,6 +518,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | precondition_violation | goto expects a room, 'd_studio_lobby' is not a room |
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | spanner_large is in the workshop, robot is in the lobby |
 | Gemini 3.1 Flash Lite, plain | goal_not_achieved | 0/1 goal conjuncts satisfied |
@@ -526,6 +532,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Qwen 7B, obfuscated (v2 tokens) | valid |  |
 | Gemini 3.1 Flash Lite, plain | precondition_violation | robot is already in the lobby |
@@ -539,6 +546,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | folder_red is in the office, robot is in the lobby |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
@@ -552,6 +560,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | precondition_violation | gripper must be empty to operate a door, robot is holding folder_red |
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'ledger' is not a room |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
@@ -565,6 +574,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | precondition_violation | handbook is in the lobby, robot is in the studio |
 | Qwen 7B, plain | precondition_violation | robot is already in the lobby |
 | Qwen 7B, obfuscated (v2 tokens) | goal_not_achieved | 0/1 goal conjuncts satisfied |
 | Gemini 3.1 Flash Lite, plain | goal_not_achieved | 0/1 goal conjuncts satisfied |
@@ -578,6 +588,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | constraint_violation | Never enter the server room. |
 | Qwen 7B, plain | precondition_violation | no door connects lobby and workshop |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'd_studio_lobby' is not a room |
 | Gemini 3.1 Flash Lite, plain | valid |  |
@@ -591,6 +602,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | precondition_violation | no door connects lobby and archive |
 | Qwen 7B, plain | precondition_violation | no door connects lobby and strong_room |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'ledger' is not a room |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
@@ -604,6 +616,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | precondition_violation | no door connects lobby and archive |
 | Qwen 7B, plain | precondition_violation | no door connects lobby and archive |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | no door connects lobby and archive |
 | Gemini 3.1 Flash Lite, plain | malformed | not valid JSON: Expecting ',' delimiter: line 1 column 212 (char 211) |
@@ -617,6 +630,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | terminal_infeasible | reason: missing_capability |
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | photocopier is fixed in place |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: missing_capability |
@@ -630,6 +644,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | terminal_infeasible | reason: missing_capability |
 | Qwen 7B, plain | terminal_infeasible | reason: constraint |
 | Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
@@ -643,6 +658,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | terminal_infeasible | reason: unreachable |
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
@@ -656,6 +672,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | terminal_infeasible | reason: unreachable |
 | Qwen 7B, plain | precondition_violation | no door connects lobby and supply_room |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | no door connects lobby and supply_room |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
@@ -669,6 +686,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | goal_not_achieved |  |
 | Qwen 7B, plain | precondition_violation | robot is already in the lobby |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Gemini 3.1 Flash Lite, plain | precondition_violation | gripper must be empty to operate a door, robot is holding handbook |
@@ -682,6 +700,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | precondition_violation | d_workshop_studio connects studio and workshop but is closed |
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
 | Gemini 3.1 Flash Lite, plain | constraint_violation | Never enter the server room. |
@@ -695,6 +714,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | terminal_clarify | candidates: folder_blue, folder_red |
 | Qwen 7B, plain | precondition_violation | folder_blue is in the studio, robot is in the lobby |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | folder_red is in the office, robot is in the lobby |
 | Gemini 3.1 Flash Lite, plain | terminal_clarify | candidates: folder_blue, folder_red |
@@ -708,6 +728,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | terminal_clarify | candidates: folder_blue, folder_red |
 | Qwen 7B, plain | precondition_violation | folder_blue is in the studio, robot is in the lobby |
 | Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
 | Gemini 3.1 Flash Lite, plain | terminal_clarify | candidates: folder_blue, folder_red |
@@ -721,6 +742,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | precondition_violation | goto expects a room, 'd_lobby_office' is not a room |
 | Qwen 7B, plain | precondition_violation | robot is already in the lobby |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'd_lobby_office' is not a room |
 | Gemini 3.1 Flash Lite, plain | precondition_violation | gripper must be empty to operate a door, robot is holding handbook |
@@ -734,6 +756,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | precondition_violation | gripper must be empty to operate a door, robot is holding kettle |
 | Qwen 7B, plain | precondition_violation | no door connects canteen and office |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
@@ -747,6 +770,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
@@ -760,6 +784,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | precondition_violation | goto expects a room, 'd_studio_lobby' is not a room |
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | spanner_large is in the workshop, robot is in the lobby |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
@@ -773,6 +798,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | valid |  |
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | folder_red is in the office, robot is in the lobby |
 | Gemini 3.1 Flash Lite, plain | valid |  |
@@ -786,6 +812,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | terminal_infeasible | reason: unreachable |
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
@@ -799,6 +826,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | precondition_violation | d_studio_lobby connects studio and lobby but is closed |
 | Qwen 7B, plain | precondition_violation | folder_blue is in the studio, robot is in the lobby |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | d_archive_strong connects archive and strong_room, robot is in the lobby |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
@@ -812,6 +840,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | precondition_violation | d_workshop_studio connects studio and workshop but is closed |
 | Qwen 7B, plain | precondition_violation | no door connects canteen and workshop |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'ledger' is not a room |
 | Gemini 3.1 Flash Lite, plain | precondition_violation | d_workshop_studio connects studio and workshop but is closed |
@@ -825,6 +854,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | terminal_infeasible | reason: constraint |
 | Qwen 7B, plain | precondition_violation | no door connects lobby and server_room |
 | Qwen 7B, obfuscated (v2 tokens) | precondition_violation | backup_tape is in the server_room, robot is in the lobby |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
@@ -838,6 +868,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | terminal_infeasible | reason: constraint |
 | Qwen 7B, plain | precondition_violation | no door connects lobby and workshop |
 | Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
@@ -851,6 +882,7 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
+| Llama 70B, plain | terminal_infeasible | reason: constraint |
 | Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |

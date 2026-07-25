@@ -30,6 +30,7 @@ RUNS = [
 ]
 
 OFFICE_RUNS = [
+    ("Llama 3.3 70B, plain", "results/groq_llama70b_office_plain.jsonl"),
     ("Qwen 2.5 7B, plain", "results/local_qwen_office_plain.jsonl"),
     ("Qwen 2.5 7B, obfuscated (v2 tokens)", "results/local_qwen_office_obfuscated.jsonl"),
     ("Gemini 3.1 Flash Lite, plain", "results/gemini_flash_lite_office_plain.jsonl"),
@@ -81,6 +82,8 @@ def build_figure(runs, run_seeds, run_envs, rows, cols, suptitle, out_path):
     vmax = max(max(m.values()) for m in matrices.values())
 
     fig, axes = plt.subplots(rows, cols, figsize=(11.5, 4.0 * rows), facecolor=SURFACE)
+    for ax in list(axes.flat)[len(runs):]:
+        ax.set_visible(False)
     for ax, (title, _) in zip(axes.flat, runs):
         counts = matrices[title]
         grid = [[counts.get((label, v), 0) for v in verdicts] for label in LABELS]
@@ -129,7 +132,7 @@ build_figure(
     OFFICE_RUNS,
     office_seeds,
     office_envs,
-    2,
+    3,
     2,
     "office_01: planted trap versus observed verdict, 30 seeds per run, lenient extraction",
     "docs/img/confusion_matrices_office.png",

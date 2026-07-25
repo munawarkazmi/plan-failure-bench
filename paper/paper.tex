@@ -213,8 +213,8 @@ Three models so far, all under a fixed prompt at temperature 0 with one
 decode per seed: Llama 3.3 70B (hosted), Qwen 2.5 7B Instruct (local),
 and Gemini 3.1 Flash Lite (hosted). Each model runs each suite in the
 plain and obfuscated conditions as quota allows. A partial run of a
-larger reasoning model (Gemini 3.6 Flash, 2 of 30 seeds committed) is
-excluded from all tables until complete. Llama's obfuscated run predates
+larger reasoning model (Gemini 3.6 Flash, resumed daily as free quota
+allows) is excluded from all tables until complete. Llama's obfuscated run predates
 the version 2 tokens; its rerun is pending and the run is marked v1 in
 the tables, as is Qwen's superseded v1 run, which is retained because
 the token artefact it exposed is part of the methodology's history.
@@ -262,7 +262,9 @@ nearly every trap ending in an observed precondition violation. Gemini
 Flash Lite is format-perfect on house\_01 with near-ceiling detection,
 but solved none of house\_01's seven ordering traps and refused more
 feasible instructions than any other model. Each profile replicated in
-direction on the second environment.
+direction on the second environment; Llama's office\_01 plain run kept
+detection at exactly its house count (9 of 13) while format failures
+worsened to 24 of 30 and valid-seed success fell to 2 of 9.
 
 \textbf{Detection and execution dissociate under obfuscation.} Llama's
 trap detection held (9 to 11 of 13, false positives 3 to 1) while its
@@ -300,7 +302,7 @@ token scheme manufactured spurious hallucinations by confusability.}
 \end{table}
 
 \textbf{One diagnosis has never been produced.} Models regularly detect
-missing-capability seeds as infeasible, but across all eleven runs none
+missing-capability seeds as infeasible, but across all twelve runs none
 has ever given the exact reason: the distinction between ``sealed off''
 and ``I lack the unlock capability'' is decidable in this suite and
 produced by no model so far.
@@ -313,7 +315,7 @@ family (indoor rooms, doors, portable items) bound the generality of
 every claim. Prompt sensitivity is unquantified; two controlled prompt
 variants exist in the repository but have not been run. Llama's
 obfuscated results are under v1 tokens until the rerun completes, and
-Llama has no office\_01 runs. The lenient policy is a fixed syntactic
+its office\_01 obfuscated run is incomplete and excluded. The lenient policy is a fixed syntactic
 extraction rule, not a semantic judge, by design. All hosted models ran
 on free-tier quotas, which selected the model list.
 

@@ -67,8 +67,8 @@ sound over-approximating search; ambiguity is proved by counting bindings.
 
 ## First results
 
-Three models, two conditions, 30 seeds each on house_01, plus four runs
-on office_01. Counts, not rates; hypotheses, not claims.
+Three models, two conditions, 30 seeds each on house_01, plus five
+complete runs on office_01. Counts, not rates; hypotheses, not claims.
 
 ![Planted versus observed confusion matrices for six runs](docs/img/confusion_matrices.png)
 
@@ -141,6 +141,14 @@ conditions):
   room, the first constraint_violation observed on office_01. Format is
   no longer perfect: one unrecoverable response per office condition
   (house: zero in both).
+- **Llama's split profile replicates on office_01.** Office plain:
+  detection identical to house at 9/13 with false positives improving
+  from 3/17 to 1/17, while strict format failures worsen from 18/30 to
+  24/30 (lenient recovers all but one) and valid-seed success falls
+  from 5/9 to 2/9. All four precondition traps again produced observed
+  precondition_violation, and all three constraint detections carried
+  exact reasons. Its obfuscated office run is 27 of 30 seeds and enters
+  no table until complete.
 - **Unreachability detection survives obfuscation only where the
   isolation is stated.** house_01 says outright that the cellar has no
   doors, and Gemini's unreachability detection survived obfuscation at
@@ -197,9 +205,9 @@ graph LR
 ```
 
 office_01: nine rooms, eight doors, eleven items, its own 30-seed suite
-and obfuscation lexicon, four model runs so far (Qwen 2.5 7B and Gemini
-3.1 Flash Lite, each plain and obfuscated). Structural contrasts with
-house_01: a five-room ring reachable through open doors, so route choice
+and obfuscation lexicon, five complete model runs so far (Qwen 2.5 7B
+and Gemini 3.1 Flash Lite in both conditions, Llama 3.3 70B in plain).
+Structural contrasts with house_01: a five-room ring reachable through open doors, so route choice
 is pervasive (house_01 has one cycle, kitchen to hallway to living room,
 but only through a closed door); a `never_enter` room sitting on the ring,
 so the short route between two reachable rooms can silently violate an
@@ -276,14 +284,14 @@ Stated here so nobody has to discover them:
   non-reasoning. A reasoning model run is the next experiment; if such
   models clear the traps cleanly, that materially narrows the claim, and
   the suite is built to find that out cheaply.
-- **Cross-environment coverage is partial.** office_01 is authored and
-  machine-proved (different topology, a `never_enter` invariant, new
-  trap shapes; every label proof re-verifies in CI) and has four runs:
-  Qwen and Gemini Flash Lite each replicated the direction of their
-  house failure profiles on it, in both conditions. Llama has no office
-  runs yet (pending Groq quota), so every Llama finding remains
-  entangled with house_01's topology and its two invariants, which share
-  one structural pattern (never carry X through Y).
+- **Cross-environment coverage is nearly complete.** office_01 is
+  authored and machine-proved (different topology, a `never_enter`
+  invariant, new trap shapes; every label proof re-verifies in CI) and
+  all three models have now replicated the direction of their house
+  failure profiles on it. Remaining gaps: Llama's office obfuscated run
+  (27 of 30 seeds, pending quota) and its v2-token house rerun, so
+  Llama's obfuscation findings still rest on v1 tokens and one
+  environment.
 - **Single sample per seed.** Current counts are one decode each. The
   planned protocol is k=5 samples per seed at temperature 0.7, reported as
   per-seed verdict consistency; the runner already supports it via

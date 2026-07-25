@@ -13,8 +13,9 @@ inspected.
   and in sections 3 to 5 of the draft)
 - [ ] Literature review (not started; anchor works listed in the draft's
   related work stub)
-- [ ] Experiments (11 of 14 planned runs complete: Llama office runs and
-  its v2-token house rerun pending quota, one frontier model partial)
+- [ ] Experiments (12 of 14 planned runs complete: Llama's office
+  obfuscated run at 27 of 30 and its v2-token house rerun pending
+  quota, one frontier model at 21 of 30)
 - [ ] Statistical analysis (blocked by design on the k=5 sampling
   protocol; single decodes support counts only)
 - [ ] Writing (introduction, design, guarantees, setup, results,
