@@ -17,10 +17,10 @@ inspected.
   obfuscated run at 27 of 30 and its v2-token house rerun pending
   quota, one frontier model at 21 of 30)
 - [ ] Statistical analysis (the k=5 sampling harness and per-seed
-  consistency report are implemented and tested; two sampled cells are
-  complete and committed, Qwen plain and obfuscated on house_01.
-  Remaining model and condition cells are single decodes, so the
-  analysis stays open)
+  consistency report are implemented and tested; Qwen's full grid is
+  sampled and committed, both environments in both conditions, 600
+  decodes. Other models' cells are single decodes, so the analysis
+  stays open)
 - [ ] Writing (introduction, design, guarantees, setup, results,
   limitations, and future work drafted; related work pending; no
   editing pass yet)

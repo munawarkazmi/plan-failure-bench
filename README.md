@@ -197,6 +197,19 @@ conditions):
   150 decodes hallucinated an entity under v2 tokens (temperature 0:
   1 of 30), so sampling partially reintroduces the token copy errors
   that the edit distance guarantee suppresses at temperature 0.
+- **Qwen's full grid is now sampled and every pattern replicates.**
+  Office cells (same k=5 protocol): plain is again frozen, 24/30 seeds
+  fully stable, zero refusals across all 85 feasible decodes, only the
+  nonexistent stapler detected in every sample (the fixed photocopier
+  flickered in once, a trap the single decode never caught).
+  Obfuscation again destabilises decoding (17/30 stable, strict
+  failures 11/30 to 17/30 per sample) while the refusal core
+  reproduces on the second lexicon: both greasy-into-canteen
+  constraint seeds detected in all five samples, the compound one with
+  the exact reason all five times, one precondition trap refused in
+  every sample, and the feasible canteen delivery refused in four of
+  five. Token corruption under sampling appears here too: 11 of 150
+  obfuscated decodes (house: 13 of 150).
 - **Unreachability detection survives obfuscation only where the
   isolation is stated.** house_01 says outright that the cellar has no
   doors, and Gemini's unreachability detection survived obfuscation at
@@ -351,10 +364,10 @@ Stated here so nobody has to discover them:
 - **Single sample per seed, mostly.** Table counts are one decode each
   at temperature 0. The k=5 protocol (samples at temperature 0.7, each
   an ordinary run in its own file, aggregated by
-  `python -m plan_failure_bench.consistency`) has run for two cells so
-  far, Qwen plain and obfuscated on house_01, and showed the single
-  decodes are representative in direction; every other model and
-  condition cell remains a single decode.
+  `python -m plan_failure_bench.consistency`) has covered Qwen's full
+  grid, both environments in both conditions, and showed the single
+  decodes are representative in direction; every other model's cells
+  remain single decodes.
 - **Prompt sensitivity is unquantified.** Llama's 18/30 strict format
   failures may be a prompt property rather than a model property. Two
   controlled prompt variants ship in [prompts/](prompts/) (an explicit

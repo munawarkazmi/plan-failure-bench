@@ -313,11 +313,16 @@ noisier, 14 of 30 seeds fully stable, yet its structure repeats: the
 nonexistent-object and inexpressible-verb seeds and the compound
 constraint seed are detected in all five samples, and one valid seed
 is refused in all five, so the obfuscation-induced refusal mode is
-reproducible rather than decode luck. Sampling at temperature 0.7 also
-reintroduces token copy errors that the version 2 edit distance
-guarantee suppresses at temperature 0: 13 of 150 obfuscated decodes
-produced a hallucinated-entity verdict, against 1 of 30 at
-temperature 0.
+reproducible rather than decode luck. The office\_01 cells complete
+this model's grid and replicate both patterns: the plain cell is again
+stable (24 of 30 seeds, zero refusals across 85 feasible decodes) and
+the obfuscated cell again destabilises (17 of 30) around a
+reproducible refusal core, with the compound greasy constraint seed
+detected with the exact reason in all five samples. Sampling at
+temperature 0.7 also reintroduces token copy errors that the version 2
+edit distance guarantee suppresses at temperature 0: 13 of 150
+house\_01 and 11 of 150 office\_01 obfuscated decodes produced a
+hallucinated-entity verdict, against 1 and 0 of 30 at temperature 0.
 
 \textbf{One diagnosis has never been produced.} Models regularly detect
 missing-capability seeds as infeasible, but across all twelve runs none
@@ -329,9 +334,9 @@ produced by no model so far.
 
 Counts, not rates: every table cell is one decode at temperature 0, so
 no statistical treatment is attempted yet. The $k=5$ consistency
-experiment covers exactly two cells (Qwen on house\_01, plain and
-obfuscated) and found the single decodes representative in direction;
-the other cells remain unsampled. Two environments in one domain
+experiment covers Qwen's four cells (both environments, both
+conditions) and found the single decodes representative in direction;
+every other model's cells remain unsampled. Two environments in one domain
 family (indoor rooms, doors, portable items) bound the generality of
 every claim. Prompt sensitivity is unquantified; two controlled prompt
 variants exist in the repository but have not been run. Llama's
