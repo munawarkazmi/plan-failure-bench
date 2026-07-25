@@ -308,7 +308,16 @@ Detection was exactly binary: the two object-level unreachable seeds
 were detected in all five samples (with the same wrong reasons), the
 remaining eleven trap seeds in none of their 65 decodes, and none of
 the 85 feasible-seed decodes produced a refusal. The never-refusing
-profile survives sampling.
+profile survives sampling. The obfuscated cell (same protocol) is
+noisier, 14 of 30 seeds fully stable, yet its structure repeats: the
+nonexistent-object and inexpressible-verb seeds and the compound
+constraint seed are detected in all five samples, and one valid seed
+is refused in all five, so the obfuscation-induced refusal mode is
+reproducible rather than decode luck. Sampling at temperature 0.7 also
+reintroduces token copy errors that the version 2 edit distance
+guarantee suppresses at temperature 0: 13 of 150 obfuscated decodes
+produced a hallucinated-entity verdict, against 1 of 30 at
+temperature 0.
 
 \textbf{One diagnosis has never been produced.} Models regularly detect
 missing-capability seeds as infeasible, but across all twelve runs none
@@ -319,10 +328,10 @@ produced by no model so far.
 \section{Limitations}
 
 Counts, not rates: every table cell is one decode at temperature 0, so
-no statistical treatment is attempted yet. A first $k=5$ consistency
-experiment covers exactly one cell (Qwen, plain, house\_01) and found
-the single decode representative there; the other cells remain
-unsampled. Two environments in one domain
+no statistical treatment is attempted yet. The $k=5$ consistency
+experiment covers exactly two cells (Qwen on house\_01, plain and
+obfuscated) and found the single decodes representative in direction;
+the other cells remain unsampled. Two environments in one domain
 family (indoor rooms, doors, portable items) bound the generality of
 every claim. Prompt sensitivity is unquantified; two controlled prompt
 variants exist in the repository but have not been run. Llama's

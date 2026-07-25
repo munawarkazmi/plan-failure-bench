@@ -17,8 +17,8 @@ inspected.
   obfuscated run at 27 of 30 and its v2-token house rerun pending
   quota, one frontier model at 21 of 30)
 - [ ] Statistical analysis (the k=5 sampling harness and per-seed
-  consistency report are implemented and tested, and the first sampled
-  cell is complete: Qwen plain on house_01, five samples, committed.
+  consistency report are implemented and tested; two sampled cells are
+  complete and committed, Qwen plain and obfuscated on house_01.
   Remaining model and condition cells are single decodes, so the
   analysis stays open)
 - [ ] Writing (introduction, design, guarantees, setup, results,
