@@ -17,7 +17,9 @@ inspected.
   obfuscated run at 27 of 30 and its v2-token house rerun pending
   quota, one frontier model at 21 of 30)
 - [ ] Statistical analysis (blocked by design on the k=5 sampling
-  protocol; single decodes support counts only)
+  protocol; single decodes support counts only. The sampling harness
+  and per-seed consistency report are implemented and tested; no
+  sampled runs have been performed yet)
 - [ ] Writing (introduction, design, guarantees, setup, results,
   limitations, and future work drafted; related work pending; no
   editing pass yet)

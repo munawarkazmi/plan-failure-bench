@@ -14,6 +14,7 @@ comparison. Malformed responses are recorded as malformed.
 from __future__ import annotations
 
 import argparse
+import dataclasses
 import json
 import time
 from pathlib import Path
@@ -71,11 +72,19 @@ def check_seed(env: Environment, seed: Seed, response_text: str) -> dict:
     }
 
 
-def plan_resume(seeds: tuple[Seed, ...], out_path: str | Path, model_name: str, condition: str):
+def plan_resume(
+    seeds: tuple[Seed, ...],
+    out_path: str | Path,
+    model_name: str,
+    condition: str,
+    temperature: float | None = None,
+):
     """Which seeds still need running, given a partial results file.
 
     Returns (seeds_to_run, append). Refuses to resume onto a file produced
-    by a different model or condition.
+    by a different model, condition, or sampling temperature (temperature
+    is only checked when both sides recorded one, so files predating the
+    temperature field still resume).
     """
     out_path = Path(out_path)
     if not out_path.exists():
@@ -86,6 +95,12 @@ def plan_resume(seeds: tuple[Seed, ...], out_path: str | Path, model_name: str, 
             raise ValueError(
                 f"{out_path} contains records for model {r['model']!r} condition "
                 f"{r['condition']!r}; refusing to resume {model_name!r}/{condition!r} onto it"
+            )
+        recorded = r.get("temperature")
+        if recorded is not None and temperature is not None and recorded != temperature:
+            raise ValueError(
+                f"{out_path} contains records sampled at temperature {recorded}; "
+                f"refusing to resume at temperature {temperature} onto it"
             )
     done = {r["seed_id"] for r in existing}
     return tuple(s for s in seeds if s.id not in done), True
@@ -101,6 +116,7 @@ def run_suite(
     out_path: str | Path | None = None,
     obfuscations: dict | None = None,
     append: bool = False,
+    temperature: float | None = None,
 ) -> list[dict]:
     """call_fn(prompt, seed) -> raw response text. Injectable for tests.
 
@@ -140,6 +156,7 @@ def run_suite(
                 "response": response_text,
                 "response_canonical": canonical_text if obf is not None else None,
                 "obfuscation_version": obf.version if obf is not None else None,
+                "temperature": temperature,
                 "timestamp": time.time(),
             }
             record.update(check_seed(env, seed, canonical_text))
@@ -172,12 +189,20 @@ def main() -> None:
         action="store_true",
         help="skip seeds already present in the output file and append the rest",
     )
+    parser.add_argument(
+        "--temperature",
+        type=float,
+        default=None,
+        help="override the config's sampling temperature (the k-sampling protocol uses 0.7); recorded in every record",
+    )
     args = parser.parse_args()
 
     configs = load_model_configs(args.config)
     if args.model not in configs:
         raise SystemExit(f"no model named {args.model!r} in {args.config}; have {sorted(configs)}")
     config = configs[args.model]
+    if args.temperature is not None:
+        config = dataclasses.replace(config, temperature=args.temperature)
 
     seeds = load_seeds(args.seeds)
     environments = {
@@ -195,7 +220,7 @@ def main() -> None:
 
     append = False
     if args.resume:
-        seeds, append = plan_resume(seeds, out_path, config.name, args.condition)
+        seeds, append = plan_resume(seeds, out_path, config.name, args.condition, config.temperature)
         print(f"resuming: {len(seeds)} seeds remaining for {out_path}")
 
     last_start = [0.0]
@@ -210,7 +235,16 @@ def main() -> None:
         return response.text
 
     records = run_suite(
-        seeds, environments, template, call_fn, config.name, args.condition, out_path, obfuscations, append
+        seeds,
+        environments,
+        template,
+        call_fn,
+        config.name,
+        args.condition,
+        out_path,
+        obfuscations,
+        append,
+        temperature=config.temperature,
     )
     total = len(load_records(out_path)) if out_path else len(records)
     print(f"{out_path} now holds {total} records")

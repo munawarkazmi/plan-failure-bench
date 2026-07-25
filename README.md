@@ -264,6 +264,14 @@ Score any results file, strict header plus lenient report:
 python -m plan_failure_bench.rescore results/<file>.jsonl
 ```
 
+k-sampling (k runs at temperature 0.7 into separate files, then one
+consistency report over them):
+
+```
+python -m plan_failure_bench.runner --config configs/models.json --model <name> --condition plain --temperature 0.7 --out results/<name>_plain_k1.jsonl
+python -m plan_failure_bench.consistency results/<name>_plain_k1.jsonl results/<name>_plain_k2.jsonl [...]
+```
+
 ## Layout
 
 | Path | Contents |
@@ -293,9 +301,12 @@ Stated here so nobody has to discover them:
   Llama's obfuscation findings still rest on v1 tokens and one
   environment.
 - **Single sample per seed.** Current counts are one decode each. The
-  planned protocol is k=5 samples per seed at temperature 0.7, reported as
-  per-seed verdict consistency; the runner already supports it via
-  separate output files.
+  agreed protocol is k=5 samples per seed at temperature 0.7, each
+  sample an ordinary run in its own file. The harness ships: the runner
+  takes `--temperature` (recorded in every record, guarded on resume)
+  and `python -m plan_failure_bench.consistency` aggregates the sample
+  files into a per-seed verdict stability report. No k-sampled runs
+  have been performed yet.
 - **Prompt sensitivity is unquantified.** Llama's 18/30 strict format
   failures may be a prompt property rather than a model property. Two
   controlled prompt variants ship in [prompts/](prompts/) (an explicit
