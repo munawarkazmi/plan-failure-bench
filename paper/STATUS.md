@@ -11,10 +11,11 @@ inspected.
 - [x] Methodology (world model, checker, differential testing,
   reachability proofs, versioned obfuscation; documented in the README
   and in sections 3 to 5 of the draft)
-- [ ] Literature review (first draft of the related work section is
-  written, but from memory: every citation is marked unverified and the
-  section carries its own verification list, so this stays unticked
-  until each item is checked against the actual sources)
+- [ ] Literature review (related work section drafted; bibliographic
+  details of all citations verified against public records on 25 July
+  2026, two venues corrected in the process. Content positioning items
+  3 to 6 in the section's verification list remain open, so this stays
+  unticked)
 - [ ] Experiments (12 of 14 planned runs complete: Llama's office
   obfuscated run at 27 of 30 and its v2-token house rerun pending
   quota, one frontier model at 21 of 30)

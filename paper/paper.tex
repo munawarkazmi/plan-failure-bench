@@ -91,11 +91,11 @@ model notices when planning is the wrong response altogether.
 
 \section{Related work}
 
-\emph{Draft status: this section was written from memory and every
-citation in it is unverified against the source; the verification list
-at the end of the section is part of the draft and will be discharged,
-item by item, before any claim here is treated as established. Nothing
-in this section should be quoted until then.}
+\emph{Draft status: the bibliographic details of every citation below
+(authors, venues, years) were verified against public records on 25
+July 2026. The remaining open items concern content positioning and
+are listed at the end of the section; claims resting on them are
+phrased no more strongly than the verification so far supports.}
 
 \textbf{Evaluating LLM planning.} PlanBench established systematic
 evaluation of LLM planning over symbolic domains and its successors
@@ -104,8 +104,15 @@ valmeekam2023planning}. The same line introduced Mystery Blocksworld,
 obfuscating a familiar domain to separate reasoning from lexical
 recall, and found that plan generation collapses; \benchname{} inherits
 that manipulation but applies it as a versioned bijection and asks a
-different question, namely which \emph{judgements} survive semantic
-removal, not only whether generation does. Pipeline alternatives such
+broader question, namely which \emph{judgements} survive semantic
+removal, not only whether generation does. Unsolvability recognition
+itself is not new: PlanBench ships unsolvable instances scored by true
+and false negative rates, and \citet{valmeekam2024strawberry} report a
+reasoning model recognising only a minority of unsolvable cases, with
+recognition degrading further under obfuscation. \benchname{} differs
+in breadth and pairing rather than in raising the question: six trap
+families under one response protocol, detection always paired with
+false positives, and per-seed proof obligations. Pipeline alternatives such
 as LLM+P hand the search problem to a classical planner and use the
 model only for formalisation \citep{liu2023llmp}; \benchname{} instead
 measures the model as the planner, because the failure modes of that
@@ -113,9 +120,10 @@ configuration are what the benchmark exists to characterise.
 
 \textbf{Feasibility, ambiguity, and safety as separate literatures.}
 Each trap family here has a single-family predecessor. Plancraft
-includes impossible crafting tasks and reports that models rarely say
-so \citep{dagan2024plancraft}. AmbiK collects ambiguous kitchen
-instructions \citep{ivanova2024ambik}, and the asking-for-help line,
+includes intentionally unsolvable crafting tasks, requiring an agent
+to decide solvability at all \citep{dagan2025plancraft}. AmbiK
+collects ambiguous kitchen
+instructions \citep{ivanova2025ambik}, and the asking-for-help line,
 KnowNo's calibrated uncertainty and CLARA's command classification,
 treats clarification as a first-class robot behaviour
 \citep{ren2023knowno, park2024clara}. SafeAgentBench shows embodied
@@ -146,20 +154,27 @@ integration, and no human or model judgement appears anywhere in the
 scoring loop, a property that, to our knowledge, no benchmark above
 holds in full.
 
-\textbf{Verification list for this section.} (1) Confirm bibliographic
-details of every entry cited above: authors, venues, years. (2) Confirm
-Plancraft reports models rarely declaring impossibility, and with what
-metric, so the comparison to our false positive pairing is stated
-fairly. (3) Confirm whether any Mystery Blocksworld follow-up separates
-infeasibility detection from plan generation under obfuscation; if one
-exists, our detection-survives-execution-collapses dissociation must be
-positioned as replication. (4) Confirm whether AmbiK or the KnowNo line
-reports a paired over-asking rate, the clarification analogue of our
-false positive column. (5) Confirm whether SafeAgentBench or successors
-manipulate surface semantics when measuring refusal, which would
-anticipate our semantic over-refusal finding. (6) Search post-2024 work
-on feasibility communication and over-refusal in embodied planning that
-this list does not yet name.
+\textbf{Verification list for this section.} (1) \emph{Done, 25 July
+2026:} bibliographic details of every entry confirmed against public
+records; Plancraft's venue upgraded to COLM 2025 and AmbiK's to ACL
+2025 in the process. (2) \emph{Resolved by weakening:} Plancraft's
+abstract confirms the intentionally unsolvable subset but not a
+finding about how often models declare impossibility, so this draft
+claims only the former; strengthen only after reading the paper body.
+(3) \emph{Partially resolved:} unsolvability recognition under
+obfuscation is prior art (PlanBench's unsolvable instances;
+\citealp{valmeekam2024strawberry}), and this section now says so. The
+specific dissociation we observe, detection surviving obfuscation
+while execution collapses within one model, remains unlocated in prior
+work; the o1 figures cited from secondary sources must be confirmed
+against the paper body before being quoted numerically. (4) Open:
+whether AmbiK or the KnowNo line reports a paired over-asking rate,
+the clarification analogue of our false positive column. (5) Open:
+whether SafeAgentBench or successors manipulate surface semantics when
+measuring refusal, which would anticipate our semantic over-refusal
+finding. (6) Open: a systematic sweep of post-2024 work on feasibility
+communication and over-refusal in embodied planning; one targeted
+search performed so far.
 
 \section{Benchmark design}
 
