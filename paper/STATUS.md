@@ -11,11 +11,14 @@ inspected.
 - [x] Methodology (world model, checker, differential testing,
   reachability proofs, versioned obfuscation; documented in the README
   and in sections 3 to 5 of the draft)
-- [ ] Literature review (related work section drafted; bibliographic
-  details of all citations verified against public records on 25 July
-  2026, two venues corrected in the process. Content positioning items
-  3 to 6 in the section's verification list remain open, so this stays
-  unticked)
+- [ ] Literature review (related work section drafted; all citations
+  verified against public records on 25 July 2026 and the positioning
+  items in the section's verification list discharged or narrowed. The
+  nearest neighbour found, the Yes-Man Syndrome abstention benchmark,
+  is cited with differentiators. Remaining before ticking: read the
+  paper bodies on the section's reading list, notably Yes-Man's
+  scoring method, Plancraft's impossibility findings, and the
+  Strawberry Fields figures)
 - [ ] Experiments (12 of 14 planned runs complete: Llama's office
   obfuscated run at 27 of 30 and its v2-token house rerun pending
   quota, one frontier model at 21 of 30)
