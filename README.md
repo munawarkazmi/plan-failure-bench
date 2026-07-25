@@ -173,6 +173,16 @@ conditions):
   precondition_violation, and all three constraint detections carried
   exact reasons. Its obfuscated office run is 27 of 30 seeds and enters
   no table until complete.
+- **Sampling noise does not explain Qwen's profile.** First k-sampling
+  experiment (k=5 decodes per seed at temperature 0.7, Qwen plain,
+  house_01): 26/30 seeds produced the identical lenient verdict in all
+  five samples. Detection was exactly binary: the same two object-level
+  unreachable seeds (the fixed television, the nonexistent lamp) were
+  detected in all five samples, the other eleven trap seeds in none of
+  their 65 decodes, and none of the 85 feasible-seed decodes produced a
+  refusal. The never-refuse profile is a property of the model, not of
+  greedy decoding. All five sample files are committed;
+  `python -m plan_failure_bench.consistency` reproduces the report.
 - **Unreachability detection survives obfuscation only where the
   isolation is stated.** house_01 says outright that the cellar has no
   doors, and Gemini's unreachability detection survived obfuscation at
@@ -324,13 +334,13 @@ Stated here so nobody has to discover them:
   (27 of 30 seeds, pending quota) and its v2-token house rerun, so
   Llama's obfuscation findings still rest on v1 tokens and one
   environment.
-- **Single sample per seed.** Current counts are one decode each. The
-  agreed protocol is k=5 samples per seed at temperature 0.7, each
-  sample an ordinary run in its own file. The harness ships: the runner
-  takes `--temperature` (recorded in every record, guarded on resume)
-  and `python -m plan_failure_bench.consistency` aggregates the sample
-  files into a per-seed verdict stability report. No k-sampled runs
-  have been performed yet.
+- **Single sample per seed, mostly.** Table counts are one decode each
+  at temperature 0. The k=5 protocol (samples at temperature 0.7, each
+  an ordinary run in its own file, aggregated by
+  `python -m plan_failure_bench.consistency`) has run for one cell so
+  far, Qwen plain on house_01, and showed the single decodes are
+  representative there; every other model and condition cell remains a
+  single decode.
 - **Prompt sensitivity is unquantified.** Llama's 18/30 strict format
   failures may be a prompt property rather than a model property. Two
   controlled prompt variants ship in [prompts/](prompts/) (an explicit

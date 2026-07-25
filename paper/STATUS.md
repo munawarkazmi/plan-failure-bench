@@ -16,10 +16,11 @@ inspected.
 - [ ] Experiments (12 of 14 planned runs complete: Llama's office
   obfuscated run at 27 of 30 and its v2-token house rerun pending
   quota, one frontier model at 21 of 30)
-- [ ] Statistical analysis (blocked by design on the k=5 sampling
-  protocol; single decodes support counts only. The sampling harness
-  and per-seed consistency report are implemented and tested; no
-  sampled runs have been performed yet)
+- [ ] Statistical analysis (the k=5 sampling harness and per-seed
+  consistency report are implemented and tested, and the first sampled
+  cell is complete: Qwen plain on house_01, five samples, committed.
+  Remaining model and condition cells are single decodes, so the
+  analysis stays open)
 - [ ] Writing (introduction, design, guarantees, setup, results,
   limitations, and future work drafted; related work pending; no
   editing pass yet)
