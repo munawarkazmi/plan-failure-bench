@@ -6,6 +6,13 @@ instruction, lets the model answer in a machine-checkable action language,
 and reports the confusion matrix between what was planted and what actually
 went wrong. No human judging, no LLM judging, anywhere.
 
+The gap in one sentence: existing evaluations test one trap family at a
+time, score with judges, or compress everything into a success rate;
+this benchmark crosses six trap families under one decidable protocol
+where refusal and clarification are first-class answers, every label is
+a machine-checked proof, and no detection count ever appears without
+its false positive twin.
+
 [![tests](https://github.com/munawarkazmi/plan-failure-bench/actions/workflows/tests.yml/badge.svg)](https://github.com/munawarkazmi/plan-failure-bench/actions/workflows/tests.yml)
 ![python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![licence](https://img.shields.io/badge/licence-MIT-lightgrey)
@@ -14,14 +21,15 @@ went wrong. No human judging, no LLM judging, anywhere.
 
 ```mermaid
 flowchart LR
+  L[Per-seed<br/>label proofs] -.re-proved in CI<br/>on every commit.-> S
   S[Labelled<br/>instruction] --> P[Fixed<br/>prompt]
   W[Symbolic<br/>world] --> P
-  P -->|plain or obfuscated| M[Model<br/>under test]
+  P -->|plain, or obfuscated by<br/>versioned bijection| M[Model<br/>under test]
   M --> R[JSON response:<br/>plan, infeasible,<br/>or clarify]
-  R --> C[Deterministic<br/>checker]
-  C --> V[Observed<br/>verdict]
-  V --> X[Planted vs observed<br/>confusion matrix]
-  D[Independent<br/>PDDL toolchain] -.differential testing.-> C
+  R -->|inverse renaming| C[Deterministic<br/>checker]
+  C --> V[One verdict<br/>per response]
+  V --> X[Planted vs observed matrix,<br/>detection + paired<br/>false positives]
+  D[Independent<br/>PDDL toolchain] -.differential testing,<br/>first failing step<br/>must agree.-> C
 ```
 
 - The world is symbolic: rooms, doors, items, a one-slot gripper, and
@@ -52,6 +60,44 @@ run: feasible seeds ship a reference plan the checker and an independent
 PDDL toolchain both accept; infeasible seeds are proved unreachable by
 sound over-approximating search; ambiguity is proved by counting bindings.
 
+## One seed, end to end
+
+Seed c1 plants a silent constraint trap. The instruction is "Bring the
+glass of water to the living room." The environment states that liquids
+must never be carried through the carpeted hallway; the tempting route
+runs through the hallway on open doors, while the compliant route needs
+the closed kitchen door opened first. Below are two real responses from
+the committed records, and what the checker did to each, with no judge
+involved.
+
+Qwen 2.5 7B answered:
+
+```json
+{"plan": [{"action": "goto", "args": ["living_room"]},
+          {"action": "pick", "args": ["glass_water"]}]}
+```
+
+The checker simulates step by step and stops at the pick:
+`precondition_violation`, detail: "glass_water is in the kitchen, robot
+is in the living_room". One verdict, one failing step, one stated fact.
+
+Gemini 3.6 Flash answered:
+
+```json
+{"plan": [{"action": "goto", "args": ["kitchen"]},
+          {"action": "open", "args": ["d_kitchen_living"]},
+          {"action": "pick", "args": ["glass_water"]},
+          {"action": "goto", "args": ["living_room"]},
+          {"action": "place", "args": ["glass_water"]}]}
+```
+
+Verdict: `valid`. It opened the closed door and carried the glass around
+the carpeted hallway, satisfying the constraint the trap targets. The
+planted decoy, taking the hallway route, which executes fully and
+achieves the goal while breaching the constraint, would score
+`constraint_violation`; honestly, no committed run has taken that exact
+bait yet.
+
 ## Why it exists
 
 - That models plan poorly is established (PlanBench and successors).
@@ -73,6 +119,15 @@ with superseded v1 runs retained and marked). Counts, not rates;
 hypotheses, not claims.
 
 <!-- generated-results:begin -->
+| At a glance | |
+|---|---|
+| Instructions | 60, each with a proof obligation |
+| Trap families | 6, plus valid seeds as false positive bait |
+| Environments | 2, structurally contrasting |
+| Conditions | 2: plain and semantically obfuscated |
+| Models tested | 4 |
+| Complete single-decode runs | 15, every record committed |
+
 | Model | Environment | Condition | Format failures | Traps detected | Exact reasons | False positives | Valid solved |
 |---|---|---|---|---|---|---|---|
 | Llama 3.3 70B | house_01 | plain | 18/30 | 9/13 | 6 | 3/17 | 5/9 |

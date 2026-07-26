@@ -129,6 +129,15 @@ END_MARK = "<!-- generated-results:end -->"
 
 md = [
     BEGIN_MARK,
+    "| At a glance | |",
+    "|---|---|",
+    f"| Instructions | {sum(len(v) for v in SUITES.values())}, each with a proof obligation |",
+    "| Trap families | 6, plus valid seeds as false positive bait |",
+    f"| Environments | {len(SUITES)}, structurally contrasting |",
+    "| Conditions | 2: plain and semantically obfuscated |",
+    f"| Models tested | {len({model for model, *_ in RUNS})} |",
+    f"| Complete single-decode runs | {len(RUNS)}, every record committed |",
+    "",
     "| Model | Environment | Condition | Format failures | Traps detected | Exact reasons | False positives | Valid solved |",
     "|---|---|---|---|---|---|---|---|",
 ]
