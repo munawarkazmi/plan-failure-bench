@@ -248,7 +248,8 @@ Raw records: [results/](results/).
 
 ## Working paper
 
-A living draft lives in [paper/](paper/), completed as the research
+A living draft lives in [paper/](paper/), with a compiled PDF at
+[paper/paper.pdf](paper/paper.pdf), completed as the research
 completes; [paper/STATUS.md](paper/STATUS.md) tracks section status
 honestly (nothing is ticked that cannot be inspected in this
 repository). Its results tables are generated from the committed run
