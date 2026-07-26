@@ -22,15 +22,17 @@ office_envs = {"office_01": load_environment("environments/office_01.json")}
 
 RUNS = [
     ("Llama 3.3 70B, plain", "results/groq_llama70b_plain.jsonl"),
-    ("Llama 3.3 70B, obfuscated (v1 tokens)", "results/groq_llama70b_obfuscated.jsonl"),
+    ("Llama 3.3 70B, obfuscated (v2 tokens)", "results/groq_llama70b_obfuscated_v2.jsonl"),
     ("Qwen 2.5 7B, plain", "results/local_qwen_plain.jsonl"),
     ("Qwen 2.5 7B, obfuscated (v2 tokens)", "results/local_qwen_obfuscated_v2.jsonl"),
     ("Gemini 3.1 Flash Lite, plain", "results/gemini_flash_lite_plain.jsonl"),
     ("Gemini 3.1 Flash Lite, obfuscated (v2 tokens)", "results/gemini_flash_lite_obfuscated.jsonl"),
+    ("Gemini 3.6 Flash, plain", "results/gemini_flash_plain.jsonl"),
 ]
 
 OFFICE_RUNS = [
     ("Llama 3.3 70B, plain", "results/groq_llama70b_office_plain.jsonl"),
+    ("Llama 3.3 70B, obfuscated (v2 tokens)", "results/groq_llama70b_office_obfuscated.jsonl"),
     ("Qwen 2.5 7B, plain", "results/local_qwen_office_plain.jsonl"),
     ("Qwen 2.5 7B, obfuscated (v2 tokens)", "results/local_qwen_office_obfuscated.jsonl"),
     ("Gemini 3.1 Flash Lite, plain", "results/gemini_flash_lite_office_plain.jsonl"),
@@ -123,7 +125,7 @@ build_figure(
     RUNS,
     seeds,
     envs,
-    3,
+    4,
     2,
     "Planted trap versus observed verdict, 30 seeds per run, lenient extraction",
     "docs/img/confusion_matrices.png",

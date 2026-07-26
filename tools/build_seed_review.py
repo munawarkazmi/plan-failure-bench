@@ -16,15 +16,17 @@ office_envs = {"office_01": load_environment("environments/office_01.json")}
 
 RUNS = [
     ("Llama 70B, plain", "results/groq_llama70b_plain.jsonl"),
-    ("Llama 70B, obfuscated (v1 tokens)", "results/groq_llama70b_obfuscated.jsonl"),
+    ("Llama 70B, obfuscated (v2 tokens)", "results/groq_llama70b_obfuscated_v2.jsonl"),
     ("Qwen 7B, plain", "results/local_qwen_plain.jsonl"),
     ("Qwen 7B, obfuscated (v2 tokens)", "results/local_qwen_obfuscated_v2.jsonl"),
     ("Gemini 3.1 Flash Lite, plain", "results/gemini_flash_lite_plain.jsonl"),
     ("Gemini 3.1 Flash Lite, obfuscated (v2 tokens)", "results/gemini_flash_lite_obfuscated.jsonl"),
+    ("Gemini 3.6 Flash, plain", "results/gemini_flash_plain.jsonl"),
 ]
 
 OFFICE_RUNS = [
     ("Llama 70B, plain", "results/groq_llama70b_office_plain.jsonl"),
+    ("Llama 70B, obfuscated (v2 tokens)", "results/groq_llama70b_office_obfuscated.jsonl"),
     ("Qwen 7B, plain", "results/local_qwen_office_plain.jsonl"),
     ("Qwen 7B, obfuscated (v2 tokens)", "results/local_qwen_office_obfuscated.jsonl"),
     ("Gemini 3.1 Flash Lite, plain", "results/gemini_flash_lite_office_plain.jsonl"),
@@ -66,9 +68,9 @@ lines = [
     "instruction against real model behaviour. Counts are single",
     "observations per cell; read them as anecdotes, not rates.",
     "",
-    "Generated from the committed results files. The Llama obfuscated run",
-    "used v1 tokens (known confusability artefact, see results history);",
-    "the Qwen and Gemini obfuscated runs used v2 distinct tokens.",
+    "Generated from the committed results files. Every obfuscated run",
+    "shown here uses v2 distinct tokens; the superseded v1 runs remain",
+    "in the repository history and in the paper's run table.",
     "",
 ]
 
@@ -95,11 +97,9 @@ for seed in seeds:
 
 lines.append("# office_01 seeds")
 lines.append("")
-lines.append("Five complete runs so far: Qwen 7B and Gemini 3.1 Flash Lite in")
-lines.append("both conditions, and Llama 70B in plain (its obfuscated run is")
-lines.append("partial and appears nowhere until complete). Same reading rules")
-lines.append("as above: single observations per cell, anecdotes rather than")
-lines.append("rates.")
+lines.append("Six complete runs: Llama 70B, Qwen 7B, and Gemini 3.1 Flash Lite,")
+lines.append("each in both conditions. Same reading rules as above: single")
+lines.append("observations per cell, anecdotes rather than rates.")
 lines.append("")
 for seed in office_seeds:
     lines.append(seed_heading(seed))

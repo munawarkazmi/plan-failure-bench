@@ -43,13 +43,17 @@ obligation re-run in continuous integration; and every instruction also
 exists in a semantically obfuscated condition applied as an invertible
 renaming, so the checker only ever scores the canonical world. The
 headline artefact is the confusion matrix between planted trap and
-observed verdict. Early results on three models are reported as counts
-and hypotheses: models fail in distinct, stable ways; detection and
-execution dissociate under obfuscation; over-refusal tracks surface
-semantics; and unreachability detection survives obfuscation only where
-the isolation is stated rather than left to be inferred from topology.
-This is a working paper; the results tables are generated directly from
-the committed run records.
+observed verdict. Early results on four models are reported as counts
+and hypotheses: models fail in distinct, stable ways; a 70B model's
+planning judgement survives semantic obfuscation essentially intact,
+an apparent execution collapse under our first token scheme having
+been caught and retired by the obfuscation's own versioning;
+over-refusal tracks surface semantics; unreachability detection
+survives obfuscation only where the isolation is stated rather than
+left to be inferred from topology; and the one frontier reasoning
+column so far clears the plain condition almost perfectly, moving the
+decisive test to its obfuscated column. This is a working paper; the
+results tables are generated directly from the committed run records.
 \end{abstract}
 
 \section{Introduction}
@@ -317,15 +321,15 @@ feasible constructively by reference plans, never by the abstraction.
 
 \section{Experimental setup}
 
-Three models so far, all under a fixed prompt at temperature 0 with one
-decode per seed: Llama 3.3 70B (hosted), Qwen 2.5 7B Instruct (local),
-and Gemini 3.1 Flash Lite (hosted). Each model runs each suite in the
-plain and obfuscated conditions as quota allows. A partial run of a
-larger reasoning model (Gemini 3.6 Flash, resumed daily as free quota
-allows) is excluded from all tables until complete. Llama's obfuscated run predates
-the version 2 tokens; its rerun is pending and the run is marked v1 in
-the tables, as is Qwen's superseded v1 run, which is retained because
-the token artefact it exposed is part of the methodology's history.
+Four models, all under a fixed prompt at temperature 0 with one decode
+per seed: Llama 3.3 70B (hosted), Qwen 2.5 7B Instruct (local), Gemini
+3.1 Flash Lite (hosted), and Gemini 3.6 Flash (hosted; a reasoning
+generation model, with its plain house\_01 column complete and its
+remaining columns accumulating on daily free-tier quota). The three
+original models cover both suites in both conditions under version 2
+tokens. The superseded version 1 obfuscated runs of Llama and Qwen are
+retained and marked in the tables, because the artefacts they exposed
+are part of the methodology's history.
 
 \section{Results}
 
@@ -351,14 +355,14 @@ or candidate set was exactly right.}
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{confusion_matrices.png}
-\caption{house\_01: planted trap versus observed verdict for six runs.}
+\caption{house\_01: planted trap versus observed verdict for seven runs.}
 \label{fig:house}
 \end{figure}
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{confusion_matrices_office.png}
-\caption{office\_01: planted trap versus observed verdict for four runs.}
+\caption{office\_01: planted trap versus observed verdict for six runs.}
 \label{fig:office}
 \end{figure}
 
@@ -374,10 +378,17 @@ direction on the second environment; Llama's office\_01 plain run kept
 detection at exactly its house count (9 of 13) while format failures
 worsened to 24 of 30 and valid-seed success fell to 2 of 9.
 
-\textbf{Detection and execution dissociate under obfuscation.} Llama's
-trap detection held (9 to 11 of 13, false positives 3 to 1) while its
-valid-seed success collapsed from 5 of 9 to 1 of 9. A pure pattern
-matching account predicts the opposite ordering.
+\textbf{A finding retired by the methodology's own versioning.} Under
+version 1 tokens, Llama appeared to show a dissociation: detection
+surviving obfuscation while valid-seed success collapsed from 5 of 9
+to 1 of 9. The version 2 rerun refutes the collapse: detection holds
+(9 of 13 to 10 of 13, false positives 3 of 17 to 0 of 17) and
+execution holds as well, 5 of 9 in both conditions on house\_01 and
+2 of 9 in both on office\_01, with Llama's hallucinated-entity count
+falling from 4 under version 1 to 0. The execution collapse was token
+confusability damage. What survives is simpler and still contrary to
+a pure pattern-matching account: for this model, planning judgement
+and execution are both essentially unimpaired by semantic removal.
 
 \textbf{Over-refusal tracks surface semantics.} Gemini's false positives
 fell from 4 of 17 to 1 of 17 under obfuscation on house\_01 and from 7
@@ -394,11 +405,13 @@ annex's isolation must be inferred from the connection list, its
 unreachability detection fell from 3 of 4 to 1 of 4 under obfuscation,
 the survivor being a nonexistent object rather than any topology seed.
 
-\textbf{The methodology caught its own artefact.} Under version 1
-tokens, Qwen showed 15 hallucinated-entity verdicts on house\_01; under
-version 2's edit-distance guarantee this fell to 1, and no office run
-under version 2 shows any (Table~\ref{tab:hallucination}). Records carry
-their obfuscation version, so generations of results never mix silently.
+\textbf{The methodology has caught two of its own artefacts.} Under
+version 1 tokens, Qwen showed 15 hallucinated-entity verdicts on
+house\_01 (version 2: 1) and Llama showed 4 (version 2: 0) alongside
+the spurious execution collapse retired above
+(Table~\ref{tab:hallucination}). Records carry their obfuscation
+version, so generations of results never mix silently, and the
+superseded runs remain visible in Table~\ref{tab:runs}.
 
 \begin{table}[t]
 \centering
@@ -432,11 +445,23 @@ edit distance guarantee suppresses at temperature 0: 13 of 150
 house\_01 and 11 of 150 office\_01 obfuscated decodes produced a
 hallucinated-entity verdict, against 1 and 0 of 30 at temperature 0.
 
-\textbf{One diagnosis has never been produced.} Models regularly detect
-missing-capability seeds as infeasible, but across all twelve runs none
-has ever given the exact reason: the distinction between ``sealed off''
-and ``I lack the unlock capability'' is decidable in this suite and
-produced by no model so far.
+\textbf{The frontier column clears the plain condition.} Gemini 3.6
+Flash on house\_01 plain: no format failures, 13 of 13 traps detected
+(10 exact reasons), zero false positives, and 9 of 9 valid seeds
+solved, including all seven ordering traps that defeated every other
+model and the compliant route on the silent-violation constraint seed.
+Its confusion matrix is the ideal diagonal. Every other claim in this
+paper is therefore bounded to smaller and non-reasoning models until
+its obfuscated and office\_01 columns, accumulating on free-tier
+quota, say otherwise.
+
+\textbf{The capability distinction still defeats every model, with one
+crack.} The capability-grant seeds, where the suite proves a goal is
+sealed by a missing capability rather than topology, have never
+received the exact diagnosis in any run: even the frontier model calls
+them unreachable. The first exact missing-capability reason ever
+produced came from Gemini 3.6 Flash on the inexpressible-verb seed,
+one exact diagnosis across fifteen committed columns.
 
 \section{Limitations}
 
@@ -447,22 +472,22 @@ conditions) and found the single decodes representative in direction;
 every other model's cells remain unsampled. Two environments in one domain
 family (indoor rooms, doors, portable items) bound the generality of
 every claim. Prompt sensitivity is unquantified; two controlled prompt
-variants exist in the repository but have not been run. Llama's
-obfuscated results are under v1 tokens until the rerun completes, and
-its office\_01 obfuscated run is incomplete and excluded. The lenient policy is a fixed syntactic
+variants exist in the repository but have not been run. The frontier
+model has exactly one column, so its near-perfect plain result says
+nothing yet about its judgement under obfuscation or on the second
+environment. The lenient policy is a fixed syntactic
 extraction rule, not a semantic judge, by design. All hosted models ran
 on free-tier quotas, which selected the model list.
 
 \section{Future work}
 
-The agreed sampling protocol is $k=5$ decodes per seed at temperature
-0.7 into separate record files, reported as per-seed verdict
-consistency, which unlocks a statistical treatment; the harness and
-consistency report are implemented and tested, with runs pending. Remaining runs:
-Llama on office\_01 and its v2-token rerun on house\_01, and a frontier
-reasoning model as quota allows. The literature review section, a
-prompt-sensitivity experiment with the two committed variants, and a
-decision on target venue complete the path to submission.
+The sampling protocol ($k=5$ decodes per seed at temperature 0.7 into
+separate record files, reported as per-seed verdict consistency) has
+covered Qwen's full grid; extending it to the other models unlocks a
+statistical treatment. The decisive pending runs are the frontier
+model's obfuscated and office\_01 columns. A prompt-sensitivity
+experiment with the two committed variants, and a decision on target
+venue, complete the path to submission.
 
 \bibliographystyle{plainnat}
 \bibliography{references}

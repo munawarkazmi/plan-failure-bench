@@ -41,13 +41,16 @@ ENVS = {
 # artefact it produced; it is marked as superseded rather than hidden.
 RUNS = [
     ("Llama 3.3 70B", "house\\_01", "plain", "results/groq_llama70b_plain.jsonl", "house_01", ""),
-    ("Llama 3.3 70B", "house\\_01", "obfuscated (v1)", "results/groq_llama70b_obfuscated.jsonl", "house_01", ""),
+    ("Llama 3.3 70B", "house\\_01", "obfuscated (v1)", "results/groq_llama70b_obfuscated.jsonl", "house_01", "superseded"),
+    ("Llama 3.3 70B", "house\\_01", "obfuscated (v2)", "results/groq_llama70b_obfuscated_v2.jsonl", "house_01", ""),
     ("Qwen 2.5 7B", "house\\_01", "plain", "results/local_qwen_plain.jsonl", "house_01", ""),
     ("Qwen 2.5 7B", "house\\_01", "obfuscated (v1)", "results/local_qwen_obfuscated.jsonl", "house_01", "superseded"),
     ("Qwen 2.5 7B", "house\\_01", "obfuscated (v2)", "results/local_qwen_obfuscated_v2.jsonl", "house_01", ""),
     ("Gemini 3.1 Flash Lite", "house\\_01", "plain", "results/gemini_flash_lite_plain.jsonl", "house_01", ""),
     ("Gemini 3.1 Flash Lite", "house\\_01", "obfuscated (v2)", "results/gemini_flash_lite_obfuscated.jsonl", "house_01", ""),
+    ("Gemini 3.6 Flash", "house\\_01", "plain", "results/gemini_flash_plain.jsonl", "house_01", ""),
     ("Llama 3.3 70B", "office\\_01", "plain", "results/groq_llama70b_office_plain.jsonl", "office_01", ""),
+    ("Llama 3.3 70B", "office\\_01", "obfuscated (v2)", "results/groq_llama70b_office_obfuscated.jsonl", "office_01", ""),
     ("Qwen 2.5 7B", "office\\_01", "plain", "results/local_qwen_office_plain.jsonl", "office_01", ""),
     ("Qwen 2.5 7B", "office\\_01", "obfuscated (v2)", "results/local_qwen_office_obfuscated.jsonl", "office_01", ""),
     ("Gemini 3.1 Flash Lite", "office\\_01", "plain", "results/gemini_flash_lite_office_plain.jsonl", "office_01", ""),

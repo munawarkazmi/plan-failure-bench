@@ -16,9 +16,12 @@ inspected.
   attributed to a paper checked against its body, 25 July 2026; the
   section carries its own verification log. One standing obligation:
   a final sweep for work newer than that date before submission)
-- [ ] Experiments (12 of 14 planned runs complete: Llama's office
-  obfuscated run at 27 of 30 and its v2-token house rerun pending
-  quota, one frontier model at 21 of 30)
+- [x] Experiments, original grid (all 14 planned single-decode runs
+  complete: three models, both environments, both conditions, with
+  superseded v1 runs retained and marked; plus the frontier model's
+  plain house_01 column and Qwen's full k=5 sampling grid. Follow-ons
+  tracked in future work: frontier obfuscated and office columns,
+  prompt sensitivity, sampling for the remaining models)
 - [ ] Statistical analysis (the k=5 sampling harness and per-seed
   consistency report are implemented and tested; Qwen's full grid is
   sampled and committed, both environments in both conditions, 600
