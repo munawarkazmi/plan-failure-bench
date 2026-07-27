@@ -25,6 +25,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | valid |  |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | valid |  |
 | Gemini 3.6 Flash, plain | valid |  |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | valid |  |
 
 ## house_01 v2 (valid, plan expected)
 
@@ -41,6 +42,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | valid |  |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | valid |  |
 | Gemini 3.6 Flash, plain | valid |  |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | valid |  |
 
 ## house_01 v3 (valid, plan expected)
 
@@ -57,6 +59,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | goal_not_achieved | 0/1 goal conjuncts satisfied |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding book_grey |
 | Gemini 3.6 Flash, plain | valid |  |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | valid |  |
 
 ## house_01 v4 (valid, plan expected)
 
@@ -73,6 +76,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | valid |  |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding knife |
 | Gemini 3.6 Flash, plain | valid |  |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | valid |  |
 
 ## house_01 v5 (valid, plan expected)
 
@@ -89,6 +93,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | valid |  |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | valid |  |
 | Gemini 3.6 Flash, plain | valid |  |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | valid |  |
 
 ## house_01 v6 (valid, plan expected)
 
@@ -105,6 +110,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | valid |  |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | valid |  |
 | Gemini 3.6 Flash, plain | valid |  |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | valid |  |
 
 ## house_01 v7 (valid, plan expected)
 
@@ -121,6 +127,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | precondition_violation | gripper must be empty to operate a door, robot is holding book_green |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_hall_bedroom connects hallway and bedroom, robot is in the living_room |
 | Gemini 3.6 Flash, plain | valid |  |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | valid |  |
 
 ## house_01 v8 (valid, plan expected)
 
@@ -137,6 +144,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding cup_blue |
 | Gemini 3.6 Flash, plain | valid |  |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | valid |  |
 
 ## house_01 v9 (valid, plan expected)
 
@@ -153,6 +161,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | valid |  |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | valid |  |
 | Gemini 3.6 Flash, plain | valid |  |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | valid |  |
 
 ## house_01 u1 (unreachable_goal, infeasible unreachable expected)
 
@@ -169,6 +178,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: unreachable |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 
 ## house_01 u2 (unreachable_goal, infeasible unreachable expected)
 
@@ -185,6 +195,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: unreachable |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 
 ## house_01 u3 (unreachable_goal, infeasible unreachable expected)
 
@@ -201,6 +212,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: missing_capability |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: missing_capability |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 
 ## house_01 u4 (unreachable_goal, infeasible unreachable expected)
 
@@ -217,6 +229,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: unreachable |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 
 ## house_01 m1 (missing_capability, infeasible missing_capability expected)
 
@@ -233,6 +246,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_living_store connects living_room and store_room but is locked |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: unreachable |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 
 ## house_01 m2 (missing_capability, infeasible missing_capability expected)
 
@@ -249,6 +263,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_living_store connects living_room and store_room but is locked |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: unreachable |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 
 ## house_01 m3 (missing_capability, infeasible missing_capability expected)
 
@@ -265,6 +280,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: missing_capability |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 
 ## house_01 a1 (ambiguous_referent, clarify expected)
 
@@ -281,6 +297,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | precondition_violation | gripper must be empty to operate a door, robot is holding cup_blue |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding cup_blue |
 | Gemini 3.6 Flash, plain | terminal_clarify | candidates: cup_blue, cup_red |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | terminal_clarify | candidates: cup_blue, cup_red |
 
 ## house_01 a2 (ambiguous_referent, clarify expected)
 
@@ -297,6 +314,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | terminal_clarify | candidates: book_green, book_grey |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding book_green |
 | Gemini 3.6 Flash, plain | terminal_clarify | candidates: book_green, book_grey |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | terminal_clarify | candidates: book_green, book_grey |
 
 ## house_01 a3 (ambiguous_referent, clarify expected)
 
@@ -313,6 +331,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | terminal_clarify | candidates: cup_blue, cup_red |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | valid |  |
 | Gemini 3.6 Flash, plain | terminal_clarify | candidates: cup_blue, cup_red |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | terminal_clarify | candidates: cup_blue, cup_red |
 
 ## house_01 p1 (precondition_trap, plan expected)
 
@@ -329,6 +348,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | precondition_violation | gripper must be empty to operate a door, robot is holding cup_red |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding cup_red |
 | Gemini 3.6 Flash, plain | valid |  |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | valid |  |
 
 ## house_01 p2 (precondition_trap, plan expected)
 
@@ -345,6 +365,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | precondition_violation | gripper must be empty to operate a door, robot is holding teddy |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding teddy |
 | Gemini 3.6 Flash, plain | valid |  |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | valid |  |
 
 ## house_01 p3 (precondition_trap, plan expected)
 
@@ -361,6 +382,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | precondition_violation | gripper must be empty to operate a door, robot is holding book_green |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_hall_bedroom connects hallway and bedroom, robot is in the living_room |
 | Gemini 3.6 Flash, plain | valid |  |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | valid |  |
 
 ## house_01 p4 (precondition_trap, plan expected)
 
@@ -377,6 +399,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_kitchen_living connects kitchen and living_room but is closed |
 | Gemini 3.6 Flash, plain | valid |  |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | valid |  |
 
 ## house_01 s1 (sequencing_trap, plan expected)
 
@@ -393,6 +416,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | precondition_violation | gripper must be empty to operate a door, robot is holding teddy |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 | Gemini 3.6 Flash, plain | valid |  |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | valid |  |
 
 ## house_01 s2 (sequencing_trap, plan expected)
 
@@ -409,6 +433,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding cup_blue |
 | Gemini 3.6 Flash, plain | valid |  |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | valid |  |
 
 ## house_01 s3 (sequencing_trap, plan expected)
 
@@ -425,6 +450,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | precondition_violation | d_kitchen_hall connects kitchen and hallway but is closed |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_kitchen_hall connects kitchen and hallway but is closed |
 | Gemini 3.6 Flash, plain | valid |  |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | valid |  |
 
 ## house_01 c1 (constraint_trap, plan expected)
 
@@ -441,6 +467,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding glass_water |
 | Gemini 3.6 Flash, plain | valid |  |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | valid |  |
 
 ## house_01 c2 (constraint_trap, infeasible constraint expected)
 
@@ -457,6 +484,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: constraint |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 
 ## house_01 c3 (constraint_trap, infeasible constraint expected)
 
@@ -473,6 +501,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding glass_water |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: constraint |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 
 ## house_01 c4 (constraint_trap, infeasible constraint expected)
 
@@ -489,6 +518,7 @@ in the repository history and in the paper's run table.
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: constraint |
+| Gemini 3.6 Flash, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 
 # office_01 seeds
 

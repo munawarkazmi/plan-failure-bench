@@ -50,10 +50,12 @@ an apparent execution collapse under our first token scheme having
 been caught and retired by the obfuscation's own versioning;
 over-refusal tracks surface semantics; unreachability detection
 survives obfuscation only where the isolation is stated rather than
-left to be inferred from topology; and the one frontier reasoning
-column so far clears the plain condition almost perfectly, moving the
-decisive test to its obfuscated column. This is a working paper; the
-results tables are generated directly from the committed run records.
+left to be inferred from topology; and the first frontier reasoning
+model clears house\_01 in both conditions with identical ideal
+diagonals, its judgement surviving semantic removal outright, bounding
+every failure finding here to smaller models until its second
+environment columns exist. This is a working paper; the results tables
+are generated directly from the committed run records.
 \end{abstract}
 
 \section{Introduction}
@@ -355,7 +357,7 @@ or candidate set was exactly right.}
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{confusion_matrices.png}
-\caption{house\_01: planted trap versus observed verdict for seven runs.}
+\caption{house\_01: planted trap versus observed verdict for eight runs.}
 \label{fig:house}
 \end{figure}
 
@@ -445,23 +447,45 @@ edit distance guarantee suppresses at temperature 0: 13 of 150
 house\_01 and 11 of 150 office\_01 obfuscated decodes produced a
 hallucinated-entity verdict, against 1 and 0 of 30 at temperature 0.
 
-\textbf{The frontier column clears the plain condition.} Gemini 3.6
-Flash on house\_01 plain: no format failures, 13 of 13 traps detected
-(10 exact reasons), zero false positives, and 9 of 9 valid seeds
-solved, including all seven ordering traps that defeated every other
-model and the compliant route on the silent-violation constraint seed.
-Its confusion matrix is the ideal diagonal. Every other claim in this
-paper is therefore bounded to smaller and non-reasoning models until
-its obfuscated and office\_01 columns, accumulating on free-tier
-quota, say otherwise.
+\textbf{The frontier model clears house\_01 in both conditions, and
+the rows are identical.} Gemini 3.6 Flash, plain and fully obfuscated:
+no format failures, 13 of 13 traps detected (10 exact reasons), zero
+false positives, and 9 of 9 valid seeds solved in each condition,
+including all seven ordering traps that defeated every other model and
+the compliant route on the silent-violation constraint seed, chosen
+even when the constraint concerned nonsense words in nonsense rooms.
+Both confusion matrices are the ideal diagonal. For this model on this
+environment, the benchmark's central manipulation returns a clean
+answer: its planning judgement is state tracking, not lexical pattern
+matching. The micro-exceptions are diagnostic wording, not judgement:
+under obfuscation its one exact capability diagnosis reverted to
+unreachable while its unreachable reasons became 4 of 4 exact. Every
+failure claim in this paper is therefore bounded to smaller models,
+and the frontier model's own claim is bounded to one environment until
+its office\_01 columns exist.
+
+\textbf{Format discipline is the model's habit, not the prompt's
+artefact.} Three prompts over the same seeds (Llama, plain,
+house\_01): the canonical prompt yields 18 of 30 strict format
+failures, a bare only-JSON variant 12 of 30, and a
+format-contract-last variant 15 of 30, so no wording cures the
+prose-wrapping. The bare variant backfires where it seems to help: 8
+of its 30 responses contain no recoverable JSON at all, against 1 of
+30 under the canonical prompt. Lenient planning metrics barely move
+across prompts (detection 8 to 10 of 13, false positives 2 to 3 of
+17), which is precisely the separation the two-policy scoring exists
+to provide: format discipline is prompt-sensitive, planning
+conclusions are not.
 
 \textbf{The capability distinction still defeats every model, with one
 crack.} The capability-grant seeds, where the suite proves a goal is
 sealed by a missing capability rather than topology, have never
 received the exact diagnosis in any run: even the frontier model calls
 them unreachable. The first exact missing-capability reason ever
-produced came from Gemini 3.6 Flash on the inexpressible-verb seed,
-one exact diagnosis across fifteen committed columns.
+produced came from Gemini 3.6 Flash on the inexpressible-verb seed in
+plain language, one exact diagnosis across sixteen committed
+fixed-prompt columns, and it did not survive obfuscation: the same
+seed reverted to unreachable in the obfuscated column.
 
 \section{Limitations}
 
@@ -471,11 +495,11 @@ experiment covers Qwen's four cells (both environments, both
 conditions) and found the single decodes representative in direction;
 every other model's cells remain unsampled. Two environments in one domain
 family (indoor rooms, doors, portable items) bound the generality of
-every claim. Prompt sensitivity is unquantified; two controlled prompt
-variants exist in the repository but have not been run. The frontier
-model has exactly one column, so its near-perfect plain result says
-nothing yet about its judgement under obfuscation or on the second
-environment. The lenient policy is a fixed syntactic
+every claim. Prompt sensitivity is quantified for one model only (Llama, plain,
+house\_01); the other models' format behaviour under prompt variation
+is unmeasured. The frontier model's results cover one environment, so
+its perfection is a one-environment claim until the office\_01 columns
+exist. The lenient policy is a fixed syntactic
 extraction rule, not a semantic judge, by design. All hosted models ran
 on free-tier quotas, which selected the model list.
 
@@ -485,9 +509,10 @@ The sampling protocol ($k=5$ decodes per seed at temperature 0.7 into
 separate record files, reported as per-seed verdict consistency) has
 covered Qwen's full grid; extending it to the other models unlocks a
 statistical treatment. The decisive pending runs are the frontier
-model's obfuscated and office\_01 columns. A prompt-sensitivity
-experiment with the two committed variants, and a decision on target
-venue, complete the path to submission.
+model's office\_01 columns, which test whether its ideal diagonals are
+a property of the model or of one environment. An editing pass, the
+final literature sweep, and a decision on target venue complete the
+path to submission.
 
 \bibliographystyle{plainnat}
 \bibliography{references}

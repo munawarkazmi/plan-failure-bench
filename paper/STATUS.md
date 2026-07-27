@@ -19,9 +19,10 @@ inspected.
 - [x] Experiments, original grid (all 14 planned single-decode runs
   complete: three models, both environments, both conditions, with
   superseded v1 runs retained and marked; plus the frontier model's
-  plain house_01 column and Qwen's full k=5 sampling grid. Follow-ons
-  tracked in future work: frontier obfuscated and office columns,
-  prompt sensitivity, sampling for the remaining models)
+  house_01 columns in both conditions, the three-prompt sensitivity
+  experiment, and Qwen's full k=5 sampling grid. Follow-ons tracked in
+  future work: frontier office columns, sampling for the remaining
+  models)
 - [ ] Statistical analysis (the k=5 sampling harness and per-seed
   consistency report are implemented and tested; Qwen's full grid is
   sampled and committed, both environments in both conditions, 600

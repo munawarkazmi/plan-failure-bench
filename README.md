@@ -126,7 +126,7 @@ hypotheses, not claims.
 | Environments | 2, structurally contrasting |
 | Conditions | 2: plain and semantically obfuscated |
 | Models tested | 4 |
-| Complete single-decode runs | 15, every record committed |
+| Complete runs in the main fixed-prompt grid | 16, every record committed |
 
 | Model | Environment | Condition | Format failures | Traps detected | Exact reasons | False positives | Valid solved |
 |---|---|---|---|---|---|---|---|
@@ -139,6 +139,7 @@ hypotheses, not claims.
 | Gemini 3.1 Flash Lite | house_01 | plain | 0/30 | 12/13 | 8 | 4/17 | 6/9 |
 | Gemini 3.1 Flash Lite | house_01 | obfuscated (v2) | 0/30 | 7/13 | 6 | 1/17 | 5/9 |
 | Gemini 3.6 Flash | house_01 | plain | 0/30 | 13/13 | 10 | 0/17 | 9/9 |
+| Gemini 3.6 Flash | house_01 | obfuscated (v2) | 0/30 | 13/13 | 10 | 0/17 | 9/9 |
 | Llama 3.3 70B | office_01 | plain | 24/30 | 9/13 | 5 | 1/17 | 2/9 |
 | Llama 3.3 70B | office_01 | obfuscated (v2) | 27/30 | 7/13 | 5 | 1/17 | 2/9 |
 | Qwen 2.5 7B | office_01 | plain | 4/30 | 1/13 | 0 | 0/17 | 2/9 |
@@ -185,14 +186,29 @@ records and is never edited by hand.
   1 under obfuscation: its over-refusal is driven by surface semantics.
   Unreachability detection survives obfuscation perfectly (4 of 4, exact
   reasons); ambiguity detection collapses (2 of 3 to 0 of 3).
-- **A frontier reasoning model clears the plain condition.** Gemini 3.6
-  Flash on house_01: perfect format, 13/13 traps detected (10 exact
-  reasons), zero false positives, and 9/9 valid seeds solved, including
-  all seven ordering traps that defeated every other model and the
-  compliant route on the silent-violation constraint seed. The
-  confusion matrix is the ideal diagonal. The live question moves to
-  whether that judgement survives obfuscation and the second
-  environment, both pending free-tier quota.
+- **A frontier reasoning model clears house_01 in both conditions, and
+  the two rows are identical.** Gemini 3.6 Flash, plain and fully
+  obfuscated alike: perfect format, 13/13 traps detected (10 exact
+  reasons), zero false positives, 9/9 valid seeds solved, including all
+  seven ordering traps that defeated every other model and the
+  compliant route on the silent-violation constraint seed, chosen even
+  when the constraint was about nonsense words in nonsense rooms. Both
+  confusion matrices are the ideal diagonal. For this model on this
+  environment, the central experiment answers: its judgement is state
+  tracking, not lexical pattern matching. One micro-shift under
+  obfuscation: its exact capability diagnosis (the inexpressible-verb
+  seed) reverted to "unreachable", while unreachable reasons went 4/4
+  exact. The second environment remains its untested claim.
+- **Format discipline is Llama's habit, not our prompt's fault.** Three
+  prompts, same seeds, same model: strict format failures 18/30
+  (canonical), 12/30 (bare JSON-only instructions), 15/30 (format
+  contract moved to the end). No wording cures the prose-wrapping, and
+  the harshest variant backfires: under the bare prompt, 8/30 responses
+  contain no recoverable JSON at all (canonical: 1/30). Meanwhile the
+  lenient planning metrics barely move (detection 8 to 10 of 13, false
+  positives 2 to 3 of 17), which is the separation the two-policy
+  scoring exists to provide: format discipline is prompt-sensitive,
+  planning conclusions are not.
 - **The capability distinction still defeats every model, with one
   crack.** The unlock seeds, where the suite proves the goal is sealed
   by a missing capability rather than topology, have never received the
@@ -428,19 +444,20 @@ python -m plan_failure_bench.consistency results/<name>_plain_k1.jsonl results/<
 
 Stated here so nobody has to discover them:
 
-- **The frontier model has one column, and it clears it.** Gemini 3.6
-  Flash solves house_01 plain almost perfectly, which materially
-  narrows every claim in this README to smaller and non-reasoning
-  models until proven otherwise. Its obfuscated and office_01 columns
-  are the decisive next experiments, resumed daily on free-tier quota
-  (20 requests per day).
+- **The frontier model clears house_01 in both conditions.** Gemini
+  3.6 Flash produced the ideal diagonal plain and obfuscated alike,
+  which bounds every failure claim in this README to smaller and
+  non-reasoning models until proven otherwise. Its office_01 columns
+  are the remaining experiments, resumed on free-tier quota (20
+  requests per day); until they exist, its perfection is a
+  one-environment result.
 - **Cross-environment coverage is complete for the original grid.**
   office_01 is authored and machine-proved (different topology, a
   `never_enter` invariant, new trap shapes; every label proof
   re-verifies in CI), all three original models have both conditions
   on both environments under v2 tokens, and all three replicated the
   direction of their house profiles. The frontier model has house_01
-  plain only.
+  only.
 - **Single sample per seed, mostly.** Table counts are one decode each
   at temperature 0. The k=5 protocol (samples at temperature 0.7, each
   an ordinary run in its own file, aggregated by
@@ -448,11 +465,12 @@ Stated here so nobody has to discover them:
   grid, both environments in both conditions, and showed the single
   decodes are representative in direction; every other model's cells
   remain single decodes.
-- **Prompt sensitivity is unquantified.** Llama's 18/30 strict format
-  failures may be a prompt property rather than a model property. Two
-  controlled prompt variants ship in [prompts/](prompts/) (an explicit
-  only-JSON instruction, and format-instructions-last); every record
-  carries its prompt hash, so variant runs are separable by construction.
+- **Prompt sensitivity is quantified for one model.** The two prompt
+  variants in [prompts/](prompts/) have run for Llama on house_01 plain
+  (see First results): format failures moved within a band, planning
+  metrics barely moved, and no wording cured the wrapping. The other
+  models' prompt sensitivity remains unmeasured; every record carries
+  its prompt hash, so variant runs are separable by construction.
 - **Counts, not rates.** Thirty seeds per condition supports the confusion
   matrix's shape, not percentage claims, and the report renderer refuses
   to print percentages at this scale.
