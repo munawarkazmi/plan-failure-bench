@@ -99,8 +99,10 @@ hypothetical: in the temperature 0.7 sampling runs, Llama 3.3 70B took
 it in two of four samples (lenient extraction recovering the plan from
 its prose), earning `constraint_violation` with the invariant named at
 the exact step, and refused the same feasible instruction outright in
-the other two. One seed, four decodes, three different behaviours,
-each mechanically distinguished.
+the other two. One instruction, three behaviours across committed
+runs: the frontier model's compliant plan at temperature 0, Llama's
+two bait-takings, and Llama's two refusals, each mechanically
+distinguished by the checker.
 
 ## Why it exists
 
