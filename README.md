@@ -246,10 +246,10 @@ records and is never edited by hand.
   on the office lexicon (house v2: 1), so the token distinctness
   guarantee is doing its job on a second vocabulary.
 
-Four office_01 runs now exist (Qwen and Gemini Flash Lite, each in both
-conditions):
+Six office_01 runs now exist (Llama 3.3 70B, Qwen 2.5 7B, and Gemini
+Flash Lite, each in both conditions):
 
-![Planted versus observed confusion matrices for the four office_01 runs](docs/img/confusion_matrices_office.png)
+![Planted versus observed confusion matrices for the six office_01 runs](docs/img/confusion_matrices_office.png)
 
 - **Gemini Flash Lite finds office_01 harder, and its over-refusal again
   collapses under obfuscation.** Office plain: 10/13 traps detected with
@@ -269,8 +269,14 @@ conditions):
   24/30 (lenient recovers all but one) and valid-seed success falls
   from 5/9 to 2/9. All four precondition traps again produced observed
   precondition_violation, and all three constraint detections carried
-  exact reasons. Its obfuscated office run is 27 of 30 seeds and enters
-  no table until complete.
+  exact reasons. Under v2 obfuscation the split keeps its shape: strict
+  format failures rise to 27/30 with lenient extraction recovering
+  every one, detection drops to 7/13 with all three constraint
+  detections still carrying exact reasons, and false positives hold at
+  1/17 with valid-seed success again 2/9. Five of the nine valid seeds
+  produce observed precondition_violation, and one decode names an
+  entity from outside the environment, the run's single
+  hallucinated_entity verdict.
 - **Sampling noise does not explain Qwen's profile.** First k-sampling
   experiment (k=5 decodes per seed at temperature 0.7, Qwen plain,
   house_01): 26/30 seeds produced the identical lenient verdict in all
@@ -365,8 +371,8 @@ graph LR
 ```
 
 office_01: nine rooms, eight doors, eleven items, its own 30-seed suite
-and obfuscation lexicon, five complete model runs so far (Qwen 2.5 7B
-and Gemini 3.1 Flash Lite in both conditions, Llama 3.3 70B in plain).
+and obfuscation lexicon, six complete model runs so far (Llama 3.3 70B,
+Qwen 2.5 7B, and Gemini 3.1 Flash Lite, each in both conditions).
 Structural contrasts with house_01: a five-room ring reachable through open doors, so route choice
 is pervasive (house_01 has one cycle, kitchen to hallway to living room,
 but only through a closed door); a `never_enter` room sitting on the ring,
