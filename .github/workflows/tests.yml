@@ -13,5 +13,16 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install pytest pyperplan
+      # pyperplan is pinned because the differential tests parametrize
+      # off it: an unpinned version would make the collected test count
+      # environment-dependent, and the count is asserted below.
+      - run: pip install pytest pyperplan==2.1
       - run: python -m pytest -q
+      # The README quotes the suite size; this fails the build when the
+      # suite grows or shrinks until the documented number is updated,
+      # so the integer cannot silently drift again.
+      - name: Test count matches README
+        run: |
+          count=$(python -m pytest --collect-only -q | grep -oE '^[0-9]+ tests collected' | grep -oE '[0-9]+')
+          echo "collected: ${count}"
+          grep -q "${count} tests" README.md || { echo "README does not say '${count} tests'"; exit 1; }

@@ -468,7 +468,7 @@ python -m plan_failure_bench.consistency results/<name>_plain_k1.jsonl results/<
 | `prompts/` | the fixed disclosure prompt, recorded verbatim |
 | `results/` | raw run records, one JSON object per seed per line |
 | `docs/` | per-seed review sheet and figures |
-| `tests/` | 529 tests: proofs for both suites, differential corpus, pipeline stubs |
+| `tests/` | 548 tests: proofs for both suites, differential corpus, pipeline stubs (CI asserts this count matches the collected suite, so it cannot go stale) |
 
 ## Known limitations and roadmap
 
