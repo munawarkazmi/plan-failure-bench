@@ -447,6 +447,23 @@ edit distance guarantee suppresses at temperature 0: 13 of 150
 house\_01 and 11 of 150 office\_01 obfuscated decodes produced a
 hallucinated-entity verdict, against 1 and 0 of 30 at temperature 0.
 
+\textbf{Sampling the wrapper model: instability is detection flicker,
+not a stable wrong answer.} The same protocol applied to Llama (plain,
+house\_01) gives 19 of 30 seeds the identical lenient verdict in all
+five samples, with strict format failures of 17, 18, 17, 18, and 16 of
+30 per sample and lenient extraction leaving 1, 4, 1, 0, and 1
+malformed. Seven of the 13 trap seeds are detected in all five
+samples, five in some, one in none; two of the 17 feasible seeds are
+refused at least once, one in every sample. Where Qwen's sampled
+verdicts freeze, Llama's flicker at the detection boundary: three
+infeasibility seeds mix \texttt{terminal\_infeasible} decodes with
+observed \texttt{precondition\_violation} decodes, the same seed
+detected in one sample and executing into the missing precondition in
+the next. The silent-violation constraint seed splits two to three:
+two decodes take the planted bait, a fully executing plan that
+breaches the constraint, and three refuse the feasible instruction,
+every case mechanically separated by the checker.
+
 \textbf{The frontier model clears house\_01 in both conditions, and
 the rows are identical.} Gemini 3.6 Flash, plain and fully obfuscated:
 no format failures, 13 of 13 traps detected (10 exact reasons), zero
@@ -492,8 +509,9 @@ seed reverted to unreachable in the obfuscated column.
 Counts, not rates: every table cell is one decode at temperature 0, so
 no statistical treatment is attempted yet. The $k=5$ consistency
 experiment covers Qwen's four cells (both environments, both
-conditions) and found the single decodes representative in direction;
-every other model's cells remain unsampled. Two environments in one domain
+conditions), where it found the single decodes representative in
+direction, and Llama's plain house\_01 cell; the remaining cells are
+unsampled. Two environments in one domain
 family (indoor rooms, doors, portable items) bound the generality of
 every claim. Prompt sensitivity is quantified for one model only (Llama, plain,
 house\_01); the other models' format behaviour under prompt variation
@@ -507,8 +525,8 @@ on free-tier quotas, which selected the model list.
 
 The sampling protocol ($k=5$ decodes per seed at temperature 0.7 into
 separate record files, reported as per-seed verdict consistency) has
-covered Qwen's full grid; extending it to the other models unlocks a
-statistical treatment. The decisive pending runs are the frontier
+covered Qwen's full grid and Llama's plain house\_01 cell; extending
+it to the remaining cells unlocks a statistical treatment. The decisive pending runs are the frontier
 model's office\_01 columns, which test whether its ideal diagonals are
 a property of the model or of one environment. An editing pass, the
 final literature sweep, and a decision on target venue complete the

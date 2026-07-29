@@ -20,14 +20,14 @@ inspected.
   complete: three models, both environments, both conditions, with
   superseded v1 runs retained and marked; plus the frontier model's
   house_01 columns in both conditions, the three-prompt sensitivity
-  experiment, and Qwen's full k=5 sampling grid. Follow-ons tracked in
-  future work: frontier office columns, sampling for the remaining
-  models)
+  experiment, Qwen's full k=5 sampling grid, and Llama's k=5 plain
+  house_01 cell. Follow-ons tracked in future work: frontier office
+  columns, sampling for the remaining cells)
 - [ ] Statistical analysis (the k=5 sampling harness and per-seed
   consistency report are implemented and tested; Qwen's full grid is
   sampled and committed, both environments in both conditions, 600
-  decodes. Other models' cells are single decodes, so the analysis
-  stays open)
+  decodes, plus Llama's plain house_01 cell, 150 decodes. The
+  remaining cells are single decodes, so the analysis stays open)
 - [ ] Writing (introduction, design, guarantees, setup, results,
   limitations, and future work drafted; related work pending; no
   editing pass yet)

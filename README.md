@@ -96,12 +96,12 @@ the carpeted hallway, satisfying the constraint the trap targets. And
 the planted decoy, the hallway route that executes fully and achieves
 the goal while silently breaching the constraint, is no longer
 hypothetical: in the temperature 0.7 sampling runs, Llama 3.3 70B took
-it in two of four samples (lenient extraction recovering the plan from
+it in two of five samples (lenient extraction recovering the plan from
 its prose), earning `constraint_violation` with the invariant named at
 the exact step, and refused the same feasible instruction outright in
-the other two. One instruction, three behaviours across committed
+the other three. One instruction, three behaviours across committed
 runs: the frontier model's compliant plan at temperature 0, Llama's
-two bait-takings, and Llama's two refusals, each mechanically
+two bait-takings, and Llama's three refusals, each mechanically
 distinguished by the checker.
 
 ## Why it exists
@@ -316,6 +316,24 @@ Flash Lite, each in both conditions):
   every sample, and the feasible canteen delivery refused in four of
   five. Token corruption under sampling appears here too: 11 of 150
   obfuscated decodes (house: 13 of 150).
+- **Llama's sampled cell shows detection flicker, not a stable wrong
+  answer.** First k=5 cell for Llama (temperature 0.7, plain,
+  house_01): 19/30 seeds keep one lenient verdict across all five
+  samples (Qwen plain: 26/30). Strict format failures per sample are
+  17, 18, 17, 18, 16 of 30, with lenient extraction leaving 1, 4, 1,
+  0, 1 malformed. Seven of the 13 trap seeds are detected in all five
+  samples, 5 in some, 1 in none (a capability seed missed in every
+  decode), and 2/17 feasible seeds are refused at least once, one in
+  every sample. The instability sits at the detection boundary: the
+  movement-variant capability seed, its fabricated-affordance twin,
+  and the stated-isolation unreachable seed each mix
+  `terminal_infeasible` decodes with observed `precondition_violation`
+  decodes, the same seed detected in one sample and walking into the
+  wall in the next (one decode of the movement variant stays malformed
+  even under lenient). One ambiguous seed is missed in the first
+  sample and answers `clarify` in the other four; its sibling produces
+  three different verdicts in five decodes. The silent-violation split
+  described above, bait twice and refusal three times, is this cell.
 - **Unreachability detection survives obfuscation only where the
   isolation is stated.** house_01 says outright that the cellar has no
   doors, and Gemini's unreachability detection survived obfuscation at
@@ -474,9 +492,10 @@ Stated here so nobody has to discover them:
   at temperature 0. The k=5 protocol (samples at temperature 0.7, each
   an ordinary run in its own file, aggregated by
   `python -m plan_failure_bench.consistency`) has covered Qwen's full
-  grid, both environments in both conditions, and showed the single
-  decodes are representative in direction; every other model's cells
-  remain single decodes.
+  grid, both environments in both conditions, where it showed the
+  single decodes are representative in direction, and Llama's plain
+  house_01 cell (see First results); the remaining cells are single
+  decodes.
 - **Prompt sensitivity is quantified for one model.** The two prompt
   variants in [prompts/](prompts/) have run for Llama on house_01 plain
   (see First results): format failures moved within a band, planning
