@@ -18,11 +18,14 @@ jobs:
       # environment-dependent, and the count is asserted below.
       - run: pip install pytest pyperplan==2.1
       - run: python -m pytest -q
-      # The README quotes the suite size; this fails the build when the
-      # suite grows or shrinks until the documented number is updated,
-      # so the integer cannot silently drift again.
-      - name: Test count matches README
+      # The README, the paper, and the status file all quote the suite
+      # size; this fails the build when the suite grows or shrinks until
+      # every documented number is updated, so no copy of the integer can
+      # silently drift again.
+      - name: Test count matches README, paper, and STATUS
         run: |
           count=$(python -m pytest --collect-only -q | grep -oE '^[0-9]+ tests collected' | grep -oE '[0-9]+')
           echo "collected: ${count}"
           grep -q "${count} tests" README.md || { echo "README does not say '${count} tests'"; exit 1; }
+          grep -q "${count} tests" paper/paper.tex || { echo "paper.tex does not say '${count} tests'"; exit 1; }
+          grep -q "${count}-test" paper/STATUS.md || { echo "STATUS.md does not say '${count}-test'"; exit 1; }
