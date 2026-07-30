@@ -38,6 +38,7 @@ OFFICE_RUNS = [
     ("Qwen 2.5 7B, obfuscated (v2 tokens)", "results/local_qwen_office_obfuscated.jsonl"),
     ("Gemini 3.1 Flash Lite, plain", "results/gemini_flash_lite_office_plain.jsonl"),
     ("Gemini 3.1 Flash Lite, obfuscated (v2 tokens)", "results/gemini_flash_lite_office_obfuscated.jsonl"),
+    ("Gemini 3.6 Flash, plain", "results/gemini_flash_office_plain.jsonl"),
 ]
 
 LABELS = [

@@ -56,6 +56,7 @@ RUNS = [
     ("Qwen 2.5 7B", "office\\_01", "obfuscated (v2)", "results/local_qwen_office_obfuscated.jsonl", "office_01", ""),
     ("Gemini 3.1 Flash Lite", "office\\_01", "plain", "results/gemini_flash_lite_office_plain.jsonl", "office_01", ""),
     ("Gemini 3.1 Flash Lite", "office\\_01", "obfuscated (v2)", "results/gemini_flash_lite_office_obfuscated.jsonl", "office_01", ""),
+    ("Gemini 3.6 Flash", "office\\_01", "plain", "results/gemini_flash_office_plain.jsonl", "office_01", ""),
 ]
 
 
