@@ -52,9 +52,11 @@ over-refusal tracks surface semantics; unreachability detection
 survives obfuscation only where the isolation is stated rather than
 left to be inferred from topology; and the first frontier reasoning
 model clears house\_01 in both conditions with identical ideal
-diagonals, its judgement surviving semantic removal outright, bounding
-every failure finding here to smaller models until its second
-environment columns exist. This is a working paper; the results tables
+diagonals and repeats every headline count on the second environment
+in plain language, one off-diagonal cell short of a third perfect
+matrix; its judgement surviving semantic removal outright bounds every
+failure finding here to smaller and non-reasoning models, with its
+final obfuscated column still in flight. This is a working paper; the results tables
 are generated directly from the committed run records.
 \end{abstract}
 
@@ -99,9 +101,10 @@ model notices when planning is the wrong response altogether.
 
 \emph{Draft status: the bibliographic details of every citation below
 and the specific findings attributed to them were checked against the
-cited papers on 25 July 2026; the verification log at the end of the
-section records each check. A final sweep for work newer than that
-date precedes submission.}
+cited papers on 25 July 2026, with two entries added and checked on 30
+July 2026; the verification log at the end of the section records each
+check. A final sweep for work newer than 30 July 2026 precedes
+submission.}
 
 \textbf{Evaluating LLM planning.} PlanBench established systematic
 evaluation of LLM planning over symbolic domains and its successors
@@ -136,11 +139,20 @@ and scores whether detection methods can tell the two apart
 \citep{ivanova2025ambik}, and the asking-for-help line, KnowNo's
 calibrated uncertainty and CLARA's command classification, trades help
 requests against success guarantees \citep{ren2023knowno,
-park2024clara}. Paired or trade-off measurement therefore already
-exists within single families, including the false impossibility
-claims measured by \citet{valmeekam2024strawberry}; \benchname{} makes
-the pairing systematic across all six trap families under one
-protocol. SafeAgentBench shows embodied agents complying with
+park2024clara}. Two 2026 benchmarks make the pairing suite-wide in
+the tool-use setting: TREK pairs 533 feasible travel-planning tasks
+with 267 provably infeasible ones whose causes are typed (route,
+entity, budget), scores with deterministic rules and no LLM judge,
+and grades a bare refusal strictly below one that names the right
+cause \citep{qi2026trek}; AgentAbstain pairs every should-abstain
+task with a should-act variant differing in exactly one perturbation
+across eight scenarios, so that no constant policy can exceed 50\%
+paired accuracy, though an LLM judge scores the terminal response
+\citep{liu2026agentabstain}. Paired or trade-off measurement
+therefore exists within single families and, in tool-use domains,
+suite-wide, including the false impossibility claims measured by
+\citet{valmeekam2024strawberry}; \benchname{} carries the pairing
+into embodied planning across six trap families under one protocol. SafeAgentBench shows embodied agents complying with
 hazardous instructions and documents the over-refusal trade-off
 directly, a safety module raising rejection of safe tasks alongside
 hazardous ones \citep{yin2024safeagentbench}; HomeBench evaluates
@@ -181,15 +193,17 @@ against an independent PDDL executor, pyperplan
 \citep{alkhazraji2020pyperplan}, labels are proofs re-run in continuous
 integration, and no human or model judgement appears anywhere in the
 scoring loop. Plancraft also scores mechanically inside its crafting
-environment, while RoboBench delegates plan feasibility scoring to a
-multimodal model acting as a world simulator \citep{luo2025robobench}
-and the Yes-Man benchmark scores with an LLM judge. What no benchmark
+environment and TREK's evaluator is deterministic rules over its
+travel knowledge base, while RoboBench delegates plan feasibility
+scoring to a multimodal model acting as a world simulator
+\citep{luo2025robobench} and the Yes-Man benchmark scores with an
+LLM judge. What no benchmark
 above combines is judge-free scoring with per-seed proof obligations
 re-run in continuous integration and differential testing of the
 checker itself.
 
-\textbf{Verification log for this section; every item discharged 25
-July 2026.} (1) \emph{Done:} bibliographic details of every entry
+\textbf{Verification log for this section; items (1) to (6)
+discharged 25 July 2026, item (7) on 30 July 2026.} (1) \emph{Done:} bibliographic details of every entry
 confirmed against public records; Plancraft's venue upgraded to COLM
 2025 and AmbiK's to ACL 2025 in the process. (2) \emph{Done:}
 Plancraft's paper body read; the F1 0.71 figure, the overeager
@@ -210,8 +224,16 @@ as ``to our knowledge''. (6) \emph{Done:} the sweep's reading list is
 fully read. Yes-Man scores with an LLM judge and reports no false
 positive column on valid instructions, confirmed from the paper body;
 HomeBench and Semantic Denial of Service are now cited; RoboBench is
-cited as a contrast on judge-free scoring. One standing item remains:
-a final sweep for work newer than 25 July 2026 before submission.
+cited as a contrast on judge-free scoring. (7) \emph{Done, 30 July
+2026:} the sweep for work newer than 25 July found TREK (submitted 29
+July 2026), whose feasible--infeasible split, typed causes, judge-free
+deterministic scoring, and cause-naming requirement are stated above
+from the paper body; the same sweep surfaced AgentAbstain (11 July
+2026), which the 25 July reading list had not reached, and its
+paired-task construction, paired accuracy definition, and LLM-judge
+terminal scoring are likewise stated from the body. One standing item
+remains: a final sweep for work newer than 30 July 2026 before
+submission.
 
 \section{Benchmark design}
 
@@ -326,8 +348,9 @@ feasible constructively by reference plans, never by the abstraction.
 Four models, all under a fixed prompt at temperature 0 with one decode
 per seed: Llama 3.3 70B (hosted), Qwen 2.5 7B Instruct (local), Gemini
 3.1 Flash Lite (hosted), and Gemini 3.6 Flash (hosted; a reasoning
-generation model, with its plain house\_01 column complete and its
-remaining columns accumulating on daily free-tier quota). The three
+generation model, with both house\_01 columns and the plain
+office\_01 column complete and the obfuscated office\_01 column
+accumulating on daily free-tier quota). The three
 original models cover both suites in both conditions under version 2
 tokens. The superseded version 1 obfuscated runs of Llama and Qwen are
 retained and marked in the tables, because the artefacts they exposed
@@ -364,7 +387,7 @@ or candidate set was exactly right.}
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{confusion_matrices_office.png}
-\caption{office\_01: planted trap versus observed verdict for six runs.}
+\caption{office\_01: planted trap versus observed verdict for seven runs.}
 \label{fig:office}
 \end{figure}
 
@@ -525,8 +548,10 @@ column.
 
 \section{Limitations}
 
-Counts, not rates: every table cell is one decode at temperature 0, so
-no statistical treatment is attempted yet. The $k=5$ consistency
+The scope is four models (Llama 3.3 70B, Qwen 2.5 7B Instruct, Gemini
+3.1 Flash Lite, Gemini 3.6 Flash), two environments, and 30 seeds per
+condition. Counts, not rates: every table cell is one decode at
+temperature 0, so no statistical treatment is attempted yet. The $k=5$ consistency
 experiment covers Qwen's four cells (both environments, both
 conditions), where it found the single decodes representative in
 direction, and Llama's plain house\_01 cell; the remaining cells are

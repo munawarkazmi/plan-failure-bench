@@ -13,9 +13,11 @@ inspected.
   and in sections 3 to 5 of the draft)
 - [x] Literature review (related work section drafted and positioned;
   every citation verified against public records and every finding
-  attributed to a paper checked against its body, 25 July 2026; the
-  section carries its own verification log. One standing obligation:
-  a final sweep for work newer than that date before submission)
+  attributed to a paper checked against its body, 25 July 2026, with
+  TREK and AgentAbstain added and body-checked by the 30 July 2026
+  sweep; the section carries its own verification log. One standing
+  obligation: a final sweep for work newer than 30 July 2026 before
+  submission)
 - [x] Experiments, original grid (all 14 planned single-decode runs
   complete: three models, both environments, both conditions, with
   superseded v1 runs retained and marked; plus the frontier model's
@@ -29,9 +31,11 @@ inspected.
   sampled and committed, both environments in both conditions, 600
   decodes, plus Llama's plain house_01 cell, 150 decodes. The
   remaining cells are single decodes, so the analysis stays open)
-- [ ] Writing (introduction, design, guarantees, setup, results,
-  limitations, and future work drafted; related work pending; no
-  editing pass yet)
+- [ ] Writing (every section drafted, related work included; an
+  editing pass over the full draft applied 30 July 2026, catching the
+  stale test count, the stale figure caption, and the setup and
+  abstract sentences the frontier office runs had overtaken; a final
+  pre-submission read remains)
 - Target venue: TBD
 
 ## Ground rules for this draft
