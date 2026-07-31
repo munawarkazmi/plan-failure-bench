@@ -119,11 +119,10 @@ distinguished by the checker.
 
 ## First results
 
-Four models; the original three-model grid is complete on both
-environments in both conditions (obfuscated columns under v2 tokens,
-with superseded v1 runs retained and marked), and the frontier model
-has three of its four columns, with obfuscated office in flight.
-Counts, not rates; hypotheses, not claims.
+Four models, and the fixed-prompt grid is complete: every model on
+both environments in both conditions (obfuscated columns under v2
+tokens, with superseded v1 runs retained and marked). Counts, not
+rates; hypotheses, not claims.
 
 <!-- generated-results:begin -->
 | At a glance | |
@@ -133,7 +132,7 @@ Counts, not rates; hypotheses, not claims.
 | Environments | 2, structurally contrasting |
 | Conditions | 2: plain and semantically obfuscated |
 | Models tested | 4 |
-| Complete runs in the main fixed-prompt grid | 17, every record committed |
+| Complete runs in the main fixed-prompt grid | 18, every record committed |
 
 | Model | Environment | Condition | Format failures | Traps detected | Exact reasons | False positives | Valid solved |
 |---|---|---|---|---|---|---|---|
@@ -154,6 +153,7 @@ Counts, not rates; hypotheses, not claims.
 | Gemini 3.1 Flash Lite | office_01 | plain | 1/30 | 10/13 | 6 | 7/17 | 4/9 |
 | Gemini 3.1 Flash Lite | office_01 | obfuscated (v2) | 1/30 | 5/13 | 4 | 2/17 | 2/9 |
 | Gemini 3.6 Flash | office_01 | plain | 0/30 | 13/13 | 10 | 0/17 | 9/9 |
+| Gemini 3.6 Flash | office_01 | obfuscated (v2) | 0/30 | 13/13 | 10 | 0/17 | 9/9 |
 
 Counts under lenient extraction; format failures are strict-policy
 malformed responses out of 30. Traps detected covers the 13 seeds per
@@ -217,15 +217,19 @@ records and is never edited by hand.
   positives 2 to 3 of 17), which is the separation the two-policy
   scoring exists to provide: format discipline is prompt-sensitive,
   planning conclusions are not.
-- **The capability distinction still defeats every model, with the
-  same crack twice.** The unlock seeds, where the suite proves the goal
-  is sealed by a missing capability rather than topology, have never
-  received the exact diagnosis in any run: even Gemini 3.6 calls them
-  "unreachable", on office_01 as on house_01. The only exact
-  `missing_capability` reasons ever produced came from Gemini 3.6 on
-  the two inexpressible-verb seeds (no action in the vocabulary can
-  express mopping on house_01 or photocopying on office_01), both in
-  plain, two exact diagnoses across seventeen committed columns.
+- **The capability distinction still defeats every model, and the
+  crack in it now survives obfuscation.** The unlock seeds, where the
+  suite proves the goal is sealed by a missing capability rather than
+  topology, have never received the exact diagnosis in any run: even
+  Gemini 3.6 calls them "unreachable", on office_01 as on house_01, in
+  every condition. The only exact `missing_capability` reasons ever
+  produced came from Gemini 3.6 on the two inexpressible-verb seeds
+  (no action in the vocabulary can express mopping on house_01 or
+  photocopying on office_01): three exact diagnoses across eighteen
+  committed columns. The house diagnosis appeared in plain and
+  reverted to "unreachable" under obfuscation; the office diagnosis
+  held in both conditions, the first exact capability reason to
+  survive semantic removal.
 - **Qwen's failure profile replicates on the second environment.** First
   office_01 run (Qwen 2.5 7B, plain): 4/30 strict format failures (house:
   3/30), and under lenient extraction zero false positives (0/17), 1/13
@@ -251,10 +255,10 @@ records and is never edited by hand.
   on the office lexicon (house v2: 1), so the token distinctness
   guarantee is doing its job on a second vocabulary.
 
-Seven office_01 runs now exist (Llama 3.3 70B, Qwen 2.5 7B, and Gemini
-Flash Lite in both conditions, plus Gemini 3.6 Flash in plain):
+Eight office_01 runs now exist (all four models, each in both
+conditions):
 
-![Planted versus observed confusion matrices for the seven office_01 runs](docs/img/confusion_matrices_office.png)
+![Planted versus observed confusion matrices for the eight office_01 runs](docs/img/confusion_matrices_office.png)
 
 - **Gemini Flash Lite finds office_01 harder, and its over-refusal again
   collapses under obfuscation.** Office plain: 10/13 traps detected with
@@ -337,33 +341,38 @@ Flash Lite in both conditions, plus Gemini 3.6 Flash in plain):
   sample and answers `clarify` in the other four; its sibling produces
   three different verdicts in five decodes. The silent-violation split
   described above, bait twice and refusal three times, is this cell.
-- **The frontier model's office plain column: identical headline
-  counts, no longer a perfect matrix.** Gemini 3.6 Flash on office_01
-  plain repeats every house_01 headline: 0/30 format failures, 13/13
-  traps detected (10 exact reasons), 0/17 false positives, 9/9 valid
-  seeds solved, and all four unreachable seeds detected including both
-  annex seeds whose isolation must be inferred from the connection
-  list. But the confusion matrix is not the ideal diagonal: one
+- **The frontier model's office columns: identical headline counts in
+  both conditions, no longer a perfect matrix.** Gemini 3.6 Flash on
+  office_01, plain and fully obfuscated alike, repeats every house_01
+  headline: 0/30 format failures, 13/13 traps detected (10 exact
+  reasons), 0/17 false positives, 9/9 valid seeds solved, and all four
+  unreachable seeds detected including both annex seeds whose
+  isolation must be inferred from the connection list. But neither
+  confusion matrix is the ideal diagonal: in each condition, the same
   sequencing trap, whose stated order closes the robot's own route so
   only a reordered plan achieves the goal, produced a plan satisfying
   one of two goal conjuncts, verdict `goal_not_achieved`, this model's
-  first non-valid verdict on a feasible seed across its three
-  committed columns. The summary table cannot show it: the failure
-  sits on a feasible seed outside the valid label, so every column
-  stays perfect while the matrix does not. The obfuscated office
-  column is at 21 of 30 and enters no table until complete.
-- **Unreachability detection survives obfuscation only where the
-  isolation is stated.** house_01 says outright that the cellar has no
-  doors, and Gemini's unreachability detection survived obfuscation at
-  4/4 with exact reasons. office_01's annex isolation must be inferred
-  from the connection list, and under obfuscation office unreachability
+  only non-valid verdicts on feasible seeds across its four committed
+  columns. The summary table cannot show it: the failure sits on a
+  feasible seed outside the valid label, so every column stays perfect
+  while the matrix does not. And the house_01 pattern repeats in full:
+  the two office rows are identical to each other, blemish included,
+  so semantic removal again changes nothing this benchmark can
+  measure.
+- **Whether unreachability detection survives obfuscation depends on
+  the model, and the annex now separates them.** house_01 says
+  outright that the cellar has no doors, and Gemini 3.1 Flash Lite's
+  unreachability detection survived obfuscation there at 4/4 with
+  exact reasons. office_01's annex isolation must be inferred from the
+  connection list, and under obfuscation Lite's office unreachability
   drops from 3/4 to 1/4, the survivor being the nonexistent stapler
-  rather than any topology seed (Gemini 3.1 Flash Lite). The frontier
-  model's plain office run detects all four, both annex seeds
-  included; whether that survives obfuscation is exactly what the
-  in-flight column will answer. Hypothesis at this n: what survives
-  semantic removal is reading a stated fact, not topological inference,
-  which is exactly the distinction the annex was designed to expose.
+  rather than any topology seed. The frontier model detects all four
+  office unreachable seeds in both conditions, annex seeds included
+  with exact reasons. Hypothesis at this n, now bounded to the smaller
+  reasoning-generation model: for Lite, what survives semantic removal
+  is reading a stated fact, not topological inference; for the
+  frontier model, the inference itself survives, which is exactly the
+  distinction the annex was designed to expose.
 
 Per-seed detail for every run: [docs/seed_review.md](docs/seed_review.md).
 Raw records: [results/](results/).
@@ -412,9 +421,8 @@ graph LR
 ```
 
 office_01: nine rooms, eight doors, eleven items, its own 30-seed suite
-and obfuscation lexicon, seven complete model runs so far (Llama 3.3
-70B, Qwen 2.5 7B, and Gemini 3.1 Flash Lite in both conditions, plus
-Gemini 3.6 Flash in plain).
+and obfuscation lexicon, eight complete model runs (all four models,
+each in both conditions).
 Structural contrasts with house_01: a five-room ring reachable through open doors, so route choice
 is pervasive (house_01 has one cycle, kitchen to hallway to living room,
 but only through a closed door); a `never_enter` room sitting on the ring,
@@ -496,22 +504,20 @@ python -m plan_failure_bench.consistency results/<name>_plain_k1.jsonl results/<
 
 Stated here so nobody has to discover them:
 
-- **The frontier model clears house_01 in both conditions.** Gemini
-  3.6 Flash produced the ideal diagonal plain and obfuscated alike,
-  which bounds every failure claim in this README to smaller and
-  non-reasoning models until proven otherwise. Its office_01 plain
-  column now exists and repeats the headline counts without the
-  perfect matrix (see First results); the obfuscated column, resumed
-  on free-tier quota (20 requests per day), is the remaining
-  experiment.
+- **The frontier model clears house_01 in both conditions, and nearly
+  clears office_01 in both.** Gemini 3.6 Flash produced the ideal
+  diagonal plain and obfuscated alike on house_01, which bounds every
+  failure claim in this README to smaller and non-reasoning models
+  until proven otherwise. Its office_01 columns repeat every headline
+  count in both conditions but not the perfect matrix: one sequencing
+  seed fails identically in each (see First results).
 - **Cross-environment coverage is complete for the original grid.**
   office_01 is authored and machine-proved (different topology, a
   `never_enter` invariant, new trap shapes; every label proof
   re-verifies in CI), all three original models have both conditions
   on both environments under v2 tokens, and all three replicated the
-  direction of their house profiles. The frontier model has house_01
-  in both conditions and office_01 in plain; its obfuscated office
-  column is in flight.
+  direction of their house profiles. The frontier model's grid is
+  complete too: both environments, both conditions.
 - **Single sample per seed, mostly.** Table counts are one decode each
   at temperature 0. The k=5 protocol (samples at temperature 0.7, each
   an ordinary run in its own file, aggregated by

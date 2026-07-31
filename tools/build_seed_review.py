@@ -33,6 +33,7 @@ OFFICE_RUNS = [
     ("Gemini 3.1 Flash Lite, plain", "results/gemini_flash_lite_office_plain.jsonl"),
     ("Gemini 3.1 Flash Lite, obfuscated (v2 tokens)", "results/gemini_flash_lite_office_obfuscated.jsonl"),
     ("Gemini 3.6 Flash, plain", "results/gemini_flash_office_plain.jsonl"),
+    ("Gemini 3.6 Flash, obfuscated (v2 tokens)", "results/gemini_flash_office_obfuscated.jsonl"),
 ]
 
 
