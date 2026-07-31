@@ -137,7 +137,7 @@ build_figure(
     OFFICE_RUNS,
     office_seeds,
     office_envs,
-    3,
+    4,
     2,
     "office_01: planted trap versus observed verdict, 30 seeds per run, lenient extraction",
     "docs/img/confusion_matrices_office.png",
