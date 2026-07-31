@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 
@@ -14,33 +15,50 @@ office_seeds = load_seeds("instructions/seeds_office_01.json")
 envs = {"house_01": load_environment("environments/house_01.json")}
 office_envs = {"office_01": load_environment("environments/office_01.json")}
 
+with open("configs/model_manifest.json", encoding="utf-8") as f:
+    MANIFEST = {k: v for k, v in json.load(f).items() if not k.startswith("_")}
+
+# (condition label, results path); model display names come from the
+# records' model alias via configs/model_manifest.json, never typed here.
 RUNS = [
-    ("Llama 70B, plain", "results/groq_llama70b_plain.jsonl"),
-    ("Llama 70B, obfuscated (v2 tokens)", "results/groq_llama70b_obfuscated_v2.jsonl"),
-    ("Qwen 7B, plain", "results/local_qwen_plain.jsonl"),
-    ("Qwen 7B, obfuscated (v2 tokens)", "results/local_qwen_obfuscated_v2.jsonl"),
-    ("Gemini 3.1 Flash Lite, plain", "results/gemini_flash_lite_plain.jsonl"),
-    ("Gemini 3.1 Flash Lite, obfuscated (v2 tokens)", "results/gemini_flash_lite_obfuscated.jsonl"),
-    ("Gemini 3.6 Flash, plain", "results/gemini_flash_plain.jsonl"),
-    ("Gemini 3.6 Flash, obfuscated (v2 tokens)", "results/gemini_flash_obfuscated.jsonl"),
+    ("plain", "results/groq_llama70b_plain.jsonl"),
+    ("obfuscated (v2 tokens)", "results/groq_llama70b_obfuscated_v2.jsonl"),
+    ("plain", "results/local_qwen_plain.jsonl"),
+    ("obfuscated (v2 tokens)", "results/local_qwen_obfuscated_v2.jsonl"),
+    ("plain", "results/gemini_flash_lite_plain.jsonl"),
+    ("obfuscated (v2 tokens)", "results/gemini_flash_lite_obfuscated.jsonl"),
+    ("plain", "results/gemini_flash_plain.jsonl"),
+    ("obfuscated (v2 tokens)", "results/gemini_flash_obfuscated.jsonl"),
 ]
 
 OFFICE_RUNS = [
-    ("Llama 70B, plain", "results/groq_llama70b_office_plain.jsonl"),
-    ("Llama 70B, obfuscated (v2 tokens)", "results/groq_llama70b_office_obfuscated.jsonl"),
-    ("Qwen 7B, plain", "results/local_qwen_office_plain.jsonl"),
-    ("Qwen 7B, obfuscated (v2 tokens)", "results/local_qwen_office_obfuscated.jsonl"),
-    ("Gemini 3.1 Flash Lite, plain", "results/gemini_flash_lite_office_plain.jsonl"),
-    ("Gemini 3.1 Flash Lite, obfuscated (v2 tokens)", "results/gemini_flash_lite_office_obfuscated.jsonl"),
-    ("Gemini 3.6 Flash, plain", "results/gemini_flash_office_plain.jsonl"),
-    ("Gemini 3.6 Flash, obfuscated (v2 tokens)", "results/gemini_flash_office_obfuscated.jsonl"),
+    ("plain", "results/groq_llama70b_office_plain.jsonl"),
+    ("obfuscated (v2 tokens)", "results/groq_llama70b_office_obfuscated.jsonl"),
+    ("plain", "results/local_qwen_office_plain.jsonl"),
+    ("obfuscated (v2 tokens)", "results/local_qwen_office_obfuscated.jsonl"),
+    ("plain", "results/gemini_flash_lite_office_plain.jsonl"),
+    ("obfuscated (v2 tokens)", "results/gemini_flash_lite_office_obfuscated.jsonl"),
+    ("plain", "results/gemini_flash_office_plain.jsonl"),
+    ("obfuscated (v2 tokens)", "results/gemini_flash_office_obfuscated.jsonl"),
 ]
+
+
+def run_title(raw, condition, path):
+    aliases = {r["model"] for r in raw}
+    if len(aliases) != 1:
+        raise SystemExit(f"{path}: records carry {len(aliases)} model aliases, expected one")
+    alias = aliases.pop()
+    if alias not in MANIFEST:
+        raise SystemExit(f"{path}: model alias {alias!r} is not in configs/model_manifest.json")
+    return f"{MANIFEST[alias]['display_name']}, {condition}"
 
 
 def index_runs(runs, run_seeds, run_envs):
     by_run = {}
-    for name, path in runs:
-        records = rescore_records(load_records(path), run_seeds, run_envs, policy="lenient")
+    for condition, path in runs:
+        raw = load_records(path)
+        name = run_title(raw, condition, path)
+        records = rescore_records(raw, run_seeds, run_envs, policy="lenient")
         by_run[name] = {r["seed_id"]: r for r in records}
     return by_run
 
@@ -93,15 +111,15 @@ for seed in seeds:
     lines.append("")
     lines.append("| run | lenient verdict | note |")
     lines.append("|---|---|---|")
-    for name, _ in RUNS:
+    for name in by_run:
         record = by_run[name][seed.id]
         lines.append(f"| {name} | {observed_verdict(record)} | {note(record)} |")
     lines.append("")
 
 lines.append("# office_01 seeds")
 lines.append("")
-lines.append("Six complete runs: Llama 70B, Qwen 7B, and Gemini 3.1 Flash Lite,")
-lines.append("each in both conditions. Same reading rules as above: single")
+lines.append(f"{len(office_by_run)} complete runs: all four models, each in both")
+lines.append("conditions. Same reading rules as above: single")
 lines.append("observations per cell, anecdotes rather than rates.")
 lines.append("")
 for seed in office_seeds:
@@ -113,7 +131,7 @@ for seed in office_seeds:
     lines.append("")
     lines.append("| run | lenient verdict | note |")
     lines.append("|---|---|---|")
-    for name, _ in OFFICE_RUNS:
+    for name in office_by_run:
         record = office_by_run[name][seed.id]
         lines.append(f"| {name} | {observed_verdict(record)} | {note(record)} |")
     lines.append("")

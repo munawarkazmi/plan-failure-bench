@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 
@@ -20,27 +21,42 @@ envs = {"house_01": load_environment("environments/house_01.json")}
 office_seeds = load_seeds("instructions/seeds_office_01.json")
 office_envs = {"office_01": load_environment("environments/office_01.json")}
 
+with open("configs/model_manifest.json", encoding="utf-8") as f:
+    MANIFEST = {k: v for k, v in json.load(f).items() if not k.startswith("_")}
+
+# (condition label, results path); model display names come from the
+# records' model alias via configs/model_manifest.json, never typed here.
 RUNS = [
-    ("Llama 3.3 70B, plain", "results/groq_llama70b_plain.jsonl"),
-    ("Llama 3.3 70B, obfuscated (v2 tokens)", "results/groq_llama70b_obfuscated_v2.jsonl"),
-    ("Qwen 2.5 7B, plain", "results/local_qwen_plain.jsonl"),
-    ("Qwen 2.5 7B, obfuscated (v2 tokens)", "results/local_qwen_obfuscated_v2.jsonl"),
-    ("Gemini 3.1 Flash Lite, plain", "results/gemini_flash_lite_plain.jsonl"),
-    ("Gemini 3.1 Flash Lite, obfuscated (v2 tokens)", "results/gemini_flash_lite_obfuscated.jsonl"),
-    ("Gemini 3.6 Flash, plain", "results/gemini_flash_plain.jsonl"),
-    ("Gemini 3.6 Flash, obfuscated (v2 tokens)", "results/gemini_flash_obfuscated.jsonl"),
+    ("plain", "results/groq_llama70b_plain.jsonl"),
+    ("obfuscated (v2 tokens)", "results/groq_llama70b_obfuscated_v2.jsonl"),
+    ("plain", "results/local_qwen_plain.jsonl"),
+    ("obfuscated (v2 tokens)", "results/local_qwen_obfuscated_v2.jsonl"),
+    ("plain", "results/gemini_flash_lite_plain.jsonl"),
+    ("obfuscated (v2 tokens)", "results/gemini_flash_lite_obfuscated.jsonl"),
+    ("plain", "results/gemini_flash_plain.jsonl"),
+    ("obfuscated (v2 tokens)", "results/gemini_flash_obfuscated.jsonl"),
 ]
 
 OFFICE_RUNS = [
-    ("Llama 3.3 70B, plain", "results/groq_llama70b_office_plain.jsonl"),
-    ("Llama 3.3 70B, obfuscated (v2 tokens)", "results/groq_llama70b_office_obfuscated.jsonl"),
-    ("Qwen 2.5 7B, plain", "results/local_qwen_office_plain.jsonl"),
-    ("Qwen 2.5 7B, obfuscated (v2 tokens)", "results/local_qwen_office_obfuscated.jsonl"),
-    ("Gemini 3.1 Flash Lite, plain", "results/gemini_flash_lite_office_plain.jsonl"),
-    ("Gemini 3.1 Flash Lite, obfuscated (v2 tokens)", "results/gemini_flash_lite_office_obfuscated.jsonl"),
-    ("Gemini 3.6 Flash, plain", "results/gemini_flash_office_plain.jsonl"),
-    ("Gemini 3.6 Flash, obfuscated (v2 tokens)", "results/gemini_flash_office_obfuscated.jsonl"),
+    ("plain", "results/groq_llama70b_office_plain.jsonl"),
+    ("obfuscated (v2 tokens)", "results/groq_llama70b_office_obfuscated.jsonl"),
+    ("plain", "results/local_qwen_office_plain.jsonl"),
+    ("obfuscated (v2 tokens)", "results/local_qwen_office_obfuscated.jsonl"),
+    ("plain", "results/gemini_flash_lite_office_plain.jsonl"),
+    ("obfuscated (v2 tokens)", "results/gemini_flash_lite_office_obfuscated.jsonl"),
+    ("plain", "results/gemini_flash_office_plain.jsonl"),
+    ("obfuscated (v2 tokens)", "results/gemini_flash_office_obfuscated.jsonl"),
 ]
+
+
+def run_title(raw, condition, path):
+    aliases = {r["model"] for r in raw}
+    if len(aliases) != 1:
+        raise SystemExit(f"{path}: records carry {len(aliases)} model aliases, expected one")
+    alias = aliases.pop()
+    if alias not in MANIFEST:
+        raise SystemExit(f"{path}: model alias {alias!r} is not in configs/model_manifest.json")
+    return f"{MANIFEST[alias]['display_name']}, {condition}"
 
 LABELS = [
     "valid",
@@ -72,15 +88,24 @@ cmap = LinearSegmentedColormap.from_list("seqblue", RAMP)
 
 
 def build_figure(runs, run_seeds, run_envs, rows, cols, suptitle, out_path):
+    if rows * cols < len(runs):
+        raise SystemExit(
+            f"{out_path}: a {rows}x{cols} grid cannot hold {len(runs)} panels; "
+            "zip would silently truncate the figure"
+        )
     matrices = {}
+    titles = []
     all_verdicts = set()
-    for title, path in runs:
-        records = rescore_records(load_records(path), run_seeds, run_envs, policy="lenient")
+    for condition, path in runs:
+        raw = load_records(path)
+        title = run_title(raw, condition, path)
+        records = rescore_records(raw, run_seeds, run_envs, policy="lenient")
         counts = {}
         for r in records:
             key = (r["label"], observed_verdict(r))
             counts[key] = counts.get(key, 0) + 1
             all_verdicts.add(observed_verdict(r))
+        titles.append(title)
         matrices[title] = counts
 
     verdicts = [v for v in VERDICT_ORDER if v in all_verdicts]
@@ -89,7 +114,7 @@ def build_figure(runs, run_seeds, run_envs, rows, cols, suptitle, out_path):
     fig, axes = plt.subplots(rows, cols, figsize=(11.5, 4.0 * rows), facecolor=SURFACE)
     for ax in list(axes.flat)[len(runs):]:
         ax.set_visible(False)
-    for ax, (title, _) in zip(axes.flat, runs):
+    for ax, title in zip(axes.flat, titles):
         counts = matrices[title]
         grid = [[counts.get((label, v), 0) for v in verdicts] for label in LABELS]
         ax.imshow(grid, cmap=cmap, vmin=0, vmax=vmax, aspect="auto")

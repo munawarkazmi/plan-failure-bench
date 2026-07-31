@@ -347,15 +347,25 @@ feasible constructively by reference plans, never by the abstraction.
 \section{Experimental setup}
 
 Four models, all under a fixed prompt at temperature 0 with one decode
-per seed: Llama 3.3 70B (hosted), Qwen 2.5 7B Instruct (local), Gemini
-3.1 Flash Lite (hosted), and Gemini 3.6 Flash (hosted; a reasoning
-generation model, with both house\_01 columns and the plain
-office\_01 column complete and the obfuscated office\_01 column
-accumulating on daily free-tier quota). The three
-original models cover both suites in both conditions under version 2
-tokens. The superseded version 1 obfuscated runs of Llama and Qwen are
-retained and marked in the tables, because the artefacts they exposed
-are part of the methodology's history.
+per seed, each covering both suites in both conditions: Llama 3.3 70B
+(hosted), Qwen 2.5 7B Instruct (local), Gemini 3.1 Flash Lite
+(hosted), and Gemini 3.6 Flash (hosted; a reasoning generation model).
+Table~\ref{tab:models} records the exact API checkpoint behind each
+run alias; every committed record carries the alias, and records
+written from now on carry the checkpoint string itself, so the mapping
+from a table row to the model that produced it is committed rather
+than remembered. The superseded version 1 obfuscated runs of Llama and
+Qwen are retained and marked in the tables, because the artefacts they
+exposed are part of the methodology's history.
+
+\begin{table}[t]
+\centering
+\small
+\input{generated/model_manifest}
+\caption{Model aliases in the committed records and the exact API
+checkpoints they called, generated from the committed manifest.}
+\label{tab:models}
+\end{table}
 
 \section{Results}
 

@@ -1,0 +1,23 @@
+{
+  "_comment": "Committed record of which API checkpoint each run alias called, and the display name derived from it. The results generators read display names from this file; they are never typed into a template. The untracked runtime config (configs/models.json) must agree with api_model here; the runner records api_model into every new record.",
+  "groq_llama70b": {
+    "api_model": "llama-3.3-70b-versatile",
+    "display_name": "Llama 3.3 70B",
+    "hosting": "Groq API"
+  },
+  "local_qwen": {
+    "api_model": "qwen2.5:7b-instruct",
+    "display_name": "Qwen 2.5 7B",
+    "hosting": "local Ollama"
+  },
+  "gemini_flash_lite": {
+    "api_model": "models/gemini-3.1-flash-lite",
+    "display_name": "Gemini 3.1 Flash Lite",
+    "hosting": "Gemini API"
+  },
+  "gemini_flash": {
+    "api_model": "models/gemini-3.6-flash",
+    "display_name": "Gemini 3.6 Flash",
+    "hosting": "Gemini API"
+  }
+}

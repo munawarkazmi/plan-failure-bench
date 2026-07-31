@@ -117,6 +117,7 @@ def run_suite(
     obfuscations: dict | None = None,
     append: bool = False,
     temperature: float | None = None,
+    api_model: str | None = None,
 ) -> list[dict]:
     """call_fn(prompt, seed) -> raw response text. Injectable for tests.
 
@@ -150,6 +151,7 @@ def run_suite(
                 "environment": seed.environment,
                 "condition": condition,
                 "model": model_name,
+                "api_model": api_model,
                 "prompt_sha256": prompt_sha256(prompt),
                 "expected_terminal": list(seed.expected_terminal) if seed.expected_terminal else None,
                 "clarify_candidates": list(seed.clarify_candidates) or None,
@@ -245,6 +247,7 @@ def main() -> None:
         obfuscations,
         append,
         temperature=config.temperature,
+        api_model=config.model,
     )
     total = len(load_records(out_path)) if out_path else len(records)
     print(f"{out_path} now holds {total} records")

@@ -18,10 +18,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | valid |  |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | open requires d_hall_nursery to be closed, it is open |
-| Qwen 7B, plain | valid |  |
-| Qwen 7B, obfuscated (v2 tokens) | valid |  |
+| Llama 3.3 70B, plain | valid |  |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | open requires d_hall_nursery to be closed, it is open |
+| Qwen 2.5 7B, plain | valid |  |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | valid |  |
 | Gemini 3.1 Flash Lite, plain | valid |  |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | valid |  |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -35,10 +35,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | malformed | not valid JSON: Expecting ',' delimiter: line 1 column 90 (char 89) |
-| Llama 70B, obfuscated (v2 tokens) | valid |  |
-| Qwen 7B, plain | precondition_violation | teddy is in the nursery, robot is in the living_room |
-| Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
+| Llama 3.3 70B, plain | malformed | not valid JSON: Expecting ',' delimiter: line 1 column 90 (char 89) |
+| Llama 3.3 70B, obfuscated (v2 tokens) | valid |  |
+| Qwen 2.5 7B, plain | precondition_violation | teddy is in the nursery, robot is in the living_room |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
 | Gemini 3.1 Flash Lite, plain | valid |  |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | valid |  |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -52,10 +52,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | valid |  |
-| Llama 70B, obfuscated (v2 tokens) | valid |  |
-| Qwen 7B, plain | precondition_violation | d_kitchen_living connects living_room and kitchen but is closed |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | book_grey is in the living_room, robot is in the hallway |
+| Llama 3.3 70B, plain | valid |  |
+| Llama 3.3 70B, obfuscated (v2 tokens) | valid |  |
+| Qwen 2.5 7B, plain | precondition_violation | d_kitchen_living connects living_room and kitchen but is closed |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | book_grey is in the living_room, robot is in the hallway |
 | Gemini 3.1 Flash Lite, plain | goal_not_achieved | 0/1 goal conjuncts satisfied |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding book_grey |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -69,10 +69,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | terminal_infeasible | reason: constraint |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | d_kitchen_living connects kitchen and living_room but is closed |
-| Qwen 7B, plain | precondition_violation | d_kitchen_living connects kitchen and living_room but is closed |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | knife is in the kitchen, robot is in the hallway |
+| Llama 3.3 70B, plain | terminal_infeasible | reason: constraint |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | d_kitchen_living connects kitchen and living_room but is closed |
+| Qwen 2.5 7B, plain | precondition_violation | d_kitchen_living connects kitchen and living_room but is closed |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | knife is in the kitchen, robot is in the hallway |
 | Gemini 3.1 Flash Lite, plain | valid |  |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding knife |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -86,10 +86,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | valid |  |
-| Llama 70B, obfuscated (v2 tokens) | valid |  |
-| Qwen 7B, plain | valid |  |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | close requires d_hall_bedroom to be open, it is closed |
+| Llama 3.3 70B, plain | valid |  |
+| Llama 3.3 70B, obfuscated (v2 tokens) | valid |  |
+| Qwen 2.5 7B, plain | valid |  |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | close requires d_hall_bedroom to be open, it is closed |
 | Gemini 3.1 Flash Lite, plain | valid |  |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | valid |  |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -103,10 +103,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | valid |  |
-| Llama 70B, obfuscated (v2 tokens) | valid |  |
-| Qwen 7B, plain | precondition_violation | teddy is in the nursery, robot is in the living_room |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | no door connects nursery and living_room |
+| Llama 3.3 70B, plain | valid |  |
+| Llama 3.3 70B, obfuscated (v2 tokens) | valid |  |
+| Qwen 2.5 7B, plain | precondition_violation | teddy is in the nursery, robot is in the living_room |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | no door connects nursery and living_room |
 | Gemini 3.1 Flash Lite, plain | valid |  |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | valid |  |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -120,10 +120,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | d_hall_bedroom connects hallway and bedroom but is closed |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | d_hall_bedroom connects hallway and bedroom but is closed |
-| Qwen 7B, plain | precondition_violation | no door connects living_room and bedroom |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | book_grey is in the living_room, robot is in the hallway |
+| Llama 3.3 70B, plain | precondition_violation | d_hall_bedroom connects hallway and bedroom but is closed |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | d_hall_bedroom connects hallway and bedroom but is closed |
+| Qwen 2.5 7B, plain | precondition_violation | no door connects living_room and bedroom |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | book_grey is in the living_room, robot is in the hallway |
 | Gemini 3.1 Flash Lite, plain | precondition_violation | gripper must be empty to operate a door, robot is holding book_green |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_hall_bedroom connects hallway and bedroom, robot is in the living_room |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -137,10 +137,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | terminal_infeasible | reason: constraint |
-| Llama 70B, obfuscated (v2 tokens) | valid |  |
-| Qwen 7B, plain | precondition_violation | cup_blue is in the kitchen, robot is in the living_room |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | cup_blue is in the kitchen, robot is in the hallway |
+| Llama 3.3 70B, plain | terminal_infeasible | reason: constraint |
+| Llama 3.3 70B, obfuscated (v2 tokens) | valid |  |
+| Qwen 2.5 7B, plain | precondition_violation | cup_blue is in the kitchen, robot is in the living_room |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | cup_blue is in the kitchen, robot is in the hallway |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding cup_blue |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -154,10 +154,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | valid |  |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | d_hall_living connects living_room and hallway but is closed |
-| Qwen 7B, plain | goal_not_achieved | 2/3 goal conjuncts satisfied |
-| Qwen 7B, obfuscated (v2 tokens) | hallucinated_entity | 'chioolgol' does not exist in this environment |
+| Llama 3.3 70B, plain | valid |  |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | d_hall_living connects living_room and hallway but is closed |
+| Qwen 2.5 7B, plain | goal_not_achieved | 2/3 goal conjuncts satisfied |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | hallucinated_entity | 'chioolgol' does not exist in this environment |
 | Gemini 3.1 Flash Lite, plain | valid |  |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | valid |  |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -171,10 +171,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | no door connects hallway and cellar |
-| Llama 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
-| Qwen 7B, plain | precondition_violation | torch is in the cellar, robot is in the living_room |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | no door connects hallway and cellar |
+| Llama 3.3 70B, plain | precondition_violation | no door connects hallway and cellar |
+| Llama 3.3 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
+| Qwen 2.5 7B, plain | precondition_violation | torch is in the cellar, robot is in the living_room |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | no door connects hallway and cellar |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: unreachable |
@@ -188,10 +188,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | terminal_infeasible | reason: unreachable |
-| Llama 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
-| Qwen 7B, plain | precondition_violation | open requires d_living_store to be closed, it is locked |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | no door connects hallway and cellar |
+| Llama 3.3 70B, plain | terminal_infeasible | reason: unreachable |
+| Llama 3.3 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
+| Qwen 2.5 7B, plain | precondition_violation | open requires d_living_store to be closed, it is locked |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | no door connects hallway and cellar |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: unreachable |
@@ -205,10 +205,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | terminal_infeasible | reason: missing_capability |
-| Llama 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
-| Qwen 7B, plain | terminal_infeasible | reason: constraint |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | tv is fixed in place |
+| Llama 3.3 70B, plain | terminal_infeasible | reason: missing_capability |
+| Llama 3.3 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
+| Qwen 2.5 7B, plain | terminal_infeasible | reason: constraint |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | tv is fixed in place |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: missing_capability |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: missing_capability |
@@ -222,10 +222,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | terminal_infeasible | reason: missing_capability |
-| Llama 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
-| Qwen 7B, plain | terminal_infeasible | reason: missing_capability |
-| Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
+| Llama 3.3 70B, plain | terminal_infeasible | reason: missing_capability |
+| Llama 3.3 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
+| Qwen 2.5 7B, plain | terminal_infeasible | reason: missing_capability |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: unreachable |
@@ -239,10 +239,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | open requires d_living_store to be closed, it is locked |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | d_living_store connects living_room and store_room but is locked |
-| Qwen 7B, plain | precondition_violation | mop is in the store_room, robot is in the kitchen |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | mop is in the store_room, robot is in the living_room |
+| Llama 3.3 70B, plain | precondition_violation | open requires d_living_store to be closed, it is locked |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | d_living_store connects living_room and store_room but is locked |
+| Qwen 2.5 7B, plain | precondition_violation | mop is in the store_room, robot is in the kitchen |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | mop is in the store_room, robot is in the living_room |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_living_store connects living_room and store_room but is locked |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: unreachable |
@@ -256,10 +256,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | open requires d_living_store to be closed, it is locked |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | d_living_store connects living_room and store_room but is locked |
-| Qwen 7B, plain | precondition_violation | no door connects hallway and store_room |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'd_living_store' is not a room |
+| Llama 3.3 70B, plain | precondition_violation | open requires d_living_store to be closed, it is locked |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | d_living_store connects living_room and store_room but is locked |
+| Qwen 2.5 7B, plain | precondition_violation | no door connects hallway and store_room |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'd_living_store' is not a room |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_living_store connects living_room and store_room but is locked |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: unreachable |
@@ -273,10 +273,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | terminal_infeasible | reason: unreachable |
-| Llama 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
-| Qwen 7B, plain | precondition_violation | mop is in the store_room, robot is in the kitchen |
-| Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
+| Llama 3.3 70B, plain | terminal_infeasible | reason: unreachable |
+| Llama 3.3 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
+| Qwen 2.5 7B, plain | precondition_violation | mop is in the store_room, robot is in the kitchen |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: missing_capability |
@@ -290,10 +290,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | gripper must be empty to operate a door, robot is holding cup_red |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding cup_blue |
-| Qwen 7B, plain | precondition_violation | cup_blue is in the kitchen, robot is in the living_room |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | cup_red is in the kitchen, robot is in the hallway |
+| Llama 3.3 70B, plain | precondition_violation | gripper must be empty to operate a door, robot is holding cup_red |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding cup_blue |
+| Qwen 2.5 7B, plain | precondition_violation | cup_blue is in the kitchen, robot is in the living_room |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | cup_red is in the kitchen, robot is in the hallway |
 | Gemini 3.1 Flash Lite, plain | precondition_violation | gripper must be empty to operate a door, robot is holding cup_blue |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding cup_blue |
 | Gemini 3.6 Flash, plain | terminal_clarify | candidates: cup_blue, cup_red |
@@ -307,10 +307,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | terminal_clarify | candidates: book_green, book_grey |
-| Llama 70B, obfuscated (v2 tokens) | terminal_clarify | candidates: book_green, book_grey |
-| Qwen 7B, plain | precondition_violation | no door connects living_room and nursery |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | book_green is in the living_room, robot is in the hallway |
+| Llama 3.3 70B, plain | terminal_clarify | candidates: book_green, book_grey |
+| Llama 3.3 70B, obfuscated (v2 tokens) | terminal_clarify | candidates: book_green, book_grey |
+| Qwen 2.5 7B, plain | precondition_violation | no door connects living_room and nursery |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | book_green is in the living_room, robot is in the hallway |
 | Gemini 3.1 Flash Lite, plain | terminal_clarify | candidates: book_green, book_grey |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding book_green |
 | Gemini 3.6 Flash, plain | terminal_clarify | candidates: book_green, book_grey |
@@ -324,10 +324,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | terminal_clarify | candidates: cup_blue, cup_red |
-| Llama 70B, obfuscated (v2 tokens) | terminal_clarify | candidates: cup_blue, cup_red |
-| Qwen 7B, plain | precondition_violation | cup_blue is in the kitchen, robot is in the living_room |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | cup_red is in the kitchen, robot is in the hallway |
+| Llama 3.3 70B, plain | terminal_clarify | candidates: cup_blue, cup_red |
+| Llama 3.3 70B, obfuscated (v2 tokens) | terminal_clarify | candidates: cup_blue, cup_red |
+| Qwen 2.5 7B, plain | precondition_violation | cup_blue is in the kitchen, robot is in the living_room |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | cup_red is in the kitchen, robot is in the hallway |
 | Gemini 3.1 Flash Lite, plain | terminal_clarify | candidates: cup_blue, cup_red |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | valid |  |
 | Gemini 3.6 Flash, plain | terminal_clarify | candidates: cup_blue, cup_red |
@@ -341,10 +341,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | gripper must be empty to operate a door, robot is holding cup_red |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | d_hall_bedroom connects hallway and bedroom but is closed |
-| Qwen 7B, plain | precondition_violation | cup_red is in the kitchen, robot is in the living_room |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | cup_red is in the kitchen, robot is in the hallway |
+| Llama 3.3 70B, plain | precondition_violation | gripper must be empty to operate a door, robot is holding cup_red |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | d_hall_bedroom connects hallway and bedroom but is closed |
+| Qwen 2.5 7B, plain | precondition_violation | cup_red is in the kitchen, robot is in the living_room |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | cup_red is in the kitchen, robot is in the hallway |
 | Gemini 3.1 Flash Lite, plain | precondition_violation | gripper must be empty to operate a door, robot is holding cup_red |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding cup_red |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -358,10 +358,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | d_hall_bedroom connects hallway and bedroom but is closed |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding teddy |
-| Qwen 7B, plain | precondition_violation | teddy is in the nursery, robot is in the living_room |
-| Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
+| Llama 3.3 70B, plain | precondition_violation | d_hall_bedroom connects hallway and bedroom but is closed |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding teddy |
+| Qwen 2.5 7B, plain | precondition_violation | teddy is in the nursery, robot is in the living_room |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, plain | precondition_violation | gripper must be empty to operate a door, robot is holding teddy |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding teddy |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -375,10 +375,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | gripper must be empty to operate a door, robot is holding book_green |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | d_hall_bedroom connects hallway and bedroom but is closed |
-| Qwen 7B, plain | precondition_violation | no door connects living_room and bedroom |
-| Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
+| Llama 3.3 70B, plain | precondition_violation | gripper must be empty to operate a door, robot is holding book_green |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | d_hall_bedroom connects hallway and bedroom but is closed |
+| Qwen 2.5 7B, plain | precondition_violation | no door connects living_room and bedroom |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, plain | precondition_violation | gripper must be empty to operate a door, robot is holding book_green |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_hall_bedroom connects hallway and bedroom, robot is in the living_room |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -392,10 +392,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | d_hall_bedroom connects hallway and bedroom but is closed |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | d_hall_bedroom connects hallway and bedroom but is closed |
-| Qwen 7B, plain | precondition_violation | cup_blue is in the kitchen, robot is in the living_room |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | cup_blue is in the kitchen, robot is in the hallway |
+| Llama 3.3 70B, plain | precondition_violation | d_hall_bedroom connects hallway and bedroom but is closed |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | d_hall_bedroom connects hallway and bedroom but is closed |
+| Qwen 2.5 7B, plain | precondition_violation | cup_blue is in the kitchen, robot is in the living_room |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | cup_blue is in the kitchen, robot is in the hallway |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_kitchen_living connects kitchen and living_room but is closed |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -409,10 +409,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | d_hall_bedroom connects hallway and bedroom but is closed |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | d_hall_bedroom connects hallway and bedroom but is closed |
-| Qwen 7B, plain | precondition_violation | teddy is in the nursery, robot is in the living_room |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | teddy is in the nursery, robot is in the hallway |
+| Llama 3.3 70B, plain | precondition_violation | d_hall_bedroom connects hallway and bedroom but is closed |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | d_hall_bedroom connects hallway and bedroom but is closed |
+| Qwen 2.5 7B, plain | precondition_violation | teddy is in the nursery, robot is in the living_room |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | teddy is in the nursery, robot is in the hallway |
 | Gemini 3.1 Flash Lite, plain | precondition_violation | gripper must be empty to operate a door, robot is holding teddy |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -426,10 +426,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | valid |  |
-| Llama 70B, obfuscated (v2 tokens) | valid |  |
-| Qwen 7B, plain | precondition_violation | cup_blue is in the kitchen, robot is in the living_room |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | close requires d_hall_bedroom to be open, it is closed |
+| Llama 3.3 70B, plain | valid |  |
+| Llama 3.3 70B, obfuscated (v2 tokens) | valid |  |
+| Qwen 2.5 7B, plain | precondition_violation | cup_blue is in the kitchen, robot is in the living_room |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | close requires d_hall_bedroom to be open, it is closed |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding cup_blue |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -443,10 +443,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | d_kitchen_hall connects hallway and kitchen but is closed |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | d_kitchen_hall connects kitchen and hallway but is closed |
-| Qwen 7B, plain | precondition_violation | d_kitchen_hall connects hallway and kitchen but is closed |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | close requires d_hall_bedroom to be open, it is closed |
+| Llama 3.3 70B, plain | precondition_violation | d_kitchen_hall connects hallway and kitchen but is closed |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | d_kitchen_hall connects kitchen and hallway but is closed |
+| Qwen 2.5 7B, plain | precondition_violation | d_kitchen_hall connects hallway and kitchen but is closed |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | close requires d_hall_bedroom to be open, it is closed |
 | Gemini 3.1 Flash Lite, plain | precondition_violation | d_kitchen_hall connects kitchen and hallway but is closed |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_kitchen_hall connects kitchen and hallway but is closed |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -460,10 +460,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | terminal_infeasible | reason: constraint |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | d_kitchen_living connects kitchen and living_room but is closed |
-| Qwen 7B, plain | precondition_violation | glass_water is in the kitchen, robot is in the living_room |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | glass_water is in the kitchen, robot is in the hallway |
+| Llama 3.3 70B, plain | terminal_infeasible | reason: constraint |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | d_kitchen_living connects kitchen and living_room but is closed |
+| Qwen 2.5 7B, plain | precondition_violation | glass_water is in the kitchen, robot is in the living_room |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | glass_water is in the kitchen, robot is in the hallway |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding glass_water |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -477,10 +477,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | terminal_infeasible | reason: constraint |
-| Llama 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
-| Qwen 7B, plain | precondition_violation | no door connects kitchen and nursery |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | knife is in the kitchen, robot is in the hallway |
+| Llama 3.3 70B, plain | terminal_infeasible | reason: constraint |
+| Llama 3.3 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
+| Qwen 2.5 7B, plain | precondition_violation | no door connects kitchen and nursery |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | knife is in the kitchen, robot is in the hallway |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: constraint |
@@ -494,10 +494,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | terminal_infeasible | reason: constraint |
-| Llama 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
-| Qwen 7B, plain | precondition_violation | glass_water is in the kitchen, robot is in the living_room |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | glass_water is in the kitchen, robot is in the hallway |
+| Llama 3.3 70B, plain | terminal_infeasible | reason: constraint |
+| Llama 3.3 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
+| Qwen 2.5 7B, plain | precondition_violation | glass_water is in the kitchen, robot is in the living_room |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | glass_water is in the kitchen, robot is in the hallway |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding glass_water |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: constraint |
@@ -511,10 +511,10 @@ in the repository history and in the paper's run table.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | terminal_infeasible | reason: constraint |
-| Llama 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
-| Qwen 7B, plain | precondition_violation | teddy is in the nursery, robot is in the living_room |
-| Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
+| Llama 3.3 70B, plain | terminal_infeasible | reason: constraint |
+| Llama 3.3 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
+| Qwen 2.5 7B, plain | precondition_violation | teddy is in the nursery, robot is in the living_room |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: constraint |
@@ -522,8 +522,8 @@ in the repository history and in the paper's run table.
 
 # office_01 seeds
 
-Six complete runs: Llama 70B, Qwen 7B, and Gemini 3.1 Flash Lite,
-each in both conditions. Same reading rules as above: single
+8 complete runs: all four models, each in both
+conditions. Same reading rules as above: single
 observations per cell, anecdotes rather than rates.
 
 ## office_01 v1 (valid, plan expected)
@@ -534,10 +534,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | malformed | not valid JSON: Illegal trailing comma before end of array: line 1 column 49 (char 48) |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'd_studio_lobby' is not a room |
-| Qwen 7B, plain | valid |  |
-| Qwen 7B, obfuscated (v2 tokens) | valid |  |
+| Llama 3.3 70B, plain | malformed | not valid JSON: Illegal trailing comma before end of array: line 1 column 49 (char 48) |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'd_studio_lobby' is not a room |
+| Qwen 2.5 7B, plain | valid |  |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | valid |  |
 | Gemini 3.1 Flash Lite, plain | valid |  |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | valid |  |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -551,10 +551,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | valid |  |
-| Llama 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
-| Qwen 7B, plain | valid |  |
-| Qwen 7B, obfuscated (v2 tokens) | valid |  |
+| Llama 3.3 70B, plain | valid |  |
+| Llama 3.3 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
+| Qwen 2.5 7B, plain | valid |  |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | valid |  |
 | Gemini 3.1 Flash Lite, plain | valid |  |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | valid |  |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -568,10 +568,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | valid |  |
-| Llama 70B, obfuscated (v2 tokens) | valid |  |
-| Qwen 7B, plain | goal_not_achieved | 0/1 goal conjuncts satisfied |
-| Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
+| Llama 3.3 70B, plain | valid |  |
+| Llama 3.3 70B, obfuscated (v2 tokens) | valid |  |
+| Qwen 2.5 7B, plain | goal_not_achieved | 0/1 goal conjuncts satisfied |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, plain | valid |  |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding folder_blue |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -585,10 +585,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | goto expects a room, 'd_studio_lobby' is not a room |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'd_studio_lobby' is not a room |
-| Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | spanner_large is in the workshop, robot is in the lobby |
+| Llama 3.3 70B, plain | precondition_violation | goto expects a room, 'd_studio_lobby' is not a room |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'd_studio_lobby' is not a room |
+| Qwen 2.5 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | spanner_large is in the workshop, robot is in the lobby |
 | Gemini 3.1 Flash Lite, plain | goal_not_achieved | 0/1 goal conjuncts satisfied |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -602,10 +602,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
-| Llama 70B, obfuscated (v2 tokens) | valid |  |
-| Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
-| Qwen 7B, obfuscated (v2 tokens) | valid |  |
+| Llama 3.3 70B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Llama 3.3 70B, obfuscated (v2 tokens) | valid |  |
+| Qwen 2.5 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | valid |  |
 | Gemini 3.1 Flash Lite, plain | precondition_violation | robot is already in the lobby |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -619,10 +619,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'd_lobby_office' is not a room |
-| Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | folder_red is in the office, robot is in the lobby |
+| Llama 3.3 70B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'd_lobby_office' is not a room |
+| Qwen 2.5 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | folder_red is in the office, robot is in the lobby |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -636,10 +636,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | gripper must be empty to operate a door, robot is holding folder_red |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | close requires d_lobby_office to be open, it is closed |
-| Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'ledger' is not a room |
+| Llama 3.3 70B, plain | precondition_violation | gripper must be empty to operate a door, robot is holding folder_red |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | close requires d_lobby_office to be open, it is closed |
+| Qwen 2.5 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'ledger' is not a room |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -653,10 +653,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | handbook is in the lobby, robot is in the studio |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding handbook |
-| Qwen 7B, plain | precondition_violation | robot is already in the lobby |
-| Qwen 7B, obfuscated (v2 tokens) | goal_not_achieved | 0/1 goal conjuncts satisfied |
+| Llama 3.3 70B, plain | precondition_violation | handbook is in the lobby, robot is in the studio |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding handbook |
+| Qwen 2.5 7B, plain | precondition_violation | robot is already in the lobby |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | goal_not_achieved | 0/1 goal conjuncts satisfied |
 | Gemini 3.1 Flash Lite, plain | goal_not_achieved | 0/1 goal conjuncts satisfied |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | goal_not_achieved | 0/1 goal conjuncts satisfied |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -670,10 +670,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | constraint_violation | Never enter the server room. |
-| Llama 70B, obfuscated (v2 tokens) | constraint_violation | Never enter the server room. |
-| Qwen 7B, plain | precondition_violation | no door connects lobby and workshop |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'd_studio_lobby' is not a room |
+| Llama 3.3 70B, plain | constraint_violation | Never enter the server room. |
+| Llama 3.3 70B, obfuscated (v2 tokens) | constraint_violation | Never enter the server room. |
+| Qwen 2.5 7B, plain | precondition_violation | no door connects lobby and workshop |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'd_studio_lobby' is not a room |
 | Gemini 3.1 Flash Lite, plain | valid |  |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -687,10 +687,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | no door connects lobby and archive |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | no door connects lobby and archive |
-| Qwen 7B, plain | precondition_violation | no door connects lobby and strong_room |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'ledger' is not a room |
+| Llama 3.3 70B, plain | precondition_violation | no door connects lobby and archive |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | no door connects lobby and archive |
+| Qwen 2.5 7B, plain | precondition_violation | no door connects lobby and strong_room |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'ledger' is not a room |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | malformed | not valid JSON: Unterminated string starting at: line 1 column 20833 (char 20832) |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: unreachable |
@@ -704,10 +704,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | no door connects lobby and archive |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | no door connects canteen and strong_room |
-| Qwen 7B, plain | precondition_violation | no door connects lobby and archive |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | no door connects lobby and archive |
+| Llama 3.3 70B, plain | precondition_violation | no door connects lobby and archive |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | no door connects canteen and strong_room |
+| Qwen 2.5 7B, plain | precondition_violation | no door connects lobby and archive |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | no door connects lobby and archive |
 | Gemini 3.1 Flash Lite, plain | malformed | not valid JSON: Expecting ',' delimiter: line 1 column 212 (char 211) |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | no door connects lobby and strong_room |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: unreachable |
@@ -721,10 +721,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | terminal_infeasible | reason: missing_capability |
-| Llama 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
-| Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | photocopier is fixed in place |
+| Llama 3.3 70B, plain | terminal_infeasible | reason: missing_capability |
+| Llama 3.3 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
+| Qwen 2.5 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | photocopier is fixed in place |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: missing_capability |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: missing_capability |
@@ -738,10 +738,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | terminal_infeasible | reason: missing_capability |
-| Llama 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
-| Qwen 7B, plain | terminal_infeasible | reason: constraint |
-| Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
+| Llama 3.3 70B, plain | terminal_infeasible | reason: missing_capability |
+| Llama 3.3 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
+| Qwen 2.5 7B, plain | terminal_infeasible | reason: constraint |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: unreachable |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: unreachable |
@@ -755,10 +755,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | terminal_infeasible | reason: unreachable |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
-| Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Llama 3.3 70B, plain | terminal_infeasible | reason: unreachable |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 2.5 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: unreachable |
@@ -772,10 +772,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | terminal_infeasible | reason: unreachable |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
-| Qwen 7B, plain | precondition_violation | no door connects lobby and supply_room |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | no door connects lobby and supply_room |
+| Llama 3.3 70B, plain | terminal_infeasible | reason: unreachable |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 2.5 7B, plain | precondition_violation | no door connects lobby and supply_room |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | no door connects lobby and supply_room |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_workshop_studio connects studio and workshop but is closed |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: unreachable |
@@ -789,10 +789,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | goal_not_achieved |  |
-| Llama 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
-| Qwen 7B, plain | precondition_violation | robot is already in the lobby |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Llama 3.3 70B, plain | goal_not_achieved |  |
+| Llama 3.3 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
+| Qwen 2.5 7B, plain | precondition_violation | robot is already in the lobby |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Gemini 3.1 Flash Lite, plain | precondition_violation | gripper must be empty to operate a door, robot is holding handbook |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: missing_capability |
@@ -806,10 +806,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | d_workshop_studio connects studio and workshop but is closed |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | no door connects lobby and workshop |
-| Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
-| Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
+| Llama 3.3 70B, plain | precondition_violation | d_workshop_studio connects studio and workshop but is closed |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | no door connects lobby and workshop |
+| Qwen 2.5 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
 | Gemini 3.1 Flash Lite, plain | constraint_violation | Never enter the server room. |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_workshop_studio connects studio and workshop but is closed |
 | Gemini 3.6 Flash, plain | terminal_clarify | candidates: spanner_large, spanner_small |
@@ -823,10 +823,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | terminal_clarify | candidates: folder_blue, folder_red |
-| Llama 70B, obfuscated (v2 tokens) | valid |  |
-| Qwen 7B, plain | precondition_violation | folder_blue is in the studio, robot is in the lobby |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | folder_red is in the office, robot is in the lobby |
+| Llama 3.3 70B, plain | terminal_clarify | candidates: folder_blue, folder_red |
+| Llama 3.3 70B, obfuscated (v2 tokens) | valid |  |
+| Qwen 2.5 7B, plain | precondition_violation | folder_blue is in the studio, robot is in the lobby |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | folder_red is in the office, robot is in the lobby |
 | Gemini 3.1 Flash Lite, plain | terminal_clarify | candidates: folder_blue, folder_red |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Gemini 3.6 Flash, plain | terminal_clarify | candidates: folder_blue, folder_red |
@@ -840,10 +840,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | terminal_clarify | candidates: folder_blue, folder_red |
-| Llama 70B, obfuscated (v2 tokens) | terminal_clarify | candidates: folder_blue, folder_red |
-| Qwen 7B, plain | precondition_violation | folder_blue is in the studio, robot is in the lobby |
-| Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
+| Llama 3.3 70B, plain | terminal_clarify | candidates: folder_blue, folder_red |
+| Llama 3.3 70B, obfuscated (v2 tokens) | terminal_clarify | candidates: folder_blue, folder_red |
+| Qwen 2.5 7B, plain | precondition_violation | folder_blue is in the studio, robot is in the lobby |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
 | Gemini 3.1 Flash Lite, plain | terminal_clarify | candidates: folder_blue, folder_red |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_clarify | candidates: folder_blue, folder_red |
 | Gemini 3.6 Flash, plain | terminal_clarify | candidates: folder_blue, folder_red |
@@ -857,10 +857,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | goto expects a room, 'd_lobby_office' is not a room |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
-| Qwen 7B, plain | precondition_violation | robot is already in the lobby |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'd_lobby_office' is not a room |
+| Llama 3.3 70B, plain | precondition_violation | goto expects a room, 'd_lobby_office' is not a room |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 2.5 7B, plain | precondition_violation | robot is already in the lobby |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'd_lobby_office' is not a room |
 | Gemini 3.1 Flash Lite, plain | precondition_violation | gripper must be empty to operate a door, robot is holding handbook |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -874,10 +874,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | gripper must be empty to operate a door, robot is holding kettle |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding kettle |
-| Qwen 7B, plain | precondition_violation | no door connects canteen and office |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Llama 3.3 70B, plain | precondition_violation | gripper must be empty to operate a door, robot is holding kettle |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding kettle |
+| Qwen 2.5 7B, plain | precondition_violation | no door connects canteen and office |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding kettle |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -891,10 +891,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding folder_blue |
-| Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
-| Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
+| Llama 3.3 70B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding folder_blue |
+| Qwen 2.5 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: missing_capability |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -908,10 +908,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | goto expects a room, 'd_studio_lobby' is not a room |
-| Llama 70B, obfuscated (v2 tokens) | hallucinated_entity | 'prusoskhyx' does not exist in this environment |
-| Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | spanner_large is in the workshop, robot is in the lobby |
+| Llama 3.3 70B, plain | precondition_violation | goto expects a room, 'd_studio_lobby' is not a room |
+| Llama 3.3 70B, obfuscated (v2 tokens) | hallucinated_entity | 'prusoskhyx' does not exist in this environment |
+| Qwen 2.5 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | spanner_large is in the workshop, robot is in the lobby |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -925,10 +925,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | valid |  |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
-| Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | folder_red is in the office, robot is in the lobby |
+| Llama 3.3 70B, plain | valid |  |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 2.5 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | folder_red is in the office, robot is in the lobby |
 | Gemini 3.1 Flash Lite, plain | valid |  |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -942,10 +942,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | terminal_infeasible | reason: unreachable |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | close requires d_lobby_office to be open, it is closed |
-| Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Llama 3.3 70B, plain | terminal_infeasible | reason: unreachable |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | close requires d_lobby_office to be open, it is closed |
+| Qwen 2.5 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | d_lobby_office connects lobby and office but is closed |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding kettle |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -959,10 +959,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | d_studio_lobby connects studio and lobby but is closed |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | d_studio_lobby connects lobby and studio but is closed |
-| Qwen 7B, plain | precondition_violation | folder_blue is in the studio, robot is in the lobby |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | d_archive_strong connects archive and strong_room, robot is in the lobby |
+| Llama 3.3 70B, plain | precondition_violation | d_studio_lobby connects studio and lobby but is closed |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | d_studio_lobby connects lobby and studio but is closed |
+| Qwen 2.5 7B, plain | precondition_violation | folder_blue is in the studio, robot is in the lobby |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | d_archive_strong connects archive and strong_room, robot is in the lobby |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: unreachable |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | goal_not_achieved | 1/2 goal conjuncts satisfied |
 | Gemini 3.6 Flash, plain | goal_not_achieved | 1/2 goal conjuncts satisfied |
@@ -976,10 +976,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | precondition_violation | d_workshop_studio connects studio and workshop but is closed |
-| Llama 70B, obfuscated (v2 tokens) | precondition_violation | d_workshop_studio connects studio and workshop but is closed |
-| Qwen 7B, plain | precondition_violation | no door connects canteen and workshop |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'ledger' is not a room |
+| Llama 3.3 70B, plain | precondition_violation | d_workshop_studio connects studio and workshop but is closed |
+| Llama 3.3 70B, obfuscated (v2 tokens) | precondition_violation | d_workshop_studio connects studio and workshop but is closed |
+| Qwen 2.5 7B, plain | precondition_violation | no door connects canteen and workshop |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | goto expects a room, 'ledger' is not a room |
 | Gemini 3.1 Flash Lite, plain | precondition_violation | d_workshop_studio connects studio and workshop but is closed |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | gripper must be empty to operate a door, robot is holding kettle |
 | Gemini 3.6 Flash, plain | valid |  |
@@ -993,10 +993,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | terminal_infeasible | reason: constraint |
-| Llama 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
-| Qwen 7B, plain | precondition_violation | no door connects lobby and server_room |
-| Qwen 7B, obfuscated (v2 tokens) | precondition_violation | backup_tape is in the server_room, robot is in the lobby |
+| Llama 3.3 70B, plain | terminal_infeasible | reason: constraint |
+| Llama 3.3 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
+| Qwen 2.5 7B, plain | precondition_violation | no door connects lobby and server_room |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | precondition_violation | backup_tape is in the server_room, robot is in the lobby |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: constraint |
@@ -1010,10 +1010,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | terminal_infeasible | reason: constraint |
-| Llama 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
-| Qwen 7B, plain | precondition_violation | no door connects lobby and workshop |
-| Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
+| Llama 3.3 70B, plain | terminal_infeasible | reason: constraint |
+| Llama 3.3 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
+| Qwen 2.5 7B, plain | precondition_violation | no door connects lobby and workshop |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | precondition_violation | d_workshop_studio connects studio and workshop but is closed |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: constraint |
@@ -1027,10 +1027,10 @@ observations per cell, anecdotes rather than rates.
 
 | run | lenient verdict | note |
 |---|---|---|
-| Llama 70B, plain | terminal_infeasible | reason: constraint |
-| Llama 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
-| Qwen 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
-| Qwen 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
+| Llama 3.3 70B, plain | terminal_infeasible | reason: constraint |
+| Llama 3.3 70B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
+| Qwen 2.5 7B, plain | precondition_violation | d_lobby_office connects lobby and office but is closed |
+| Qwen 2.5 7B, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, plain | terminal_infeasible | reason: constraint |
 | Gemini 3.1 Flash Lite, obfuscated (v2 tokens) | terminal_infeasible | reason: constraint |
 | Gemini 3.6 Flash, plain | terminal_infeasible | reason: constraint |
