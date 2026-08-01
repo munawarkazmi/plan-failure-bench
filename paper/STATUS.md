@@ -51,7 +51,13 @@ inspected.
   dblblindworkshop, which anonymises automatically). Remaining before
   submission: final pre-submission read, final literature micro-sweep,
   arXiv endorsement and posting, and confirming TAE's page limit and
-  blinding policy from its call before uploading
+  blinding policy from its call before uploading. Anonymity checked 1
+  August 2026: no identifying content outside the author block, which
+  the dblblindworkshop option strips; if the submission is double
+  blind, the repository link is withheld or replaced by an anonymised
+  mirror at upload. OpenReview profile must exist well before the
+  deadline; profiles created on non-institutional email can take up to
+  two weeks of moderation
 
 ## Ground rules for this draft
 
