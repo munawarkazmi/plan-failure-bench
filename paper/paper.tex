@@ -13,7 +13,7 @@
 % the notice line and the author block is anonymised automatically).
 \PassOptionsToPackage{numbers}{natbib}
 \usepackage[preprint]{neurips_2026}
-\workshoptitle{Can We Trust AI Evaluation?}
+\workshoptitle{TAE (Trust-AI-Eval): Can We Trust AI Evaluation?}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -62,21 +62,21 @@ directly from the committed run records, so no number in the paper can
 drift from its data. The headline artefact is the confusion matrix
 between planted trap and observed verdict. A four-model grid, sized by
 free-tier access and reported as counts and hypotheses, demonstrates
-what the instrument yields: models fail in distinct, stable ways; a 70B model's
-planning judgement survives semantic obfuscation essentially intact,
-an apparent execution collapse under our first token scheme having
-been caught and retired by the obfuscation's own versioning;
-over-refusal tracks surface semantics; for the smaller
+what the instrument yields. Models fail in distinct, stable ways. A
+70B model's planning judgement survives semantic obfuscation
+essentially intact; an apparent execution collapse under our first
+token scheme was caught and retired by the obfuscation's own
+versioning. Over-refusal tracks surface semantics. For the smaller
 reasoning-generation model, unreachability detection survives
 obfuscation only where the isolation is stated rather than left to be
-inferred from topology; and the first frontier reasoning model clears
+inferred from topology. The first frontier reasoning model clears
 house\_01 in both conditions with identical ideal diagonals, then
 repeats every headline count on the second environment in both
-conditions, the same single sequencing seed failing identically in
-each, so semantic removal changes nothing this benchmark can measure
-for it, inferred topology included; that bounds every failure finding
-here to smaller and non-reasoning models. This is a working paper;
-every number in it is reconstructible from the repository.
+conditions, with the same single sequencing seed failing identically
+in each; for that model, semantic removal changes nothing this
+benchmark can measure, which bounds every failure finding here to
+smaller and non-reasoning models. This is a working paper; every
+number in it is reconstructible from the repository.
 \end{abstract}
 
 \section{Introduction}
@@ -88,12 +88,12 @@ fetches one of two identical cups without asking which. Before asking
 whether a language model plans well, a benchmark should ask whether the
 model notices when planning is the wrong response altogether.
 
-\benchname{} makes that question decidable, and the decidability is
-the point. The contribution of this paper is the instrument, not a
-leaderboard: a way of constructing planner evaluations in which every
-scoring decision is mechanical, every ground-truth label is proved
-rather than authored, and every published number can be reconstructed
-from committed records by a reader who trusts none of the prose. The
+\benchname{} makes that question decidable. The contribution of this
+paper is the instrument rather than the leaderboard: a way of
+constructing planner evaluations in which every scoring decision is
+mechanical, every ground-truth label carries its own proof, and every
+published number can be reconstructed from committed records by a
+reader who trusts none of the prose. The
 four-model, two-environment grid reported here is a demonstration of
 that instrument at deliberately small scale, 30 seeds per condition
 with a model panel selected by free-tier access, and its findings are
@@ -102,7 +102,7 @@ buy is that those hypotheses, at whatever scale they are eventually
 tested, cannot be artefacts of a judge, a mislabelled seed, or a
 transcription: two artefacts the instrument caught in its own first
 token scheme, documented in Section~\ref{sec:results}, show the audit
-loop working in practice. The rules are these:
+loop working in practice. The construction rules:
 
 \begin{enumerate}
 \item \textbf{Ground truth decidable by construction.} The world model
@@ -247,7 +247,7 @@ checker itself.
 
 \textbf{Measurement validity and judge reliability.} The construction
 rules in the introduction respond to documented pathologies of
-current evaluation practice, not hypothetical ones. A systematic
+current evaluation practice. A systematic
 review of 445 LLM benchmarks found nearly every one weak on at least
 one construct validity criterion, the operationalisation of abstract
 phenomena often insufficient, and issued eight recommendations
@@ -261,14 +261,14 @@ agreement overstates discriminative ability (Cohen's kappa 33.8 to
 41.3 percentage points lower on MT-Bench), that judge rankings shift
 by up to 14 positions across benchmarks, and that production-deployed
 judges combine near-perfect test-retest reliability with severe
-position bias \citep{norman2026judges}; scoring here admits no judge
-anywhere, so those pathologies have no entry point. Shallow-cue
-exploitation is likewise measurable in existing benchmarks: simple
-classifiers over answer n-grams score highly on several
-multiple-choice benchmarks while lacking the capability being tested
-\citep{pacchiardi2024cleverhans}. The obfuscated condition is that
-concern built into the instrument, removing surface cues while
-provably preserving task structure.
+position bias \citep{norman2026judges}; \benchname{} scores with no
+judge anywhere, so none of those pathologies can enter. Shallow-cue
+exploitation has also been measured directly: simple classifiers over
+answer n-grams score highly on several multiple-choice benchmarks
+while lacking the capability being tested
+\citep{pacchiardi2024cleverhans}. The obfuscated condition answers the
+same concern by construction, removing the surface cues while provably
+preserving task structure.
 
 \textbf{Verification log for this section; items (1) to (6)
 discharged 25 July 2026, item (7) on 30 July 2026, item (8) on
@@ -448,9 +448,10 @@ checkpoints they called, generated from the committed manifest.}
 \section{Results}
 \label{sec:results}
 
-All numbers below are single-decode counts under the lenient extraction
-policy, with strict format failures reported per run; at $n=30$ per
-condition they are hypotheses, not claims. Table~\ref{tab:runs} is
+Numbers below are counts under the lenient extraction policy, one
+decode per seed at temperature 0 except in the two sampling
+paragraphs, with strict format failures reported per run; at $n=30$
+per condition they are hypotheses, not claims. Table~\ref{tab:runs} is
 generated directly from the committed records.
 
 \begin{table}[t]
@@ -477,7 +478,7 @@ or candidate set was exactly right.}
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{confusion_matrices_office.png}
-\caption{office\_01: planted trap versus observed verdict for seven runs.}
+\caption{office\_01: planted trap versus observed verdict for eight runs.}
 \label{fig:office}
 \end{figure}
 
@@ -628,9 +629,9 @@ prose-wrapping. The bare variant backfires where it seems to help: 8
 of its 30 responses contain no recoverable JSON at all, against 1 of
 30 under the canonical prompt. Lenient planning metrics barely move
 across prompts (detection 8 to 10 of 13, false positives 2 to 3 of
-17), which is precisely the separation the two-policy scoring exists
-to provide: format discipline is prompt-sensitive, planning
-conclusions are not.
+17), which is the separation the two-policy scoring exists to
+provide: format discipline is prompt-sensitive, planning conclusions
+are not.
 
 \textbf{The capability distinction still defeats every model, and the
 crack in it now survives obfuscation.} The capability-grant seeds,
