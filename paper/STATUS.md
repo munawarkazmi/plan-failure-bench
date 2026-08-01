@@ -33,7 +33,10 @@ inspected.
 - [ ] Writing (every section drafted, related work included; an
   editing pass over the full draft applied 30 July 2026, catching the
   stale test count, the stale figure caption, and the setup and
-  abstract sentences the frontier office runs had overtaken; a final
+  abstract sentences the frontier office runs had overtaken; framing
+  decided 31 July 2026: a methodology paper, the instrument is the
+  contribution and the four-model grid its demonstration, with the
+  abstract and introduction rewritten to that framing; a final
   pre-submission read remains)
 - Target venue: TBD
 

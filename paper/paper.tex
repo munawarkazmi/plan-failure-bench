@@ -28,23 +28,31 @@
 \maketitle
 
 \begin{abstract}
-Success rates blur the distinction between a language model that refuses
-every task and one that walks into every trap. \benchname{} measures how
-language model planners fail, not merely how often. Each of 60
-instructions over two symbolic household environments either admits a
-valid plan or plants exactly one trap from a six-way taxonomy:
-unreachable goal, missing capability, ambiguous referent, precondition
-trap, sequencing trap, or constraint trap. Models answer in a small JSON
-action language with explicit infeasible and clarify responses, so trap
-detection is machine-checkable. A deterministic checker, differentially
-tested against an independent PDDL toolchain, assigns exactly one
-verdict per response; every planted label carries a mechanical proof
-obligation re-run in continuous integration; and every instruction also
-exists in a semantically obfuscated condition applied as an invertible
-renaming, so the checker only ever scores the canonical world. The
-headline artefact is the confusion matrix between planted trap and
-observed verdict. Early results on four models are reported as counts
-and hypotheses: models fail in distinct, stable ways; a 70B model's
+Evaluations of language model planners mostly rest on foundations a
+reader cannot audit: success rates that cannot tell a model refusing
+every task from one walking into every trap, ground-truth labels that
+are authored rather than proved, and human or LLM judges somewhere in
+the scoring loop. The contribution of this paper is methodological: a
+set of construction rules for planner evaluations that remove all
+three, demonstrated in \benchname{}. Ground truth is decidable by
+construction. Each of 60 instructions over two symbolic household
+environments either admits a valid plan or plants exactly one trap
+from a six-way taxonomy (unreachable goal, missing capability,
+ambiguous referent, precondition trap, sequencing trap, constraint
+trap), and every label carries a mechanical proof obligation re-run in
+continuous integration. Models answer in a small JSON action language
+with explicit infeasible and clarify responses, so trap detection is
+machine-checkable and never reported without its paired false positive
+count. A deterministic checker, differentially tested against an
+independent PDDL toolchain, assigns exactly one verdict per response;
+every instruction also exists in a semantically obfuscated condition
+applied as a versioned invertible renaming, so the checker only ever
+scores the canonical world; and the results tables are generated
+directly from the committed run records, so no number in the paper can
+drift from its data. The headline artefact is the confusion matrix
+between planted trap and observed verdict. A four-model grid, sized by
+free-tier access and reported as counts and hypotheses, demonstrates
+what the instrument yields: models fail in distinct, stable ways; a 70B model's
 planning judgement survives semantic obfuscation essentially intact,
 an apparent execution collapse under our first token scheme having
 been caught and retired by the obfuscation's own versioning;
@@ -57,8 +65,8 @@ repeats every headline count on the second environment in both
 conditions, the same single sequencing seed failing identically in
 each, so semantic removal changes nothing this benchmark can measure
 for it, inferred topology included; that bounds every failure finding
-here to smaller and non-reasoning models. This is a working paper; the results tables
-are generated directly from the committed run records.
+here to smaller and non-reasoning models. This is a working paper;
+every number in it is reconstructible from the repository.
 \end{abstract}
 
 \section{Introduction}
@@ -70,7 +78,21 @@ fetches one of two identical cups without asking which. Before asking
 whether a language model plans well, a benchmark should ask whether the
 model notices when planning is the wrong response altogether.
 
-\benchname{} makes that question decidable. Its design contributions:
+\benchname{} makes that question decidable, and the decidability is
+the point. The contribution of this paper is the instrument, not a
+leaderboard: a way of constructing planner evaluations in which every
+scoring decision is mechanical, every ground-truth label is proved
+rather than authored, and every published number can be reconstructed
+from committed records by a reader who trusts none of the prose. The
+four-model, two-environment grid reported here is a demonstration of
+that instrument at deliberately small scale, 30 seeds per condition
+with a model panel selected by free-tier access, and its findings are
+stated as bounded hypotheses throughout. What the construction rules
+buy is that those hypotheses, at whatever scale they are eventually
+tested, cannot be artefacts of a judge, a mislabelled seed, or a
+transcription: two artefacts the instrument caught in its own first
+token scheme, documented in Section~\ref{sec:results}, show the audit
+loop working in practice. The rules are these:
 
 \begin{enumerate}
 \item \textbf{Ground truth decidable by construction.} The world model
@@ -93,9 +115,12 @@ model notices when planning is the wrong response altogether.
 \item \textbf{Two structurally contrasting environments.} The second
   environment varies topology and constraint structure specifically to
   test whether findings from the first are artefacts of one map.
-\item \textbf{Open, replayable records.} Every run is committed as one
-  JSON record per seed, and both scoring policies re-score offline
-  without model calls.
+\item \textbf{Open, replayable records, and no transcribed numbers.}
+  Every run is committed as one JSON record per seed, both scoring
+  policies re-score offline without model calls, model names resolve
+  through a committed manifest of exact API checkpoints, and the
+  results tables in this paper are generated from the records rather
+  than typed.
 \end{enumerate}
 
 \section{Related work}
@@ -368,6 +393,7 @@ checkpoints they called, generated from the committed manifest.}
 \end{table}
 
 \section{Results}
+\label{sec:results}
 
 All numbers below are single-decode counts under the lenient extraction
 policy, with strict format failures reported per run; at $n=30$ per
