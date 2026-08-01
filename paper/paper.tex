@@ -139,9 +139,9 @@ loop working in practice. The construction rules:
 and the specific findings attributed to them were checked against the
 cited papers on 25 July 2026, with two entries added and checked on 30
 July 2026 and four more by the 1 August 2026 sweep that accompanied
-the venue decision; the verification log at the end of the section
-records each check. A final micro-sweep for work newer than 1 August
-2026 precedes submission.}
+the venue decision; the verification log in
+Appendix~\ref{app:verification} records each check. A final
+micro-sweep for work newer than 1 August 2026 precedes submission.}
 
 \textbf{Evaluating LLM planning.} PlanBench established systematic
 evaluation of LLM planning over symbolic domains and its successors
@@ -269,50 +269,6 @@ while lacking the capability being tested
 \citep{pacchiardi2024cleverhans}. The obfuscated condition answers the
 same concern by construction, removing the surface cues while provably
 preserving task structure.
-
-\textbf{Verification log for this section; items (1) to (6)
-discharged 25 July 2026, item (7) on 30 July 2026, item (8) on
-1 August 2026.} (1) \emph{Done:} bibliographic details of every entry
-confirmed against public records; Plancraft's venue upgraded to COLM
-2025 and AmbiK's to ACL 2025 in the process. (2) \emph{Done:}
-Plancraft's paper body read; the F1 0.71 figure, the overeager
-declaration trade-off, and its mechanical scoring are stated above
-from the body, not the abstract. (3) \emph{Done:} unsolvability
-recognition under obfuscation is prior art and the section says so
-with figures confirmed against the paper body
-(\citealp{valmeekam2024strawberry}); the specific dissociation we
-observe, detection surviving obfuscation while execution collapses
-within one model, remains unlocated in prior work. (4) \emph{Done:} paired measurement exists within single families and
-the text credits each instance, AmbiK's counterparts, KnowNo's help
-budget, Plancraft's overeager declarations, and the false
-impossibility claims of \citealp{valmeekam2024strawberry}; our pairing
-claim is its systematic extension across all six families. (5)
-\emph{Done as far as searching can resolve it:} no embodied refusal
-benchmark manipulating surface semantics was found; the claim stands
-as ``to our knowledge''. (6) \emph{Done:} the sweep's reading list is
-fully read. Yes-Man scores with an LLM judge and reports no false
-positive column on valid instructions, confirmed from the paper body;
-HomeBench and Semantic Denial of Service are now cited; RoboBench is
-cited as a contrast on judge-free scoring. (7) \emph{Done, 30 July
-2026:} the sweep for work newer than 25 July found TREK (submitted 29
-July 2026), whose feasible--infeasible split, typed causes, judge-free
-deterministic scoring, and cause-naming requirement are stated above
-from the paper body; the same sweep surfaced AgentAbstain (11 July
-2026), which the 25 July reading list had not reached, and its
-paired-task construction, paired accuracy definition, and LLM-judge
-terminal scoring are likewise stated from the body. (8) \emph{Done,
-1 August 2026:} the sweep accompanying the venue decision covered
-both the window since 30 July, which surfaced nothing new in the
-planning-and-abstention line, and the measurement-validity axis
-opened by the methodology framing. Four entries added: the
-445-benchmark construct validity review, the 21-judge reliability
-evaluation, the shallow-feature Clever Hans result, and SIMMER. The
-quantitative claims attributed to the first two and the design
-contrasts attributed to SIMMER (all tasks solvable; no refusal, false
-positive column, or semantic manipulation) are stated from the paper
-bodies; the Clever Hans finding is stated in its abstract's own
-terms. One standing item remains: a final micro-sweep for work newer
-than 1 August 2026 immediately before submission.
 
 \section{Benchmark design}
 
@@ -678,5 +634,55 @@ pre-submission read and a final micro-sweep for literature newer than
 
 \bibliographystyle{plainnat}
 \bibliography{references}
+
+\appendix
+
+\section{Verification log for the related work section}
+\label{app:verification}
+
+Items (1) to (6) were discharged on 25 July 2026, item (7) on 30 July
+2026, and item (8) on 1 August 2026. (1) \emph{Done:} bibliographic
+details of every entry confirmed against public records; Plancraft's
+venue upgraded to COLM 2025 and AmbiK's to ACL 2025 in the process.
+(2) \emph{Done:} Plancraft's paper body read; the F1 0.71 figure, the
+overeager declaration trade-off, and its mechanical scoring are
+stated in the related work section from the body, not the abstract.
+(3) \emph{Done:} unsolvability recognition under obfuscation is prior
+art and the related work section says so with figures confirmed
+against the paper body (\citealp{valmeekam2024strawberry}); the
+specific dissociation we observe, detection surviving obfuscation
+while execution collapses within one model, remains unlocated in
+prior work. (4) \emph{Done:} paired measurement exists within single
+families and the text credits each instance, AmbiK's counterparts,
+KnowNo's help budget, Plancraft's overeager declarations, and the
+false impossibility claims of \citealp{valmeekam2024strawberry}; our
+pairing claim is its systematic extension across all six families.
+(5) \emph{Done as far as searching can resolve it:} no embodied
+refusal benchmark manipulating surface semantics was found; the claim
+stands as ``to our knowledge''. (6) \emph{Done:} the sweep's reading
+list is fully read. Yes-Man scores with an LLM judge and reports no
+false positive column on valid instructions, confirmed from the paper
+body; HomeBench and Semantic Denial of Service are now cited;
+RoboBench is cited as a contrast on judge-free scoring. (7)
+\emph{Done, 30 July 2026:} the sweep for work newer than 25 July
+found TREK (submitted 29 July 2026), whose feasible versus infeasible
+split, typed causes, judge-free deterministic scoring, and
+cause-naming requirement are stated in the related work section from
+the paper body; the same sweep surfaced AgentAbstain (11 July 2026),
+which the 25 July reading list had not reached, and its paired-task
+construction, paired accuracy definition, and LLM-judge terminal
+scoring are likewise stated from the body. (8) \emph{Done, 1 August
+2026:} the sweep accompanying the venue decision covered both the
+window since 30 July, which surfaced nothing new in the
+planning-and-abstention line, and the measurement-validity axis
+opened by the methodology framing. Four entries added: the
+445-benchmark construct validity review, the 21-judge reliability
+evaluation, the shallow-feature Clever Hans result, and SIMMER. The
+quantitative claims attributed to the first two and the design
+contrasts attributed to SIMMER (all tasks solvable; no refusal, false
+positive column, or semantic manipulation) are stated from the paper
+bodies; the Clever Hans finding is stated in its abstract's own
+terms. One standing item remains: a final micro-sweep for work newer
+than 1 August 2026 immediately before submission.
 
 \end{document}
