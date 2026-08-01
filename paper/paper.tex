@@ -128,9 +128,10 @@ loop working in practice. The rules are these:
 \emph{Draft status: the bibliographic details of every citation below
 and the specific findings attributed to them were checked against the
 cited papers on 25 July 2026, with two entries added and checked on 30
-July 2026; the verification log at the end of the section records each
-check. A final sweep for work newer than 30 July 2026 precedes
-submission.}
+July 2026 and four more by the 1 August 2026 sweep that accompanied
+the venue decision; the verification log at the end of the section
+records each check. A final micro-sweep for work newer than 1 August
+2026 precedes submission.}
 
 \textbf{Evaluating LLM planning.} PlanBench established systematic
 evaluation of LLM planning over symbolic domains and its successors
@@ -219,17 +220,49 @@ against an independent PDDL executor, pyperplan
 \citep{alkhazraji2020pyperplan}, labels are proofs re-run in continuous
 integration, and no human or model judgement appears anywhere in the
 scoring loop. Plancraft also scores mechanically inside its crafting
-environment and TREK's evaluator is deterministic rules over its
-travel knowledge base, while RoboBench delegates plan feasibility
-scoring to a multimodal model acting as a world simulator
+environment, TREK's evaluator is deterministic rules over its travel
+knowledge base, and SIMMER validates cooking plans with a
+state-machine executor over a curated symbolic kitchen world; its
+latent failures, flawed plans that execute without immediate
+feedback, are single-domain kin to our silent-violation constraint
+seeds, though all of its tasks are solvable, so refusal, paired false
+positives, and semantic manipulation are out of its scope
+\citep{lu2026simmer}. RoboBench, by contrast, delegates plan
+feasibility scoring to a multimodal model acting as a world simulator
 \citep{luo2025robobench} and the Yes-Man benchmark scores with an
 LLM judge. What no benchmark
 above combines is judge-free scoring with per-seed proof obligations
 re-run in continuous integration and differential testing of the
 checker itself.
 
+\textbf{Measurement validity and judge reliability.} The construction
+rules in the introduction respond to documented pathologies of
+current evaluation practice, not hypothetical ones. A systematic
+review of 445 LLM benchmarks found nearly every one weak on at least
+one construct validity criterion, the operationalisation of abstract
+phenomena often insufficient, and issued eight recommendations
+including defining the phenomenon, preparing for contamination, and
+justifying construct validity \citep{bean2025validity}; \benchname{}
+makes the narrower internal-validity questions theorems rather than
+review items, since what each instruction measures is its planted,
+machine-proved label. On judges, a systematic evaluation of 21 LLM
+judges over roughly 541{,}000 judgments finds that raw exact-match
+agreement overstates discriminative ability (Cohen's kappa 33.8 to
+41.3 percentage points lower on MT-Bench), that judge rankings shift
+by up to 14 positions across benchmarks, and that production-deployed
+judges combine near-perfect test-retest reliability with severe
+position bias \citep{norman2026judges}; scoring here admits no judge
+anywhere, so those pathologies have no entry point. Shallow-cue
+exploitation is likewise measurable in existing benchmarks: simple
+classifiers over answer n-grams score highly on several
+multiple-choice benchmarks while lacking the capability being tested
+\citep{pacchiardi2024cleverhans}. The obfuscated condition is that
+concern built into the instrument, removing surface cues while
+provably preserving task structure.
+
 \textbf{Verification log for this section; items (1) to (6)
-discharged 25 July 2026, item (7) on 30 July 2026.} (1) \emph{Done:} bibliographic details of every entry
+discharged 25 July 2026, item (7) on 30 July 2026, item (8) on
+1 August 2026.} (1) \emph{Done:} bibliographic details of every entry
 confirmed against public records; Plancraft's venue upgraded to COLM
 2025 and AmbiK's to ACL 2025 in the process. (2) \emph{Done:}
 Plancraft's paper body read; the F1 0.71 figure, the overeager
@@ -257,9 +290,19 @@ deterministic scoring, and cause-naming requirement are stated above
 from the paper body; the same sweep surfaced AgentAbstain (11 July
 2026), which the 25 July reading list had not reached, and its
 paired-task construction, paired accuracy definition, and LLM-judge
-terminal scoring are likewise stated from the body. One standing item
-remains: a final sweep for work newer than 30 July 2026 before
-submission.
+terminal scoring are likewise stated from the body. (8) \emph{Done,
+1 August 2026:} the sweep accompanying the venue decision covered
+both the window since 30 July, which surfaced nothing new in the
+planning-and-abstention line, and the measurement-validity axis
+opened by the methodology framing. Four entries added: the
+445-benchmark construct validity review, the 21-judge reliability
+evaluation, the shallow-feature Clever Hans result, and SIMMER. The
+quantitative claims attributed to the first two and the design
+contrasts attributed to SIMMER (all tasks solvable; no refusal, false
+positive column, or semantic manipulation) are stated from the paper
+bodies; the Clever Hans finding is stated in its abstract's own
+terms. One standing item remains: a final micro-sweep for work newer
+than 1 August 2026 immediately before submission.
 
 \section{Benchmark design}
 
@@ -619,8 +662,8 @@ separate record files, reported as per-seed verdict consistency) has
 covered Qwen's full grid and Llama's plain house\_01 cell; extending
 it to the remaining cells unlocks a statistical treatment. With the
 frontier model's grid complete, no run is pending: a final
-pre-submission read, a sweep for literature newer than 30 July 2026,
-and a decision on target venue complete the path to submission.
+pre-submission read and a final micro-sweep for literature newer than
+1 August 2026 complete the path to submission.
 
 \bibliographystyle{plainnat}
 \bibliography{references}

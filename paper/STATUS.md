@@ -15,9 +15,13 @@ inspected.
   every citation verified against public records and every finding
   attributed to a paper checked against its body, 25 July 2026, with
   TREK and AgentAbstain added and body-checked by the 30 July 2026
-  sweep; the section carries its own verification log. One standing
-  obligation: a final sweep for work newer than 30 July 2026 before
-  submission)
+  sweep, and the 1 August 2026 sweep for the venue decision adding a
+  measurement-validity paragraph, Bean et al.'s construct validity
+  review, Norman et al.'s judge reliability evaluation, the Clever
+  Hans shallow-feature result, and SIMMER, each body-checked; the
+  section carries its own verification log. One standing obligation:
+  a final micro-sweep for work newer than 1 August 2026 immediately
+  before submission)
 - [x] Experiments, original grid (all 14 planned single-decode runs
   complete: three models, both environments, both conditions, with
   superseded v1 runs retained and marked; plus the frontier model's
@@ -38,7 +42,12 @@ inspected.
   contribution and the four-model grid its demonstration, with the
   abstract and introduction rewritten to that framing; a final
   pre-submission read remains)
-- Target venue: TBD
+- Target venue: decided 1 August 2026, the TAE workshop (Can We Trust
+  AI Evaluation?) at NeurIPS 2026, Sydney. Submission deadline 29
+  August 2026 AoE via OpenReview, NeurIPS 2026 format, in-person
+  poster presentation expected. Remaining before submission:
+  NeurIPS-template reformat, final pre-submission read, final
+  literature micro-sweep, arXiv endorsement and posting
 
 ## Ground rules for this draft
 
