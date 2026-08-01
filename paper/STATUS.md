@@ -45,9 +45,13 @@ inspected.
 - Target venue: decided 1 August 2026, the TAE workshop (Can We Trust
   AI Evaluation?) at NeurIPS 2026, Sydney. Submission deadline 29
   August 2026 AoE via OpenReview, NeurIPS 2026 format, in-person
-  poster presentation expected. Remaining before submission:
-  NeurIPS-template reformat, final pre-submission read, final
-  literature micro-sweep, arXiv endorsement and posting
+  poster presentation expected. The draft is in the official NeurIPS
+  2026 template (vendored neurips_2026.sty; committed builds use the
+  preprint option, and the submission build switches one option to
+  dblblindworkshop, which anonymises automatically). Remaining before
+  submission: final pre-submission read, final literature micro-sweep,
+  arXiv endorsement and posting, and confirming TAE's page limit and
+  blinding policy from its call before uploading
 
 ## Ground rules for this draft
 
