@@ -26,6 +26,12 @@
 
 \newcommand{\benchname}{plan-failure-bench}
 
+% Anonymised mirror of the repository for double-blind review, served
+% from the anon-mirror branch (no compiled preprint, identifiers
+% scrubbed by the mirror service). Fill in once generated; used only
+% by the dblblindworkshop build.
+\newcommand{\anonrepourl}{ANON-MIRROR-URL-PENDING}
+
 \title{\benchname: A Machine-Checkable Benchmark\\of How Language Model Planners Fail}
 \author{%
   Munawar Kazmi\\
@@ -75,8 +81,14 @@ repeats every headline count on the second environment in both
 conditions, with the same single sequencing seed failing identically
 in each; for that model, semantic removal changes nothing this
 benchmark can measure, which bounds every failure finding here to
-smaller and non-reasoning models. This is a working paper; every
-number in it is reconstructible from the repository.
+smaller and non-reasoning models.
+\makeatletter\if@preprint
+This is a working paper; every number in it is reconstructible from
+the repository.
+\else
+Every number in this paper is reconstructible from the anonymised
+repository at \url{\anonrepourl}.
+\fi\makeatother
 \end{abstract}
 
 \section{Introduction}
@@ -427,7 +439,9 @@ or candidate set was exactly right.}
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{confusion_matrices.png}
-\caption{house\_01: planted trap versus observed verdict for eight runs.}
+\caption{house\_01: planted trap versus observed verdict for the eight
+version 2 token runs; the two superseded version 1 runs appear in
+Table~\ref{tab:runs} only.}
 \label{fig:house}
 \end{figure}
 
