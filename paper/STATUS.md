@@ -54,8 +54,10 @@ inspected.
   blinding policy from its call before uploading. Anonymity checked 1
   August 2026: no identifying content outside the author block, which
   the dblblindworkshop option strips; if the submission is double
-  blind, the repository link is withheld or replaced by an anonymised
-  mirror at upload. OpenReview profile must exist well before the
+  blind, the abstract's closing line switches automatically to cite an
+  anonymised mirror (anonymous.4open.science over the anon-mirror
+  branch, which excludes the compiled preprint; the URL drops into the
+  \anonrepourl macro once generated). OpenReview profile must exist well before the
   deadline; profiles created on non-institutional email can take up to
   two weeks of moderation
 
