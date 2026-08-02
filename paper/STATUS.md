@@ -42,6 +42,12 @@ inspected.
   contribution and the four-model grid its demonstration, with the
   abstract and introduction rewritten to that framing; a final
   pre-submission read remains)
+- Preprint published: Zenodo, 2 August 2026. Concept DOI
+  10.5281/zenodo.21756817 (always newest version), V1 DOI
+  10.5281/zenodo.21756818. The uploaded file is byte-identical to the
+  committed paper.pdf (MD5 verified). After the pre-submission rebuild,
+  push the new paper.pdf to Zenodo as a new version under the same
+  concept DOI.
 - Target venue: decided 1 August 2026, the TAE workshop (Can We Trust
   AI Evaluation?) at NeurIPS 2026, Sydney. Submission deadline 29
   August 2026 AoE via OpenReview, NeurIPS 2026 format, in-person
