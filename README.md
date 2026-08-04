@@ -387,7 +387,15 @@ completes; [paper/STATUS.md](paper/STATUS.md) tracks section status
 honestly (nothing is ticked that cannot be inspected in this
 repository). Its results tables are generated from the committed run
 records by `tools/build_paper_results.py` and are never edited by hand,
-so the paper cannot drift from the data.
+so the paper cannot drift from the data. The paper is public as a
+citable preprint: [DOI 10.5281/zenodo.21756817](https://doi.org/10.5281/zenodo.21756817).
+
+For a non-specialist reader there is a six-page plain-language guide,
+[docs/explainer/explainer.pdf](docs/explainer/explainer.pdf), which
+walks one instruction end to end, shows the real model answers
+including the obfuscated one, and explains why the labels carry proofs.
+Its source is committed alongside it and builds with
+`latexmk -pdf explainer.tex`.
 
 ## The worlds
 
