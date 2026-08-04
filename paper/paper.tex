@@ -16,6 +16,10 @@
 \workshoptitle{TAE (Trust-AI-Eval): Can We Trust AI Evaluation?}
 
 \usepackage[T1]{fontenc}
+% Latin Modern typewriter only: the template's Times and Helvetica stay as
+% they are. Without this, T1-encoded Computer Modern typewriter falls back to
+% bitmaps, which embed as Type 3 fonts and trip format checkers.
+\renewcommand{\ttdefault}{lmtt}
 \usepackage[utf8]{inputenc}
 \usepackage{microtype}
 \usepackage{booktabs}
@@ -147,13 +151,10 @@ loop working in practice. The construction rules:
 
 \section{Related work}
 
-\emph{Draft status: the bibliographic details of every citation below
-and the specific findings attributed to them were checked against the
-cited papers on 25 July 2026, with two entries added and checked on 30
-July 2026 and four more by the 1 August 2026 sweep that accompanied
-the venue decision; the verification log in
-Appendix~\ref{app:verification} records each check. A final
-micro-sweep for work newer than 1 August 2026 precedes submission.}
+\emph{Every citation below was checked against public records for its
+bibliographic details, and every finding attributed to a paper was
+checked against that paper's body rather than its abstract.
+Appendix~\ref{app:verification} records what each check established.}
 
 \textbf{Evaluating LLM planning.} PlanBench established systematic
 evaluation of LLM planning over symbolic domains and its successors
@@ -438,18 +439,14 @@ or candidate set was exactly right.}
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\linewidth]{confusion_matrices.png}
-\caption{house\_01: planted trap versus observed verdict for the eight
-version 2 token runs; the two superseded version 1 runs appear in
-Table~\ref{tab:runs} only.}
-\label{fig:house}
-\end{figure}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{confusion_matrices_office.png}
-\caption{office\_01: planted trap versus observed verdict for eight runs.}
-\label{fig:office}
+\includegraphics[width=\linewidth]{confusion_matrices_headline.png}
+\caption{The headline artefact, on three of the eighteen runs. Rows are
+the planted trap, columns the observed verdict. The same 30
+instructions produce three shapes: Qwen drives almost every trap into
+one execution-failure column, Flash Lite refuses across the matrix
+including on feasible seeds, and the frontier model returns the
+diagonal. Full grids for every run are in Appendix~\ref{app:figures}.}
+\label{fig:headline}
 \end{figure}
 
 \textbf{Models fail in distinct, stable ways.} Llama detects most traps
@@ -503,15 +500,6 @@ the spurious execution collapse retired above
 (Table~\ref{tab:hallucination}). Records carry their obfuscation
 version, so generations of results never mix silently, and the
 superseded runs remain visible in Table~\ref{tab:runs}.
-
-\begin{table}[t]
-\centering
-\small
-\input{generated/hallucination_table}
-\caption{Hallucinated-entity verdicts across obfuscated runs. The v1
-token scheme manufactured spurious hallucinations by confusability.}
-\label{tab:hallucination}
-\end{table}
 
 \textbf{Sampling stability: the small model's profile is not a decoding
 artefact.} Five decodes per seed at temperature 0.7 (Qwen, plain,
@@ -638,65 +626,85 @@ on free-tier quotas, which selected the model list.
 
 \section{Future work}
 
-The sampling protocol ($k=5$ decodes per seed at temperature 0.7 into
-separate record files, reported as per-seed verdict consistency) has
-covered Qwen's full grid and Llama's plain house\_01 cell; extending
-it to the remaining cells unlocks a statistical treatment. With the
-frontier model's grid complete, no run is pending: a final
-pre-submission read and a final micro-sweep for literature newer than
-1 August 2026 complete the path to submission.
+Extending the $k=5$ sampling protocol to the unsampled cells unlocks a
+statistical treatment and would most strengthen the claims here. More
+environments would test whether the taxonomy discriminates outside this
+domain family, and a second frontier-class model whether obfuscation
+invariance is a tier property.
 
 \bibliographystyle{plainnat}
 \bibliography{references}
 
 \appendix
 
-\section{Verification log for the related work section}
+\section{Full confusion matrices and hallucination counts}
+\label{app:figures}
+
+\begin{table}[h]
+\centering
+\small
+\input{generated/hallucination_table}
+\caption{Hallucinated-entity verdicts across obfuscated runs. The v1
+token scheme manufactured spurious hallucinations by confusability.}
+\label{tab:hallucination}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{confusion_matrices.png}
+\caption{house\_01: planted trap versus observed verdict for the eight
+version 2 token runs; the two superseded version 1 runs appear in
+Table~\ref{tab:runs} only.}
+\label{fig:house}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{confusion_matrices_office.png}
+\caption{office\_01: planted trap versus observed verdict for eight runs.}
+\label{fig:office}
+\end{figure}
+
+\clearpage
+
+\section{Citation verification record}
 \label{app:verification}
 
-Items (1) to (6) were discharged on 25 July 2026, item (7) on 30 July
-2026, and item (8) on 1 August 2026. (1) \emph{Done:} bibliographic
+Every citation in the related work section was checked against public
+records for its bibliographic details, and every finding attributed to
+a paper was checked against that paper's body rather than its abstract.
+This record states what each check established, so a reader can audit
+the section's claims about prior work the same way they can audit its
+numbers. (1) Bibliographic
 details of every entry confirmed against public records; Plancraft's
 venue upgraded to COLM 2025 and AmbiK's to ACL 2025 in the process.
-(2) \emph{Done:} Plancraft's paper body read; the F1 0.71 figure, the
-overeager declaration trade-off, and its mechanical scoring are
-stated in the related work section from the body, not the abstract.
-(3) \emph{Done:} unsolvability recognition under obfuscation is prior
-art and the related work section says so with figures confirmed
-against the paper body (\citealp{valmeekam2024strawberry}); the
-specific dissociation we observe, detection surviving obfuscation
-while execution collapses within one model, remains unlocated in
-prior work. (4) \emph{Done:} paired measurement exists within single
-families and the text credits each instance, AmbiK's counterparts,
-KnowNo's help budget, Plancraft's overeager declarations, and the
-false impossibility claims of \citealp{valmeekam2024strawberry}; our
-pairing claim is its systematic extension across all six families.
-(5) \emph{Done as far as searching can resolve it:} no embodied
-refusal benchmark manipulating surface semantics was found; the claim
-stands as ``to our knowledge''. (6) \emph{Done:} the sweep's reading
-list is fully read. Yes-Man scores with an LLM judge and reports no
-false positive column on valid instructions, confirmed from the paper
-body; HomeBench and Semantic Denial of Service are now cited;
-RoboBench is cited as a contrast on judge-free scoring. (7)
-\emph{Done, 30 July 2026:} the sweep for work newer than 25 July
-found TREK (submitted 29 July 2026), whose feasible versus infeasible
-split, typed causes, judge-free deterministic scoring, and
-cause-naming requirement are stated in the related work section from
-the paper body; the same sweep surfaced AgentAbstain (11 July 2026),
-which the 25 July reading list had not reached, and its paired-task
+(2) Plancraft's paper body was read; the F1 0.71 figure, the overeager
+declaration trade-off, and its mechanical scoring are stated in the
+related work section from the body, not the abstract.
+(3) Unsolvability recognition under obfuscation is prior art and the
+related work section says so, with figures confirmed against the paper
+body (\citealp{valmeekam2024strawberry}); the specific dissociation we
+observe, detection surviving obfuscation while execution collapses
+within one model, remains unlocated in prior work. (4) Paired
+measurement exists within single families and the text credits each
+instance, AmbiK's counterparts, KnowNo's help budget, Plancraft's
+overeager declarations, and the false impossibility claims of
+\citealp{valmeekam2024strawberry}; our pairing claim is its systematic
+extension across all six families. (5) As far as searching can resolve
+it, no embodied refusal benchmark manipulating surface semantics was
+found, so that claim stands as ``to our knowledge''. (6) Yes-Man scores
+with an LLM judge and reports no false positive column on valid
+instructions, confirmed from the paper body; HomeBench and Semantic
+Denial of Service are cited; RoboBench is cited as a contrast on
+judge-free scoring. (7) TREK's feasible versus infeasible split, typed
+causes, judge-free deterministic scoring, and cause-naming requirement
+are stated from the paper body, as are AgentAbstain's paired-task
 construction, paired accuracy definition, and LLM-judge terminal
-scoring are likewise stated from the body. (8) \emph{Done, 1 August
-2026:} the sweep accompanying the venue decision covered both the
-window since 30 July, which surfaced nothing new in the
-planning-and-abstention line, and the measurement-validity axis
-opened by the methodology framing. Four entries added: the
-445-benchmark construct validity review, the 21-judge reliability
-evaluation, the shallow-feature Clever Hans result, and SIMMER. The
-quantitative claims attributed to the first two and the design
-contrasts attributed to SIMMER (all tasks solvable; no refusal, false
-positive column, or semantic manipulation) are stated from the paper
-bodies; the Clever Hans finding is stated in its abstract's own
-terms. One standing item remains: a final micro-sweep for work newer
-than 1 August 2026 immediately before submission.
+scoring. (8) On the measurement-validity axis, the quantitative claims
+attributed to the 445-benchmark construct validity review and the
+21-judge reliability evaluation, and the design contrasts attributed to
+SIMMER (all tasks solvable; no refusal, no false positive column, no
+semantic manipulation), are stated from the paper bodies; the Clever
+Hans finding is stated in its abstract's own terms.
 
 \end{document}

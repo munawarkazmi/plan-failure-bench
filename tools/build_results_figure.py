@@ -2,6 +2,8 @@ import json
 import os
 import sys
 
+import numpy as np
+
 sys.path.insert(0, os.getcwd())
 
 import matplotlib
@@ -46,6 +48,15 @@ OFFICE_RUNS = [
     ("obfuscated (v2 tokens)", "results/gemini_flash_lite_office_obfuscated.jsonl"),
     ("plain", "results/gemini_flash_office_plain.jsonl"),
     ("obfuscated (v2 tokens)", "results/gemini_flash_office_obfuscated.jsonl"),
+]
+
+# Compact in-body figure: three models in the plain condition on house_01,
+# the three distinct failure shapes the paper's first finding describes. The
+# full eight-run grids stay in the appendix.
+HEADLINE_RUNS = [
+    ("plain", "results/local_qwen_plain.jsonl"),
+    ("plain", "results/gemini_flash_lite_plain.jsonl"),
+    ("plain", "results/gemini_flash_plain.jsonl"),
 ]
 
 
@@ -112,6 +123,7 @@ def build_figure(runs, run_seeds, run_envs, rows, cols, suptitle, out_path):
     vmax = max(max(m.values()) for m in matrices.values())
 
     fig, axes = plt.subplots(rows, cols, figsize=(11.5, 4.0 * rows), facecolor=SURFACE)
+    axes = np.atleast_1d(axes)
     for ax in list(axes.flat)[len(runs):]:
         ax.set_visible(False)
     for ax, title in zip(axes.flat, titles):
@@ -166,4 +178,13 @@ build_figure(
     2,
     "office_01: planted trap versus observed verdict, 30 seeds per run, lenient extraction",
     "docs/img/confusion_matrices_office.png",
+)
+build_figure(
+    HEADLINE_RUNS,
+    seeds,
+    envs,
+    1,
+    3,
+    "house_01, plain condition: three models, three failure shapes",
+    "docs/img/confusion_matrices_headline.png",
 )
