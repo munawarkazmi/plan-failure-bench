@@ -9,8 +9,12 @@
 % NeurIPS 2026 style (official kit, vendored as neurips_2026.sty).
 % Committed builds use the preprint option: named authors and a plain
 % "Preprint." notice. For the TAE workshop submission, change the
-% option to dblblindworkshop (the \workshoptitle below then appears in
-% the notice line and the author block is anonymised automatically).
+% option to dblblindworkshop: the author block becomes Anonymous
+% Author(s) and line numbers appear. The \workshoptitle below does not
+% show on a submission build; the kit puts it in the notice line only
+% for the camera-ready, where the neuripsfinal branch selects
+% \@trackname. A submission correctly carries the generic "Submitted to
+% ... Do not distribute." notice instead.
 \PassOptionsToPackage{numbers}{natbib}
 \usepackage[preprint]{neurips_2026}
 \workshoptitle{TAE (Trust-AI-Eval): Can We Trust AI Evaluation?}
