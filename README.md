@@ -294,7 +294,7 @@ conditions):
   five samples. Detection was exactly binary: the same two object-level
   unreachable seeds (the fixed television, the nonexistent lamp) were
   detected in all five samples, the other eleven trap seeds in none of
-  their 65 decodes, and none of the 85 feasible-seed decodes produced a
+  their 55 decodes, and none of the 85 feasible-seed decodes produced a
   refusal. The never-refuse profile is a property of the model, not of
   greedy decoding. All five sample files are committed;
   `python -m plan_failure_bench.consistency` reproduces the report.

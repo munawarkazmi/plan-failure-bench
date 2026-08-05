@@ -44,8 +44,12 @@ inspected.
   pre-submission read remains)
 - Preprint published: Zenodo, 2 August 2026. Concept DOI
   10.5281/zenodo.21756817 (always newest version), V1 DOI
-  10.5281/zenodo.21756818. The uploaded file is byte-identical to the
-  committed paper.pdf (MD5 verified). After the pre-submission rebuild,
+  10.5281/zenodo.21756818. The uploaded file was byte-identical to the
+  committed paper.pdf (MD5 verified) until the correction of 4 August
+  2026 below, so the V1 record on Zenodo now differs from the committed
+  paper by one number and carries a wrong one. Pushing a new version is
+  therefore no longer only a pre-submission tidy, it is a correction.
+  After the pre-submission rebuild,
   push the new paper.pdf to Zenodo as a new version under the same
   concept DOI.
 - Target venue: decided 1 August 2026, the TAE workshop (Can We Trust
@@ -66,6 +70,21 @@ inspected.
   \anonrepourl macro once generated). OpenReview profile must exist well before the
   deadline; profiles created on non-institutional email can take up to
   two weeks of moderation
+
+## Corrections
+
+- 4 August 2026. The sampling stability paragraph said the eleven
+  undetected trap seeds went undetected in "their 65 decodes". Eleven
+  seeds at five decodes each is 55. Sixty-five is thirteen seeds at five,
+  which is every trap decode including the ten belonging to the two seeds
+  that were detected, so the figure contradicted the sentence it sat in.
+  Corrected in the paper and in the README, and the arithmetic now closes
+  against the run: 55 undetected plus 10 detected plus 85 feasible is
+  150, which is 30 seeds at five decodes. The split of 13 trap and 17
+  feasible seeds is reproduced by
+  `python -m plan_failure_bench.consistency` over the five committed
+  sample files rather than asserted. The published V1 preprint carries
+  the wrong figure and needs a new version under the concept DOI.
 
 ## Ground rules for this draft
 
