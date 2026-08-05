@@ -60,8 +60,11 @@ inspected.
   preprint option, and the submission build switches one option to
   dblblindworkshop, which anonymises automatically). Remaining before
   submission: final pre-submission read, final literature micro-sweep,
-  arXiv endorsement and posting, and confirming TAE's page limit and
-  blinding policy from its call before uploading. Anonymity checked 1
+  and arXiv endorsement and posting, which the call's non-archival
+  status permits. The page limit and blinding policy were confirmed
+  against the call on 4 August 2026 and are recorded below, and the
+  blinded build was verified against every point of it that can be
+  checked mechanically. Anonymity checked 1
   August 2026: no identifying content outside the author block, which
   the dblblindworkshop option strips; if the submission is double
   blind, the abstract's closing line switches automatically to cite an
@@ -70,6 +73,35 @@ inspected.
   \anonrepourl macro once generated). OpenReview profile must exist well before the
   deadline; profiles created on non-institutional email can take up to
   two weeks of moderation
+
+## TAE call for papers, read 4 August 2026
+
+Checked against https://tai-eval.github.io/cfp/ rather than assumed. This
+discharges the standing obligation to confirm the page limit and the
+blinding policy before submitting.
+
+- Up to 8 pages, excluding references and appendices. Appendices carry no
+  page restriction, but reviewers are not required to read them, so
+  nothing load bearing may live only in an appendix.
+- Submission style option `\usepackage[dblblindworkshop]{neurips_2026}`,
+  and `[dblblindworkshop, final]` for the camera-ready. Workshop title
+  string required verbatim as
+  `\workshoptitle{TAE (Trust-AI-Eval): Can We Trust AI Evaluation?}`.
+- Double blind. All papers must be appropriately anonymised.
+- Non-archival. This matters for two other plans: the Zenodo preprint
+  and an arXiv posting do not conflict with submitting here, and
+  acceptance would not count as publication.
+- OpenReview group NeurIPS.cc/2026/Workshop/TAE. Deadline 29 August 2026
+  AoE, notification 22 September 2026 AoE, in-person poster session in
+  Sydney on 11 or 12 December 2026.
+- The call does not state a dual submission policy.
+
+The submission build conforms on every point that can be checked
+mechanically. The body occupies pages 1 to 8 and the References heading
+begins page 9, so the paper is exactly at the 8 page limit with no
+margin: any addition to the body must displace something else. Fonts are
+Type 1 throughout, embedded and subsetted, no Type 3. The blinded build
+contains no author name, affiliation, email, repository URL, or DOI.
 
 ## Corrections
 
