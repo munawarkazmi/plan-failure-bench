@@ -103,6 +103,50 @@ margin: any addition to the body must displace something else. Fonts are
 Type 1 throughout, embedded and subsetted, no Type 3. The blinded build
 contains no author name, affiliation, email, repository URL, or DOI.
 
+## Final pre-submission read and literature micro-sweep, 4 August 2026
+
+**The read.** Every hand-written number in the results section was
+recomputed from the committed records rather than compared against the
+prose. The four sampled cells were re-run through
+`plan_failure_bench.consistency` and all match: 26 of 30 and 14 of 30 on
+house, 24 of 30 and 17 of 30 on office for Qwen, and for Llama 19 of 30
+with strict format failures of 17, 18, 17, 18 and 16 and a trap split of
+7 detected in all five, 5 in some, 1 in none. The temperature 0.7
+hallucination counts of 13 and 11 of 150 against 1 and 0 of 30 were
+confirmed under lenient rescoring, which is the policy the paper reports.
+Two claims not in any table were checked directly from records: Flash
+Lite solved none of house\_01's seven ordering traps, and its
+unreachability detection is 4 of 4 with all four exact under obfuscation
+on house against 3 of 4 falling to 1 of 4 on office. The generated
+tables regenerate byte-identically from the records. No LaTeX double
+hyphen, no unicode dash, and no American spelling anywhere in the source.
+
+Two defects were found and fixed.
+
+- The abstract called both environments household. `office_01` is a
+  lobby, canteen, server room, workshop, studio, supply room, archive
+  and strong room. It now reads "two symbolic indoor environments".
+- The over-refusal paragraph gave Qwen's obfuscated false positives as
+  "2 and 3 of 17" immediately after a sentence that lists house before
+  office, which reads as house 2 and office 3. The actual values are 3
+  on house and 2 on office, so the figures are now attributed explicitly
+  rather than left to positional reading.
+
+**The micro-sweep.** Nothing published after the 1 August 2026 sweep was
+found, which is unsurprising over three days. One earlier item that the 1
+August sweep missed did surface and is a genuine gap: Agent Planning
+Benchmark (arXiv 2606.04874, 3 June 2026), a planning-specific
+diagnostic benchmark of 4,209 multimodal cases whose five settings
+include unsolvable tasks, which measures calibrated refusal across 12
+models, and which is motivated by the same complaint as this paper, that
+end-to-end success rates cannot separate planning failures from
+execution failures. It is concurrent rather than prior work, and it is
+not cited. Its abstract does not state whether ground truth is proved or
+authored, nor whether any judge is used in scoring, so it cannot be
+positioned against without reading its body. Citing it also costs space
+the paper does not have, since the body is exactly at the 8 page limit.
+This is an open decision, not an oversight.
+
 ## Corrections
 
 - 4 August 2026. The sampling stability paragraph said the eleven
