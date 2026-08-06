@@ -42,6 +42,17 @@ inspected.
   contribution and the four-model grid its demonstration, with the
   abstract and introduction rewritten to that framing; a final
   pre-submission read remains)
+- If accepted (notification 22 September 2026), two deliverables follow.
+  **Camera-ready:** two edits to paper.tex, verified to build clean on
+  4 August 2026 (13 pages, zero unresolved references, zero Type 3 fonts,
+  line numbers gone, workshop name in the footer). Change the style option
+  to `[dblblindworkshop, final]`, and repoint `\anonrepourl` at
+  `https://github.com/munawarkazmi/plan-failure-bench`, because the
+  conditional emits it once the preprint branch is false and there is
+  nothing left to anonymise. Then incorporate reviewer feedback, which is
+  the part that cannot be prepared in advance. **Poster:** drafted at
+  paper/poster/, A0 portrait; confirm the board dimensions NeurIPS
+  publishes closer to the date and adjust the geometry line if they differ.
 - Preprint published: Zenodo, 2 August 2026. Concept DOI
   10.5281/zenodo.21756817 (always newest version), V1 DOI
   10.5281/zenodo.21756818. The uploaded file was byte-identical to the
