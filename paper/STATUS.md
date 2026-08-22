@@ -34,14 +34,15 @@ inspected.
   sampled and committed, both environments in both conditions, 600
   decodes, plus Llama's plain house_01 cell, 150 decodes. The
   remaining cells are single decodes, so the analysis stays open)
-- [ ] Writing (every section drafted, related work included; an
+- [x] Writing (every section drafted, related work included; an
   editing pass over the full draft applied 30 July 2026, catching the
   stale test count, the stale figure caption, and the setup and
   abstract sentences the frontier office runs had overtaken; framing
   decided 31 July 2026: a methodology paper, the instrument is the
   contribution and the four-model grid its demonstration, with the
-  abstract and introduction rewritten to that framing; a final
-  pre-submission read remains)
+  abstract and introduction rewritten to that framing; the final
+  pre-submission read was applied 4 August 2026 and is recorded below,
+  and the draft is submitted)
 - If accepted (notification 22 September 2026), two deliverables follow.
   **Camera-ready:** two edits to paper.tex, verified to build clean on
   4 August 2026 (13 pages, zero unresolved references, zero Type 3 fonts,
@@ -60,19 +61,18 @@ inspected.
   2026 below, so the V1 record on Zenodo now differs from the committed
   paper by one number and carries a wrong one. Pushing a new version is
   therefore no longer only a pre-submission tidy, it is a correction.
-  After the pre-submission rebuild,
-  push the new paper.pdf to Zenodo as a new version under the same
-  concept DOI.
+  The rebuild has happened and the paper is submitted, so this stands
+  on its own now: push the committed paper.pdf to Zenodo as a new
+  version under the same concept DOI.
 - Target venue: decided 1 August 2026, the TAE workshop (Can We Trust
   AI Evaluation?) at NeurIPS 2026, Sydney. Submission deadline 29
   August 2026 AoE via OpenReview, NeurIPS 2026 format, in-person
   poster presentation expected. The draft is in the official NeurIPS
   2026 template (vendored neurips_2026.sty; committed builds use the
   preprint option, and the submission build switches one option to
-  dblblindworkshop, which anonymises automatically). Remaining before
-  submission: final pre-submission read, final literature micro-sweep,
-  and arXiv endorsement and posting, which the call's non-archival
-  status permits. The page limit and blinding policy were confirmed
+  dblblindworkshop, which anonymises automatically). Submitted inside
+  the deadline; the submission record is below. The page limit and
+  blinding policy were confirmed
   against the call on 4 August 2026 and are recorded below, and the
   blinded build was verified against every point of it that can be
   checked mechanically. Anonymity checked 1
@@ -81,9 +81,39 @@ inspected.
   blind, the abstract's closing line switches automatically to cite an
   anonymised mirror (anonymous.4open.science over the anon-mirror
   branch, which excludes the compiled preprint; the URL drops into the
-  \anonrepourl macro once generated). OpenReview profile must exist well before the
-  deadline; profiles created on non-institutional email can take up to
-  two weeks of moderation
+  \anonrepourl macro once generated). The OpenReview profile moderation
+  window, up to two weeks for a profile created on a non-institutional
+  email, was the one item here whose clock could not be compressed. It is
+  discharged: the profile exists and the submission is in.
+
+## Submission and arXiv, 22 August 2026
+
+- Submitted to the TAE workshop via OpenReview, ahead of the 29 August
+  2026 AoE deadline and recorded here on 22 August 2026. Notification
+  22 September 2026.
+- One confirmation this record still owes: which PDF was uploaded.
+  Committed builds carry the `[preprint]` option, so the file at
+  paper/paper.pdf shows the author block, the Zenodo DOI, and the real
+  repository URL, while the submission needed a local rebuild under
+  `[dblblindworkshop]`. The two files share a filename. Check on
+  OpenReview that the uploaded file is the blinded build, and replace
+  it there if it is not; the deadline has not passed, so this is still
+  fixable.
+- arXiv: endorsement agreed by the MSc supervisor, posting still to do.
+  The call is non-archival, so posting does not conflict with the
+  submission. The file to post is the committed paper/paper.pdf under
+  the `[preprint]` option, which is the corrected build carrying the 55
+  decode figure rather than the 65 that the Zenodo V1 record still
+  shows.
+- Zenodo is now the only stale public record of this paper. Pushing the
+  new version under the concept DOI before or alongside the arXiv
+  posting keeps the public versions in agreement, rather than leaving
+  one wrong record beside two correct ones.
+- The Agent Planning Benchmark decision recorded under the 4 August
+  micro-sweep moves to camera-ready. It was a hard call against an
+  eight page body under a 29 August clock; with notification on 22
+  September there is room to read its body and position against it
+  properly.
 
 ## TAE call for papers, read 4 August 2026
 
