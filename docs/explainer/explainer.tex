@@ -215,6 +215,18 @@ Both the flawed results and the corrected ones remain published, side by side, m
 
 That episode is, arguably, the strongest argument for building evaluations this way. The benchmark caught its own mistake, in public, before anyone else had to.
 
+\section{Why it is built this way}
+
+None of this is a stylistic preference. It is the answer to a specific loss.
+
+An earlier project by the same author reported results from trials on physical robot hardware. The machine holding those runs failed, and the logs went with it. What remained was a set of numbers that nobody could check, the author included. A figure whose evidence no longer exists is not a result, whatever happened on the day it was taken, and the choice at that point is between asking readers to take it on trust and withdrawing it. It was withdrawn, and the repository that published it still carries the withdrawal in plain sight rather than quietly tidying it away.
+
+Everything in this benchmark is arranged so that the same failure would cost time and nothing else. The instructions, the proofs, the raw model answers and the program that scores them are committed together. No number in this document was typed in by hand; each is regenerated from those records on demand, and the proofs re-run on every change to the code.
+
+\begin{quotebox}
+Evidence that lives on one machine is evidence that can be lost. Evidence that is committed, and re-derived every time the code changes, cannot be. That is the whole reason this benchmark looks the way it does.
+\end{quotebox}
+
 \section{What this does not show}
 
 Honesty about limits is part of the instrument. Four models were tested, chosen largely because they were accessible on free usage tiers. Two environments, both indoor spaces with rooms, doors and portable objects, bound how far any of this generalises. Each result in the main tables is a single answer per instruction, so the findings are stated as hypotheses rather than conclusions. Everything here is measured in simulation: no physical robot was involved.

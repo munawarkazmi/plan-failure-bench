@@ -459,6 +459,28 @@ house_01 keeps confusion matrix columns comparable across environments.
   offline, separating format discipline from planning ability. No model is
   ever re-run to re-score.
 
+## Where this discipline came from
+
+The insistence that nothing is asserted, that every label carries a proof, and
+that every published number is regenerated from committed records by a program
+rather than typed in, is not a stylistic preference. It is the answer to a
+specific loss.
+
+An earlier project in this programme reported results from trials on physical
+robot hardware. The machine holding those runs failed and the logs went with
+it, which left figures that nobody could check, this author included. A number
+whose evidence no longer exists is not a result whatever happened on the day it
+was taken, so it was withdrawn rather than restated on trust.
+[ros2-llm-safety-verifier](https://github.com/munawarkazmi/ros2-llm-safety-verifier) and
+[ros2-dynamic-path-planning](https://github.com/munawarkazmi/ros2-dynamic-path-planning) both carry that
+withdrawal in their own histories rather than quietly tidying it away.
+
+Everything here is arranged so that the same failure would cost time and
+nothing else. The seeds, the proofs, the raw model responses and the scoring
+code are committed together; the tables and figures are regenerated from them;
+and the proofs re-run on every change. Evidence that lives on one machine can
+be lost. Evidence that is committed and re-derived cannot be.
+
 ## Quickstart
 
 ```
