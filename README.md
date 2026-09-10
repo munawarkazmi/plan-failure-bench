@@ -558,6 +558,13 @@ Stated here so nobody has to discover them:
   matrix's shape, not percentage claims, and the report renderer refuses
   to print percentages at this scale.
 
+## How this fits the research programme
+
+- **this repository** measures *how* LLM task planners fail: one planted trap per instruction, answers in a machine-checkable action language, every label a proof, and no human or model judging anywhere;
+- [ros2-llm-safety-verifier](https://github.com/munawarkazmi/ros2-llm-safety-verifier) *detects* unsafe trajectories deterministically, sitting between the model and Nav2;
+- [ros2-dynamic-path-planning](https://github.com/munawarkazmi/ros2-dynamic-path-planning) plans *provably-correct* paths, with A* and D* Lite measured against Dijkstra ground truth;
+- [llm-nav-shield](https://github.com/munawarkazmi/llm-nav-shield) closes the loop: detect, then recover with a guaranteed-safe alternative or halt when none exists, and re-check a plan already in flight when the map beneath it moves.
+
 ## Licence
 
 MIT. See [LICENSE](LICENSE).
