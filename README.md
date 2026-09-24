@@ -6,12 +6,11 @@ instruction, lets the model answer in a machine-checkable action language,
 and reports the confusion matrix between what was planted and what actually
 went wrong. No human judging, no LLM judging, anywhere.
 
-The gap in one sentence: existing evaluations test one trap family at a
-time, score with judges, or compress everything into a success rate;
-this benchmark crosses six trap families under one decidable protocol
-where refusal and clarification are first-class answers, every label is
-a machine-checked proof, and no detection count ever appears without
-its false positive twin.
+Existing evaluations usually test one trap family at a time, score with
+a judge, or report a single success rate. This benchmark covers six
+trap families under one protocol: refusing and asking for clarification
+count as answers, every label comes with a machine-checked proof, and
+every detection count is reported next to its false positive count.
 
 [![tests](https://github.com/munawarkazmi/plan-failure-bench/actions/workflows/tests.yml/badge.svg)](https://github.com/munawarkazmi/plan-failure-bench/actions/workflows/tests.yml)
 ![python](https://img.shields.io/badge/python-3.10%2B-blue)
@@ -310,25 +309,26 @@ house_01 keeps confusion matrix columns comparable across environments.
 
 ## Where this discipline came from
 
-The insistence that nothing is asserted, that every label carries a proof, and
-that every published number is regenerated from committed records by a program
-rather than typed in, is not a stylistic preference. It is the answer to a
-specific loss.
+Every label here carries a proof, and every published number is
+regenerated from committed records by a program. That practice comes
+from a specific loss.
 
-An earlier project in this programme reported results from trials on physical
-robot hardware. The machine holding those runs failed and the logs went with
-it, which left figures that nobody could check, this author included. A number
-whose evidence no longer exists is not a result whatever happened on the day it
-was taken, so it was withdrawn rather than restated on trust.
-[ros2-llm-safety-verifier](https://github.com/munawarkazmi/ros2-llm-safety-verifier) and
-[ros2-dynamic-path-planning](https://github.com/munawarkazmi/ros2-dynamic-path-planning) both carry that
-withdrawal in their own histories rather than quietly tidying it away.
+An earlier project in this programme reported results from trials on
+physical robot hardware. The machine holding those runs failed and the
+logs were lost with it, so nobody, the author included, could check the
+figures any more. They were withdrawn instead of being restated from
+memory, and
+[ros2-llm-safety-verifier](https://github.com/munawarkazmi/ros2-llm-safety-verifier)
+and
+[ros2-dynamic-path-planning](https://github.com/munawarkazmi/ros2-dynamic-path-planning)
+both record the withdrawal in their histories.
 
-Everything here is arranged so that the same failure would cost time and
-nothing else. The seeds, the proofs, the raw model responses and the scoring
-code are committed together; the tables and figures are regenerated from them;
-and the proofs re-run on every change. Evidence that lives on one machine can
-be lost. Evidence that is committed and re-derived cannot be.
+This repository is set up so that the same failure would cost time and
+nothing else. The seeds, the proofs, the raw model responses and the
+scoring code are committed together, the tables and figures are
+regenerated from them, and the proofs re-run on every change. If the
+machine it was built on failed tomorrow, every number in this README and
+the paper could be rebuilt from a fresh clone.
 
 ## Quickstart
 
