@@ -12,7 +12,6 @@ trap families under one protocol: refusing and asking for clarification
 count as answers, every label comes with a machine-checked proof, and
 every detection count is reported next to its false positive count.
 
-[![tests](https://github.com/munawarkazmi/plan-failure-bench/actions/workflows/tests.yml/badge.svg)](https://github.com/munawarkazmi/plan-failure-bench/actions/workflows/tests.yml)
 ![python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![licence](https://img.shields.io/badge/licence-MIT-lightgrey)
 
@@ -223,22 +222,9 @@ of every run.
 
 ## Working paper
 
-The paper is in [paper/](paper/), compiled at
-[paper/paper.pdf](paper/paper.pdf), and
-[paper/STATUS.md](paper/STATUS.md) records its history, including the
-TAE workshop review and the September 2026 revision. Its results tables
-are generated from the committed run records by
-`tools/build_paper_results.py` and never edited by hand. The citable
-preprint is [DOI 10.5281/zenodo.21756817](https://doi.org/10.5281/zenodo.21756817);
-until the revised version is uploaded there, the committed PDF is the
-current one.
-
-For a non-specialist reader there is a six-page plain-language guide,
-[docs/explainer/explainer.pdf](docs/explainer/explainer.pdf), which
-walks one instruction end to end, shows the real model answers
-including the obfuscated one, and explains why the labels carry proofs.
-Its source is committed alongside it and builds with
-`latexmk -pdf explainer.tex`.
+The paper source is in [paper/](paper/). Its results tables are
+generated from the committed run records by
+`tools/build_paper_results.py` and never edited by hand.
 
 ## The worlds
 
@@ -306,29 +292,6 @@ house_01 keeps confusion matrix columns comparable across environments.
   policy (first response-shaped JSON object) re-scores stored records
   offline, separating format discipline from planning ability. No model is
   ever re-run to re-score.
-
-## Where this discipline came from
-
-Every label here carries a proof, and every published number is
-regenerated from committed records by a program. That practice comes
-from a specific loss.
-
-An earlier project in this programme reported results from trials on
-physical robot hardware. The machine holding those runs failed and the
-logs were lost with it, so nobody, the author included, could check the
-figures any more. They were withdrawn instead of being restated from
-memory, and
-[ros2-llm-safety-verifier](https://github.com/munawarkazmi/ros2-llm-safety-verifier)
-and
-[ros2-dynamic-path-planning](https://github.com/munawarkazmi/ros2-dynamic-path-planning)
-both record the withdrawal in their histories.
-
-This repository is set up so that the same failure would cost time and
-nothing else. The seeds, the proofs, the raw model responses and the
-scoring code are committed together, the tables and figures are
-regenerated from them, and the proofs re-run on every change. If the
-machine it was built on failed tomorrow, every number in this README and
-the paper could be rebuilt from a fresh clone.
 
 ## Quickstart
 
@@ -415,13 +378,6 @@ Stated here so nobody has to discover them:
   checked only by this repository's code.
 - **Thirty seeds per condition.** That supports the shape of a confusion
   matrix, not percentages, which is why every number here is a count.
-
-## How this fits the research programme
-
-- **this repository** measures *how* LLM task planners fail: one planted trap per instruction, answers in a machine-checkable action language, every label a proof, and no human or model judging anywhere;
-- [ros2-llm-safety-verifier](https://github.com/munawarkazmi/ros2-llm-safety-verifier) *detects* unsafe trajectories deterministically, sitting between the model and Nav2;
-- [ros2-dynamic-path-planning](https://github.com/munawarkazmi/ros2-dynamic-path-planning) plans *provably-correct* paths, with A* and D* Lite measured against Dijkstra ground truth;
-- [llm-nav-shield](https://github.com/munawarkazmi/llm-nav-shield) closes the loop: detect, then recover with a guaranteed-safe alternative or halt when none exists, and re-check a plan already in flight when the map beneath it moves.
 
 ## Licence
 
