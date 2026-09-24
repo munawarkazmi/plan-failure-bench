@@ -233,6 +233,21 @@ above combines is judge-free scoring with per-seed proof obligations
 re-run in continuous integration and differential testing of the
 checker itself.
 
+\textbf{Proving that no plan exists.} Our infeasibility labels rest on
+a standard result in classical planning: if a projection of a task onto
+a subset of its variables has no solution, neither does the task.
+\citet{backstrom2013unsolvable} search such projections to detect
+unsolvable instances, and \citet{hoffmann2014distance} design
+merge-and-shrink abstractions for the same purpose. Our abstraction is
+simpler: for each goal literal it tracks the robot, the doors, and one
+item exactly and over-approximates every other item, which is enough
+to prove every infeasible label in both suites.
+\citet{eriksson2017certificates} note that plans are routinely checked
+by independent validators while claims of unsolvability were not, and
+propose certificates that a separate verifier can check. Our
+unreachability proofs are checked only by our own code; emitting such
+certificates would give them the independent check our plans receive.
+
 \textbf{Measurement validity and judge reliability.} The construction
 rules in the introduction respond to documented pathologies of
 current evaluation practice. A systematic
@@ -606,7 +621,8 @@ every claim. Prompt sensitivity is quantified for one model only (Llama, plain,
 house\_01); the other models' format behaviour under prompt variation
 is unmeasured. Qwen's results describe its
 4-bit quantized build, which may plan worse than the published
-weights. The lenient policy is a fixed syntactic extraction rule. All
+weights. The unreachability proofs are checked only by the benchmark's
+own code. The lenient policy is a fixed syntactic extraction rule. All
 hosted models ran
 on free-tier quotas, which selected the model list.
 

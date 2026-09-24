@@ -87,7 +87,7 @@ inspected.
   non-archival, so the paper is free to go elsewhere.
 - The upload question below is closed: the PDF on OpenReview is the
   blinded build.
-- Revision on 24 September 2026, three commits. The constraint verdicts
+- Revision on 24 September 2026. The constraint verdicts
   are now cross-checked by pyperplan through a second PDDL compilation
   that turns the invariants into STRIPS preconditions. The setup section
   now states how every model was called: Qwen's 4-bit Q4_K_M build, the
@@ -98,10 +98,14 @@ inspected.
   regrouped the results under three headings, added a conclusion, and
   moved the citation verification record to paper/citation_checks.md.
   The body ends on page 8 again.
-- Still open before posting anywhere: position the unreachability proofs
-  against existing work on proving plans unsolvable (needs body-checked
-  citations), then rebuild paper.pdf once and push it to arXiv and to
-  Zenodo as v2 together. The committed paper.pdf predates this revision.
+- Related work now positions the unreachability proofs against work on
+  proving plans unsolvable (Bäckström et al. 2013, Hoffmann et al.
+  2014, Eriksson et al. 2017), each checked against its body and
+  recorded in paper/citation_checks.md, and Limitations states that the
+  proofs are checked only by our own code.
+- Still open before posting anywhere: rebuild paper.pdf once and push it
+  to arXiv and to Zenodo as v2 together. The committed paper.pdf
+  predates this revision.
 
 ## Submission and arXiv, 22 August 2026
 
