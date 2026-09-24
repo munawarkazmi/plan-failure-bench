@@ -122,11 +122,12 @@ def full_vocabulary(env):
 def assert_plan_valid_both_ways(env, goal, steps):
     ours = check_response(env, goal, steps_to_text(steps))
     assert ours.verdict == "valid", ours
-    translated = translate_plan(env, steps)
-    assert translated.failed_index is None, translated
-    task = ground_task(compile_domain(env), compile_problem(env, goal))
-    theirs = run_plan(task, translated.names)
-    assert theirs.status == "valid", theirs
+    for constrained in (False, True):
+        translated = translate_plan(env, steps, constrained=constrained)
+        assert translated.failed_index is None, translated
+        task = ground_task(compile_domain(env, constrained=constrained), compile_problem(env, goal, constrained=constrained))
+        theirs = run_plan(task, translated.names)
+        assert theirs.status == "valid", (constrained, theirs)
 
 
 class TestSuiteHygiene:
@@ -183,6 +184,25 @@ class TestDecoys:
     def test_decoy_produces_declared_verdict(self, seed):
         result = check_response(env_for(seed), seed.goal, steps_to_text(seed.decoy_plan))
         assert result.verdict == seed.decoy_verdict, (seed.id, result)
+
+    @pytest.mark.parametrize("seed", DECOYED, ids=seed_id)
+    def test_decoy_fails_under_constrained_pddl_at_the_same_step(self, seed):
+        # Every decoy is a trap: under the constrained compilation pyperplan
+        # must reject it at the checker's failing step, which for a
+        # silent-violation decoy is the breach step.
+        env = env_for(seed)
+        result = check_response(env, seed.goal, steps_to_text(seed.decoy_plan))
+        expected = result.breach_step if result.breach_step is not None else result.step_index
+        translated = translate_plan(env, seed.decoy_plan, constrained=True)
+        task = ground_task(compile_domain(env, constrained=True), compile_problem(env, seed.goal, constrained=True))
+        theirs = run_plan(task, translated.names)
+        if result.verdict == "goal_not_achieved" and result.breach_step is None:
+            assert theirs.status == "goal_unsatisfied", (seed.id, theirs)
+        elif translated.failed_index is not None and theirs.status not in ("inapplicable", "unknown_operator"):
+            assert expected == translated.failed_index, (seed.id, result, translated)
+        else:
+            assert theirs.status in ("inapplicable", "unknown_operator"), (seed.id, theirs)
+            assert theirs.step_index == expected, (seed.id, result, theirs)
 
 
 class TestUnreachableSeeds:

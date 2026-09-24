@@ -448,7 +448,11 @@ house_01 keeps confusion matrix columns comparable across environments.
 
 - Checker verdicts are differentially tested against pyperplan over
   hand-written trap plans plus hundreds of seeded random and guided plans,
-  with first-failing-step agreement required.
+  with first-failing-step agreement required. A second compilation turns
+  both invariant kinds into STRIPS preconditions (the standard compilation
+  of PDDL 3 `always` constraints), and there the first inapplicable step
+  must be the checker's first breach step, so constraint verdicts are
+  cross-checked too, including every seed decoy.
 - Unreachability labels are proofs, not assertions: a sound
   over-approximating abstraction that cannot miss real plans.
 - The obfuscated condition is a bijective renaming applied to the prompt
@@ -542,7 +546,7 @@ python tools/build_paper_results.py --list
 | `prompts/` | the fixed disclosure prompt, recorded verbatim |
 | `results/` | raw run records, one JSON object per seed per line |
 | `docs/` | per-seed review sheet and figures |
-| `tests/` | 548 tests: proofs for both suites, differential corpus, pipeline stubs (CI asserts this count matches the collected suite, so it cannot go stale) |
+| `tests/` | 584 tests: proofs for both suites, differential corpus, pipeline stubs (CI asserts this count matches the collected suite, so it cannot go stale) |
 
 ## Known limitations and roadmap
 

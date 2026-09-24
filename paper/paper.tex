@@ -132,7 +132,7 @@ loop working in practice. The construction rules:
   label carries a mechanical proof (a validating reference plan, an
   unreachability proof from a sound abstraction, a capability grant that
   flips infeasibility, or exhaustive referent bindings), re-proved on
-  every commit by 548 tests.
+  every commit by 584 tests.
 \item \textbf{Refusal and clarification as first-class answers.} The
   response language contains \texttt{infeasible(reason)} and
   \texttt{clarify(candidates)} terminals, so detection is scored
@@ -385,11 +385,12 @@ verdict: valid, precondition\_violation, constraint\_violation,
 goal\_not\_achieved, hallucinated\_entity, unavailable\_action, or
 malformed, plus the two terminals. It is differentially tested against
 pyperplan over hand-written trap plans and hundreds of seeded random and
-guided plans, with first-failing-step agreement required. Trajectory
-invariants are deliberately excluded from the PDDL compilation, since
-STRIPS has no trajectory constraints; the differential oracle covers
-executability and goal satisfaction, and invariant semantics are covered
-by direct tests. Infeasibility labels are proofs from a per-literal
+guided plans, with first-failing-step agreement required. A second
+compilation turns both invariant kinds into STRIPS preconditions, the
+standard compilation of PDDL~3 \emph{always} constraints over state
+atoms, and there the first inapplicable step must equal the checker's
+first breach step, so the oracle covers constraint verdicts as well as
+executability and goal satisfaction. Infeasibility labels are proofs from a per-literal
 over-approximating abstraction whose direction is sound: every real
 trajectory has an abstract counterpart, so goals the abstraction cannot
 reach are truly unreachable, and reachable-looking goals are proved

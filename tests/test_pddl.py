@@ -86,3 +86,55 @@ class TestTranslation:
         p1 = compile_problem(ENV, Goal((RobotAt("cellar"),)))
         p2 = compile_problem(ENV, Goal((RobotAt("bedroom"),)))
         assert p1.split("(:goal")[0] == p2.split("(:goal")[0]
+
+
+OFFICE = load_environment(REPO_ROOT / "environments" / "office_01.json")
+
+
+class TestConstrainedCompilation:
+    def test_unconstrained_output_is_unchanged_by_the_option(self):
+        goal = Goal((ItemIn("cup_red", "bedroom"),))
+        assert "permitted" not in compile_domain(ENV) + compile_problem(ENV, goal)
+        assert "may-carry" not in compile_domain(ENV) + compile_problem(ENV, goal)
+
+    def test_domain_guards_goto_and_pick_only(self):
+        domain = compile_domain(ENV, constrained=True)
+        assert "(:action goto-carrying" in domain
+        assert "(permitted ?to) (gripper-empty)" in domain
+        assert "(permitted ?to) (holding ?i) (may-carry ?i ?to)" in domain
+        assert "(gripper-empty) (may-carry ?i ?r))" in domain
+        assert domain.count("may-carry ?i") == 3  # predicate, goto-carrying, pick
+
+    def test_never_hold_in_facts(self):
+        problem = compile_problem(ENV, Goal((RobotAt("kitchen"),)), constrained=True)
+        assert "(may-carry glass_water hallway)" not in problem
+        assert "(may-carry glass_water living_room)" in problem
+        assert "(may-carry knife nursery)" not in problem
+        assert "(may-carry knife hallway)" in problem
+        assert "(may-carry cup_red nursery)" in problem
+        assert "(may-carry tv living_room)" not in problem  # fixed items are never held
+
+    def test_never_enter_facts(self):
+        problem = compile_problem(OFFICE, Goal((RobotAt("office"),)), constrained=True)
+        assert "(permitted server_room)" not in problem
+        assert "(permitted office)" in problem
+        assert "(may-carry oil_can canteen)" not in problem
+        assert "(may-carry folder_red canteen)" in problem
+
+    def test_goto_name_follows_the_gripper(self):
+        steps = (
+            Step("goto", ("kitchen",)),
+            Step("pick", ("knife",)),
+            Step("goto", ("hallway",)),
+            Step("place", ("knife",)),
+            Step("goto", ("kitchen",)),
+        )
+        t = translate_plan(ENV, steps, constrained=True)
+        assert t.names == (
+            "(goto hallway kitchen d_kitchen_hall)",
+            "(pick knife kitchen)",
+            "(goto-carrying kitchen hallway d_kitchen_hall knife)",
+            "(place knife hallway)",
+            "(goto hallway kitchen d_kitchen_hall)",
+        )
+        assert translate_plan(ENV, steps).names[2] == "(goto kitchen hallway d_kitchen_hall)"

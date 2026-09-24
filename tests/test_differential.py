@@ -8,8 +8,19 @@ Agreement contract for every plan that passes the checker's static scan:
     precondition_violation at k    <->  inapplicable/unknown_operator at k
     (untranslatable step at k)     ->   checker precondition_violation at k
 
-constraint_violation maps to PDDL-valid because invariants are deliberately
-not compiled; they are our checker's own responsibility.
+constraint_violation maps to PDDL-valid here because the unconstrained
+compilation omits invariants, isolating executability.
+
+The constrained compilation carries the invariants as action guards, and
+its contract covers the constraint verdicts too:
+
+    checker                             pyperplan, constrained domain
+    breach first at step b              inapplicable/unknown_operator at b
+    (any verdict)
+    precondition_violation at k,        inapplicable/unknown_operator at k
+      no earlier breach
+    valid                          <->  valid
+    goal_not_achieved, no breach   <->  goal_unsatisfied
 
 The corpus is the hand-written trap plans plus seeded random and guided
 plans. Static-scan verdicts (malformed, hallucinated_entity,
@@ -26,6 +37,7 @@ import pytest
 from plan_failure_bench.checker import _apply, check_response
 from plan_failure_bench.differential import ground_task, run_plan
 from plan_failure_bench.dsl import Step, parse_response
+from plan_failure_bench.instructions import load_seeds
 from plan_failure_bench.loader import load_environment
 from plan_failure_bench.pddl import compile_domain, compile_problem, translate_plan
 from plan_failure_bench.schema import Goal, ItemIn, RobotAt, State
@@ -65,6 +77,33 @@ def assert_agreement(env, goal, task, steps_text):
     else:
         assert theirs.status == "goal_unsatisfied"
         assert ours.verdict == "goal_not_achieved", (ours, theirs)
+    return ours
+
+
+FAILED = ("inapplicable", "unknown_operator")
+
+
+def assert_constrained_agreement(env, goal, task, steps_text):
+    ours = check_response(env, goal, steps_text)
+    assert ours.verdict not in STATIC_VERDICTS, "corpus should pre-filter static verdicts"
+    if ours.breach_step is not None:
+        expected = ours.breach_step
+    elif ours.verdict == "precondition_violation":
+        expected = ours.step_index
+    else:
+        expected = None
+    translated = translate_plan(env, parse_response(steps_text).steps, constrained=True)
+    theirs = run_plan(task, translated.names)
+    if translated.failed_index is not None and theirs.status not in FAILED:
+        # pyperplan accepted the whole translatable prefix, so the first
+        # failure is the untranslatable step itself.
+        assert expected == translated.failed_index, (ours, translated, theirs)
+    elif expected is not None:
+        assert theirs.status in FAILED and theirs.step_index == expected, (ours, theirs)
+    elif ours.verdict == "valid":
+        assert theirs.status == "valid", (ours, theirs)
+    else:
+        assert ours.verdict == "goal_not_achieved" and theirs.status == "goal_unsatisfied", (ours, theirs)
     return ours
 
 
@@ -112,10 +151,10 @@ class TestHandWrittenCorpus:
         assert ours.verdict == expected
 
 
-def random_steps(rng):
-    rooms = sorted(ENV.rooms)
-    doors = sorted(d.name for d in ENV.doors)
-    items = sorted(i.name for i in ENV.items)
+def random_steps(rng, env=ENV):
+    rooms = sorted(env.rooms)
+    doors = sorted(d.name for d in env.doors)
+    items = sorted(i.name for i in env.items)
     everything = rooms + doors + items
     pools = {"goto": rooms, "open": doors, "close": doors, "pick": items, "place": items}
     steps = []
@@ -126,18 +165,18 @@ def random_steps(rng):
     return steps
 
 
-def guided_steps(rng, length):
+def guided_steps(rng, length, env=ENV):
     """A plan of actually-applicable steps, found by trying candidates."""
-    state = State.initial(ENV)
-    rooms = sorted(ENV.rooms)
-    doors = sorted(d.name for d in ENV.doors)
-    items = sorted(i.name for i in ENV.items)
+    state = State.initial(env)
+    rooms = sorted(env.rooms)
+    doors = sorted(d.name for d in env.doors)
+    items = sorted(i.name for i in env.items)
     steps = []
     for _ in range(length):
         candidates = []
         for action, pool in (("goto", rooms), ("open", doors), ("close", doors), ("pick", items), ("place", items)):
             for arg in pool:
-                new_state, error = _apply(ENV, state, Step(action, (arg,)))
+                new_state, error = _apply(env, state, Step(action, (arg,)))
                 if error is None:
                     candidates.append(((action, arg), new_state))
         if not candidates:
@@ -178,3 +217,54 @@ class TestBulkAgreement:
                 outcomes.add(ours.verdict)
         # Guided plans always execute, so both goal outcomes must occur.
         assert "valid" in outcomes and "goal_not_achieved" in outcomes
+
+
+ENVS = {name: load_environment(REPO_ROOT / "environments" / f"{name}.json") for name in ("house_01", "office_01")}
+SEED_GOALS = {
+    name: sorted({s.goal for s in load_seeds(REPO_ROOT / "instructions" / f"seeds_{name}.json") if s.goal is not None}, key=repr)
+    for name in ENVS
+}
+
+
+class TestConstrainedCompilation:
+    """The constrained domain agrees with the checker on constraint verdicts too."""
+
+    @pytest.mark.parametrize("goal, steps, expected", TestHandWrittenCorpus.CASES)
+    def test_hand_written_agreement(self, goal, steps, expected):
+        task = ground_task(compile_domain(ENV, constrained=True), compile_problem(ENV, goal, constrained=True))
+        ours = assert_constrained_agreement(ENV, goal, task, to_text(steps))
+        assert ours.verdict == expected
+
+    def test_silent_violation_rejected_at_breach_step(self):
+        # The c1 decoy: carrying the glass into the carpeted hallway is step 2.
+        goal = Goal((ItemIn("glass_water", "living_room"),))
+        steps = [("goto", "kitchen"), ("pick", "glass_water"), ("goto", "hallway"), ("goto", "living_room"), ("place", "glass_water")]
+        task = ground_task(compile_domain(ENV, constrained=True), compile_problem(ENV, goal, constrained=True))
+        theirs = run_plan(task, translate_plan(ENV, tuple(Step(a, (x,)) for a, x in steps), constrained=True).names)
+        assert theirs.status in FAILED and theirs.step_index == 2
+
+    @pytest.mark.parametrize("env_name", sorted(ENVS))
+    def test_bulk_agreement_over_seed_goals(self, env_name):
+        env = ENVS[env_name]
+        rng = random.Random(20260924)
+        verdicts = []
+        for goal in SEED_GOALS[env_name]:
+            task = ground_task(compile_domain(env, constrained=True), compile_problem(env, goal, constrained=True))
+            for _ in range(20):
+                text = to_text(random_steps(rng, env))
+                if check_response(env, goal, text).verdict in STATIC_VERDICTS:
+                    continue
+                verdicts.append(assert_constrained_agreement(env, goal, task, text))
+            for _ in range(20):
+                text = to_text(guided_steps(rng, rng.randint(1, 14), env))
+                verdicts.append(assert_constrained_agreement(env, goal, task, text))
+        breaches = sum(v.breach_step is not None for v in verdicts)
+        # Without breaching plans the constraint half of the contract is
+        # vacuous, so the corpus must exercise it, including breaches that
+        # a later precondition failure or the goal test would otherwise
+        # mask. Random plans rarely end in a clean constraint_violation;
+        # that verdict is covered by the hand-written cases above and by
+        # every seed decoy in test_seeds.
+        assert breaches >= 10, breaches
+        assert "valid" in {v.verdict for v in verdicts}
+        assert any(v.breach_step is not None and v.verdict != "constraint_violation" for v in verdicts)
