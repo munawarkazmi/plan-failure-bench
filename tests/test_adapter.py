@@ -44,6 +44,19 @@ class TestOpenAiBackend:
         assert payload["messages"] == [{"role": "user", "content": "the prompt"}]
         assert payload["temperature"] == 0.0
         assert "Authorization" not in headers
+        assert result.finish_reason is None
+
+    def test_finish_reason_recorded(self):
+        transport = CapturingTransport({"choices": [{"message": {"content": '{"plan": ['}, "finish_reason": "length"}]})
+        assert call_model(OPENAI_CONFIG, "x", transport=transport).finish_reason == "length"
+
+    def test_no_structured_output_or_reasoning_parameters_sent(self):
+        # The paper reports that no JSON mode and no reasoning setting was
+        # used; this pins the payload so that statement stays true.
+        transport = CapturingTransport({"choices": [{"message": {"content": "{}"}}]})
+        call_model(OPENAI_CONFIG, "x", transport=transport)
+        _, payload, _, _ = transport.calls[0]
+        assert set(payload) == {"model", "max_tokens", "messages", "temperature"}
 
 
 class TestAnthropicBackend:
@@ -60,6 +73,11 @@ class TestAnthropicBackend:
         assert headers["anthropic-version"] == "2023-06-01"
         # Current Anthropic models reject temperature; it must never be sent.
         assert "temperature" not in payload
+
+    def test_stop_reason_recorded(self, monkeypatch):
+        monkeypatch.setenv("FAKE_ANTHROPIC_KEY", "sk-test")
+        transport = CapturingTransport({"content": [{"type": "text", "text": "{"}], "stop_reason": "max_tokens"})
+        assert call_model(ANTHROPIC_CONFIG, "x", transport=transport).finish_reason == "max_tokens"
 
     def test_missing_key_is_a_clear_error(self, monkeypatch):
         monkeypatch.delenv("FAKE_ANTHROPIC_KEY", raising=False)

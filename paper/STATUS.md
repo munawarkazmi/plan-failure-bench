@@ -7,7 +7,7 @@ inspected.
 ## Current status
 
 - [x] Benchmark implementation (two environments, 60 proof-carrying
-  seeds, a 584-test suite in CI that includes proofs for every label)
+  seeds, a 589-test suite in CI that includes proofs for every label)
 - [x] Methodology (world model, checker, differential testing,
   reachability proofs, versioned obfuscation; documented in the README
   and in sections 3 to 5 of the draft)

@@ -11,6 +11,7 @@ from pathlib import Path
 
 import pytest
 
+from plan_failure_bench.adapter import ModelResponse
 from plan_failure_bench.instructions import load_seeds, steps_to_text
 from plan_failure_bench.loader import load_environment
 from plan_failure_bench.metrics import confusion_matrix, detection_report, render_report
@@ -167,3 +168,17 @@ class TestReportRendering:
         b = run_suite(SEEDS, ENVS, TEMPLATE, refuser, "refuser")
         with pytest.raises(ValueError, match="one run at a time"):
             detection_report(a + b)
+
+
+class TestCallSettingsRecorded:
+    def test_finish_reason_and_max_tokens_in_every_record(self):
+        def truncating(prompt, seed):
+            return ModelResponse(text='{"plan": [', attempts=1, latency_s=0.0, finish_reason="length")
+
+        records = run_suite(SEEDS[:3], ENVS, TEMPLATE, truncating, "m", max_tokens=2000)
+        assert all(r["finish_reason"] == "length" and r["max_tokens"] == 2000 for r in records)
+        assert all(r["verdict"] == "malformed" for r in records)
+
+    def test_plain_text_stubs_record_no_finish_reason(self):
+        records = run_suite(SEEDS[:3], ENVS, TEMPLATE, oracle, "oracle")
+        assert all(r["finish_reason"] is None for r in records)

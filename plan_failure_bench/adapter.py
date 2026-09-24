@@ -56,6 +56,10 @@ class ModelResponse:
     text: str
     attempts: int
     latency_s: float
+    # The provider's reason for stopping ("stop", "length", "end_turn",
+    # "max_tokens", ...), recorded so a reply cut off by the output limit
+    # is a stored fact rather than something inferred from the text.
+    finish_reason: str | None = None
 
 
 _CONFIG_KEYS = {
@@ -141,6 +145,12 @@ def _extract_text(config: ModelConfig, data: dict) -> str:
     return "".join(block["text"] for block in data.get("content", []) if block.get("type") == "text")
 
 
+def _finish_reason(config: ModelConfig, data: dict) -> str | None:
+    if config.backend == "openai_chat":
+        return data["choices"][0].get("finish_reason")
+    return data.get("stop_reason")
+
+
 def _http_transport(url: str, payload: dict, headers: dict, timeout_s: float) -> dict:
     request = urllib.request.Request(
         url, data=json.dumps(payload).encode("utf-8"), headers=headers, method="POST"
@@ -180,6 +190,7 @@ def call_model(config: ModelConfig, prompt: str, transport=None) -> ModelRespons
                 text=_extract_text(config, data),
                 attempts=attempt,
                 latency_s=time.monotonic() - start,
+                finish_reason=_finish_reason(config, data),
             )
         except urllib.error.HTTPError as exc:
             last_error = exc

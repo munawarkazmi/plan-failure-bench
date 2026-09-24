@@ -1,23 +1,31 @@
 {
-  "_comment": "Committed record of which API checkpoint each run alias called, and the display name derived from it. The results generators read display names from this file; they are never typed into a template. The untracked runtime config (configs/models.json) must agree with api_model here; the runner records api_model into every new record.",
+  "_comment": "Committed record of which API checkpoint each run alias called, how it was served, and the output limit it ran under. The results generators read display names and these settings from this file; they are never typed into a template. The untracked runtime config (configs/models.json) must agree with api_model and max_tokens here; the runner records api_model into every new record, and max_tokens and finish_reason into records written from September 2026. max_tokens was copied from the runtime config on 24 September 2026 and agrees with the cut-off responses that tools/audit_truncation.py lists. Every call sent only model, messages, max_tokens and temperature: no JSON mode, no structured output, and no reasoning or thinking parameter, so both Gemini models ran with the provider's default thinking behaviour, whose tokens are not recorded.",
   "groq_llama70b": {
     "api_model": "llama-3.3-70b-versatile",
     "display_name": "Llama 3.3 70B",
-    "hosting": "Groq API"
+    "hosting": "Groq API",
+    "weights": "as served by the provider",
+    "max_tokens": 2000
   },
   "local_qwen": {
     "api_model": "qwen2.5:7b-instruct",
     "display_name": "Qwen 2.5 7B",
-    "hosting": "local Ollama"
+    "hosting": "local Ollama",
+    "weights": "Q4_K_M, the quantization the Ollama library lists for this tag (4.7 GB)",
+    "max_tokens": 2000
   },
   "gemini_flash_lite": {
     "api_model": "models/gemini-3.1-flash-lite",
     "display_name": "Gemini 3.1 Flash Lite",
-    "hosting": "Gemini API"
+    "hosting": "Gemini API",
+    "weights": "as served by the provider",
+    "max_tokens": 8000
   },
   "gemini_flash": {
     "api_model": "models/gemini-3.6-flash",
     "display_name": "Gemini 3.6 Flash",
-    "hosting": "Gemini API"
+    "hosting": "Gemini API",
+    "weights": "as served by the provider",
+    "max_tokens": 8000
   }
 }

@@ -132,7 +132,7 @@ loop working in practice. The construction rules:
   label carries a mechanical proof (a validating reference plan, an
   unreachability proof from a sound abstraction, a capability grant that
   flips infeasibility, or exhaustive referent bindings), re-proved on
-  every commit by 584 tests.
+  every commit by 589 tests.
 \item \textbf{Refusal and clarification as first-class answers.} The
   response language contains \texttt{infeasible(reason)} and
   \texttt{clarify(candidates)} terminals, so detection is scored
@@ -400,8 +400,24 @@ feasible constructively by reference plans, never by the abstraction.
 
 Four models, all under a fixed prompt at temperature 0 with one decode
 per seed, each covering both suites in both conditions: Llama 3.3 70B
-(hosted), Qwen 2.5 7B Instruct (local), Gemini 3.1 Flash Lite
-(hosted), and Gemini 3.6 Flash (hosted; a reasoning generation model).
+(Groq API), Qwen 2.5 7B Instruct (run locally through Ollama as the
+4-bit Q4\_K\_M quantization of the \texttt{qwen2.5:7b-instruct} tag),
+Gemini 3.1 Flash Lite, and Gemini 3.6 Flash (both Gemini API; the
+latter a reasoning generation model). Each request carried the prompt
+as one user message, temperature 0, and the output limit in
+Table~\ref{tab:models}, and nothing else. No JSON mode or structured
+output constraint was used, so format failures measure the models'
+unconstrained output. No reasoning or thinking parameter was sent, so
+both Gemini models ran with the provider's default thinking, and their
+reasoning tokens are not recorded. Temperature 0 does not make a hosted
+API replay identically, so each single decode is one sample of the
+model's behaviour. Seven of the 1350 committed responses stop at the
+output limit mid-answer, all malformed under the strict policy
+(\texttt{tools/audit\_truncation.py} lists them). One is in a
+superseded version 1 run. Of the six in the current grid, five are
+Llama office\_01 responses from which lenient extraction recovers an
+earlier plan, and one is a Flash Lite plan that moves between two
+rooms 483 times before the limit cuts it off.
 Table~\ref{tab:models} records the exact API checkpoint behind each
 run alias; every committed record carries the alias, and records
 written from now on carry the checkpoint string itself, so the mapping
@@ -414,8 +430,9 @@ exposed are part of the methodology's history.
 \centering
 \small
 \input{generated/model_manifest}
-\caption{Model aliases in the committed records and the exact API
-checkpoints they called, generated from the committed manifest.}
+\caption{Model aliases in the committed records, the exact API
+checkpoints they called, and the output token limit of every request,
+generated from the committed manifest.}
 \label{tab:models}
 \end{table}
 
@@ -626,7 +643,9 @@ every claim. Prompt sensitivity is quantified for one model only (Llama, plain,
 house\_01); the other models' format behaviour under prompt variation
 is unmeasured. The frontier model's ideal diagonals are a house\_01
 result: its office\_01 columns repeat the headline counts in both
-conditions but not the perfect matrix. The lenient policy is a fixed syntactic
+conditions but not the perfect matrix. Qwen's results describe its
+4-bit quantized build, which may plan worse than the published
+weights. The lenient policy is a fixed syntactic
 extraction rule, not a semantic judge, by design. All hosted models ran
 on free-tier quotas, which selected the model list.
 

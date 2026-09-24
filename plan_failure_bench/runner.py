@@ -118,8 +118,10 @@ def run_suite(
     append: bool = False,
     temperature: float | None = None,
     api_model: str | None = None,
+    max_tokens: int | None = None,
 ) -> list[dict]:
-    """call_fn(prompt, seed) -> raw response text. Injectable for tests.
+    """call_fn(prompt, seed) -> raw response text, or a ModelResponse whose
+    finish_reason is then recorded. Injectable for tests.
 
     With obfuscations (env name to Obfuscation), the model sees the
     obfuscated prompt and its raw response is inverted back to canonical
@@ -143,7 +145,9 @@ def run_suite(
             obf = obfuscations.get(seed.environment) if obfuscations else None
             if obf is not None:
                 prompt = obf.apply(prompt)
-            response_text = call_fn(prompt, seed)
+            response = call_fn(prompt, seed)
+            finish_reason = getattr(response, "finish_reason", None)
+            response_text = getattr(response, "text", response)
             canonical_text = obf.invert(response_text) if obf is not None else response_text
             record = {
                 "seed_id": seed.id,
@@ -159,6 +163,8 @@ def run_suite(
                 "response_canonical": canonical_text if obf is not None else None,
                 "obfuscation_version": obf.version if obf is not None else None,
                 "temperature": temperature,
+                "max_tokens": max_tokens,
+                "finish_reason": finish_reason,
                 "timestamp": time.time(),
             }
             record.update(check_seed(env, seed, canonical_text))
@@ -227,14 +233,14 @@ def main() -> None:
 
     last_start = [0.0]
 
-    def call_fn(prompt: str, seed: Seed) -> str:
+    def call_fn(prompt: str, seed: Seed):
         wait = config.min_interval_s - (time.monotonic() - last_start[0])
         if wait > 0:
             time.sleep(wait)
         last_start[0] = time.monotonic()
         response = call_model(config, prompt)
         print(f"{seed.id}: {response.latency_s:.1f}s")
-        return response.text
+        return response
 
     records = run_suite(
         seeds,
@@ -248,6 +254,7 @@ def main() -> None:
         append,
         temperature=config.temperature,
         api_model=config.model,
+        max_tokens=config.max_tokens,
     )
     total = len(load_records(out_path)) if out_path else len(records)
     print(f"{out_path} now holds {total} records")
