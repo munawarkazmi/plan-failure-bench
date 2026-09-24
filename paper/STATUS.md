@@ -103,9 +103,11 @@ inspected.
   2014, Eriksson et al. 2017), each checked against its body and
   recorded in paper/citation_checks.md, and Limitations states that the
   proofs are checked only by our own code.
-- Still open before posting anywhere: rebuild paper.pdf once and push it
-  to arXiv and to Zenodo as v2 together. The committed paper.pdf
-  predates this revision.
+- paper.pdf rebuilt from this revision on 24 September 2026 (clean
+  build, 12 pages, body ends on page 8, Type 1 fonts only, MD5
+  696f700d05c2920e3da83b15aac3ed27). Still open: post this exact file to
+  arXiv and to Zenodo as v2 under the concept DOI, together, and check
+  the uploaded copies against that MD5.
 
 ## Submission and arXiv, 22 August 2026
 
