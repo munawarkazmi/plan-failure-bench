@@ -43,17 +43,9 @@ inspected.
   abstract and introduction rewritten to that framing; the final
   pre-submission read was applied 4 August 2026 and is recorded below,
   and the draft is submitted)
-- If accepted (notification 22 September 2026), two deliverables follow.
-  **Camera-ready:** two edits to paper.tex, verified to build clean on
-  4 August 2026 (13 pages, zero unresolved references, zero Type 3 fonts,
-  line numbers gone, workshop name in the footer). Change the style option
-  to `[dblblindworkshop, final]`, and repoint `\anonrepourl` at
-  `https://github.com/munawarkazmi/plan-failure-bench`, because the
-  conditional emits it once the preprint branch is false and there is
-  nothing left to anonymise. Then incorporate reviewer feedback, which is
-  the part that cannot be prepared in advance. **Poster:** drafted at
-  paper/poster/, A0 portrait; confirm the board dimensions NeurIPS
-  publishes closer to the date and adjust the geometry line if they differ.
+- Not accepted at TAE (decision 21 September 2026), so the camera-ready
+  and poster plans are void; paper/poster/ stays as a record. The
+  revision that followed is recorded below.
 - Preprint published: Zenodo, 2 August 2026. Concept DOI
   10.5281/zenodo.21756817 (always newest version), V1 DOI
   10.5281/zenodo.21756818. The uploaded file was byte-identical to the
@@ -85,6 +77,31 @@ inspected.
   window, up to two weeks for a profile created on a non-institutional
   email, was the one item here whose clock could not be compressed. It is
   discharged: the profile exists and the submission is in.
+
+## Decision and revision, September 2026
+
+- TAE decision, 21 September 2026: reject, with no rebuttal phase. One
+  review recommended acceptance and asked for a closing summary, a
+  shorter abstract, and less contrastive phrasing; the other
+  recommended rejection without naming specific errors. The venue is
+  non-archival, so the paper is free to go elsewhere.
+- The upload question below is closed: the PDF on OpenReview is the
+  blinded build.
+- Revision on 24 September 2026, three commits. The constraint verdicts
+  are now cross-checked by pyperplan through a second PDDL compilation
+  that turns the invariants into STRIPS preconditions. The setup section
+  now states how every model was called: Qwen's 4-bit Q4_K_M build, the
+  output limits, no JSON mode and no reasoning setting, and the 7 of
+  1350 responses cut off at the limit. The writing pass cut the
+  abstract to about 200 words, defined seed, suite, decoy and the named
+  seeds, said plainly what the precondition-trap diagonal does not show,
+  regrouped the results under three headings, added a conclusion, and
+  moved the citation verification record to paper/citation_checks.md.
+  The body ends on page 8 again.
+- Still open before posting anywhere: position the unreachability proofs
+  against existing work on proving plans unsolvable (needs body-checked
+  citations), then rebuild paper.pdf once and push it to arXiv and to
+  Zenodo as v2 together. The committed paper.pdf predates this revision.
 
 ## Submission and arXiv, 22 August 2026
 

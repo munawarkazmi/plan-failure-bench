@@ -45,51 +45,33 @@
   Munawar Kazmi\\
   \texttt{munawarsaeedkazmi1@gmail.com}\\
   \url{https://github.com/munawarkazmi/plan-failure-bench}\\
-  Working paper, August 2026%
+  Working paper, September 2026%
 }
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Evaluations of language model planners mostly rest on foundations a
-reader cannot audit: success rates that cannot tell a model refusing
-every task from one walking into every trap, ground-truth labels that
-are authored rather than proved, and human or LLM judges somewhere in
-the scoring loop. The contribution of this paper is methodological: a
-set of construction rules for planner evaluations that remove all
-three, demonstrated in \benchname{}. Ground truth is decidable by
-construction. Each of 60 instructions over two symbolic indoor
-environments either admits a valid plan or plants exactly one trap
-from a six-way taxonomy (unreachable goal, missing capability,
-ambiguous referent, precondition trap, sequencing trap, constraint
-trap), and every label carries a mechanical proof obligation re-run in
-continuous integration. Models answer in a small JSON action language
-with explicit infeasible and clarify responses, so trap detection is
-machine-checkable and never reported without its paired false positive
-count. A deterministic checker, differentially tested against an
-independent PDDL toolchain, assigns exactly one verdict per response;
-every instruction also exists in a semantically obfuscated condition
-applied as a versioned invertible renaming, so the checker only ever
-scores the canonical world; and the results tables are generated
-directly from the committed run records, so no number in the paper can
-drift from its data. The headline artefact is the confusion matrix
-between planted trap and observed verdict. A four-model grid, sized by
-free-tier access and reported as counts and hypotheses, demonstrates
-what the instrument yields. Models fail in distinct, stable ways. A
-70B model's planning judgement survives semantic obfuscation
-essentially intact; an apparent execution collapse under our first
-token scheme was caught and retired by the obfuscation's own
-versioning. Over-refusal tracks surface semantics. For the smaller
-reasoning-generation model, unreachability detection survives
-obfuscation only where the isolation is stated rather than left to be
-inferred from topology. The first frontier reasoning model clears
-house\_01 in both conditions with identical ideal diagonals, then
-repeats every headline count on the second environment in both
-conditions, with the same single sequencing seed failing identically
-in each; for that model, semantic removal changes nothing this
-benchmark can measure, which bounds every failure finding here to
-smaller and non-reasoning models.
+Planner evaluations for language models usually report a success
+rate, rely on labels written by hand, and often score with a human or
+LLM judge. We propose construction rules that remove all three and
+demonstrate them in \benchname{}. Each of 60 instructions over two
+symbolic indoor environments either admits a valid plan or plants one
+trap from six families (unreachable goal, missing capability, ambiguous
+referent, precondition, sequencing, constraint), and each label carries
+a proof that continuous integration re-checks on every commit. Models
+answer in a small JSON action language with explicit infeasible and
+clarify responses, so a deterministic checker scores every answer and
+every detection count is reported with its false positive count on
+feasible instructions. The checker is differentially tested against an
+independent PDDL toolchain, and every instruction also appears in a
+semantically obfuscated form produced by a versioned, invertible
+renaming. At this scale the results on four models are hypotheses. The
+models fail in different ways; the obfuscation versioning exposed one of
+our own apparent findings as a token artefact; no model distinguishes a
+missing capability from an unreachable goal; and the strongest model
+tested, Gemini 3.6 Flash, nearly clears the suite in both conditions,
+so the failure findings apply to smaller models.
 \makeatletter\if@preprint
 This is a working paper; every number in it is reconstructible from
 the repository.
@@ -102,32 +84,28 @@ repository at \url{\anonrepourl}.
 \section{Introduction}
 
 When a household robot is driven by a language model planner, the
-dangerous failures are not the clumsy plans but the confident ones: the
-model that plans a route through a room it was told never to enter, or
+most dangerous failures are confident ones: the model that plans a
+route through a room it was told never to enter, or
 fetches one of two identical cups without asking which. Before asking
 whether a language model plans well, a benchmark should ask whether the
 model notices when planning is the wrong response altogether.
 
-\benchname{} makes that question decidable. The contribution of this
-paper is the instrument rather than the leaderboard: a way of
-constructing planner evaluations in which every scoring decision is
-mechanical, every ground-truth label carries its own proof, and every
-published number can be reconstructed from committed records by a
-reader who trusts none of the prose. The
-four-model, two-environment grid reported here is a demonstration of
-that instrument at deliberately small scale, 30 seeds per condition
-with a model panel selected by free-tier access, and its findings are
-stated as bounded hypotheses throughout. What the construction rules
-buy is that those hypotheses, at whatever scale they are eventually
-tested, cannot be artefacts of a judge, a mislabelled seed, or a
-transcription: two artefacts the instrument caught in its own first
-token scheme, documented in Section~\ref{sec:results}, show the audit
-loop working in practice. The construction rules:
+\benchname{} makes that question checkable by machine. The
+contribution is a way of constructing planner evaluations: every
+scoring decision is mechanical, every ground-truth label carries a
+proof, and every number in this paper is generated from committed run
+records. The grid of four models and two environments reported here
+demonstrates the method at small scale (30 instructions per
+environment, models chosen by free-tier access), so its findings are
+stated as hypotheses. The construction rules ensure that those
+hypotheses cannot come from a judge, a mislabelled instruction, or a
+transcription error, and Section~\ref{sec:results} describes two
+artefacts the method caught in its own first obfuscation scheme. The
+rules:
 
 \begin{enumerate}
-\item \textbf{Ground truth decidable by construction.} The world model
-  is a finite set of ground atoms with no numerics, so reachability
-  questions are decidable and every label is provable.
+\item \textbf{Finite symbolic worlds.} States are sets of ground atoms
+  with no numerics, so every label can be proved mechanically.
 \item \textbf{Proof obligations in continuous integration.} Every seed's
   label carries a mechanical proof (a validating reference plan, an
   unreachability proof from a sound abstraction, a capability grant that
@@ -149,16 +127,10 @@ loop working in practice. The construction rules:
   Every run is committed as one JSON record per seed, both scoring
   policies re-score offline without model calls, model names resolve
   through a committed manifest of exact API checkpoints, and the
-  results tables in this paper are generated from the records rather
-  than typed.
+  results tables in this paper are generated from the records.
 \end{enumerate}
 
 \section{Related work}
-
-\emph{Every citation below was checked against public records for its
-bibliographic details, and every finding attributed to a paper was
-checked against that paper's body rather than its abstract.
-Appendix~\ref{app:verification} records what each check established.}
 
 \textbf{Evaluating LLM planning.} PlanBench established systematic
 evaluation of LLM planning over symbolic domains and its successors
@@ -166,16 +138,15 @@ have repeatedly found generation weak \citep{valmeekam2023planbench,
 valmeekam2023planning}. The same line introduced Mystery Blocksworld,
 obfuscating a familiar domain to separate reasoning from lexical
 recall, and found that plan generation collapses; \benchname{} inherits
-that manipulation but applies it as a versioned bijection and asks a
-broader question, namely which \emph{judgements} survive semantic
-removal, not only whether generation does. Unsolvability recognition
+that manipulation, applies it as a versioned bijection, and asks which
+\emph{judgements} survive semantic removal as well as whether
+generation does. Unsolvability recognition
 itself is not new: PlanBench ships unsolvable instances scored by true
 and false negative rates, and \citet{valmeekam2024strawberry} report
 o1-preview explicitly recognising 27\% of unsolvable Blocksworld
 instances, 16\% under randomised obfuscation, while wrongly declaring
-11.5\% of solvable obfuscated instances impossible. \benchname{} differs
-in breadth and pairing rather than in raising the question: six trap
-families under one response protocol, detection always paired with
+11.5\% of solvable obfuscated instances impossible. What \benchname{}
+adds is breadth and pairing: six trap families under one response protocol, detection always paired with
 false positives, and per-seed proof obligations. Pipeline alternatives such
 as LLM+P hand the search problem to a classical planner and use the
 model only for formalisation \citep{liu2023llmp}; \benchname{} instead
@@ -239,8 +210,8 @@ interpretation, decomposition, sequencing, and transition modelling
 \citep{li2024embodied}. \benchname{} differs in direction: instead of
 classifying observed errors after the fact, it plants exactly one
 labelled trap per instruction and reports the confusion matrix between
-planted and observed, asking whether models fail as predicted. Doing
-that credibly requires ground truth that defends itself, which places
+planted and observed, asking whether models fail as predicted. That
+requires ground truth that can be checked independently, which places
 this work in the plan-validation tradition of VAL \citep{howey2004val}:
 verdicts come from a deterministic checker differentially tested
 against an independent PDDL executor, pyperplan
@@ -270,16 +241,15 @@ one construct validity criterion, the operationalisation of abstract
 phenomena often insufficient, and issued eight recommendations
 including defining the phenomenon, preparing for contamination, and
 justifying construct validity \citep{bean2025validity}; \benchname{}
-makes the narrower internal-validity questions theorems rather than
-review items, since what each instruction measures is its planted,
-machine-proved label. On judges, a systematic evaluation of 21 LLM
+answers the narrower internal-validity question by proof, since what
+each instruction measures is its planted, machine-proved label. On judges, a systematic evaluation of 21 LLM
 judges over roughly 541{,}000 judgments finds that raw exact-match
 agreement overstates discriminative ability (Cohen's kappa 33.8 to
 41.3 percentage points lower on MT-Bench), that judge rankings shift
 by up to 14 positions across benchmarks, and that production-deployed
 judges combine near-perfect test-retest reliability with severe
 position bias \citep{norman2026judges}; \benchname{} scores with no
-judge anywhere, so none of those pathologies can enter. Shallow-cue
+judge anywhere, so those pathologies do not apply. Shallow-cue
 exploitation has also been measured directly: simple classifiers over
 answer n-grams score highly on several multiple-choice benchmarks
 while lacking the capability being tested
@@ -295,13 +265,12 @@ An environment is a set of rooms connected by doors (open, closed, or
 locked), items with categories and properties located in rooms, a robot
 with a capability profile over a fixed action vocabulary (goto, open,
 close, pick, place, and optionally unlock), a single-slot gripper, and
-trajectory invariants that must hold in every state, not only at the
-end. Two invariant kinds exist: never\_enter (the robot must never be in
+trajectory invariants that must hold in every state along a plan. Two invariant kinds exist: never\_enter (the robot must never be in
 a room) and never\_hold\_in (the robot must never be in a room while
 holding an item with a given property). Invariant text is shown to the
-model verbatim, so constraint seeds test planning, not telepathy. State
-is a finite set of ground atoms over a fixed object universe; there are
-no numerics, so the state space is finite and reachability is decidable.
+model verbatim, so the model is told every constraint it is scored
+against. State is a finite set of ground atoms over a fixed object
+universe with no numerics, so the state space is finite.
 
 \subsection{Task language}
 
@@ -317,7 +286,9 @@ planning ability.
 
 \subsection{Trap taxonomy and proof obligations}
 
-Each instruction either admits a valid plan or plants exactly one trap.
+We call each labelled instruction a \emph{seed}, and the 30 seeds of
+one environment a \emph{suite}. Each seed either admits a valid plan or
+plants exactly one trap.
 Labels carry these proof obligations, re-proved on every test run:
 
 \begin{itemize}
@@ -340,6 +311,23 @@ Labels carry these proof obligations, re-proved on every test run:
   or provably infeasible solely because of an invariant.
 \end{itemize}
 
+A \emph{decoy plan} is the tempting wrong plan a trap is built around.
+Precondition and sequencing traps together are the \emph{ordering
+traps}, seven per suite. Four seeds recur by name in the results. The
+\emph{silent-violation} seed is the feasible constraint seed, whose
+decoy executes fully and reaches the goal while breaching an invariant;
+the \emph{compound} constraint seed asks for two items, only one of
+which may be carried to the target; two missing-capability seeds are
+\emph{locked-door} seeds, sealed behind a door this robot cannot
+unlock; and the third is the \emph{inexpressible-verb} seed, which asks
+for an action no robot has, such as mopping.
+
+A trap verdict on a feasible seed shows that the model missed the trap.
+It does not show that the model took the decoy: precondition\_violation
+is the verdict for any plan that fails early, whatever the cause, so an
+observed precondition\_violation on a precondition trap is consistent
+with the decoy but does not identify it.
+
 \subsection{Environments}
 
 \textbf{house\_01}: seven rooms, six doors, ten items, two
@@ -349,8 +337,8 @@ outright, and a locked store room behind the withheld unlock capability.
 It contains one cycle (kitchen, hallway, living room), passable only
 through a closed door.
 
-\textbf{office\_01}: nine rooms, eight doors, eleven items, built so
-that its structure contrasts with house\_01 rather than repeating it. A
+\textbf{office\_01}: nine rooms, eight doors, eleven items, built to
+contrast with house\_01 in structure. A
 five-room ring reachable through open doors makes route choice pervasive.
 A never\_enter room sits on the ring, so the short route between
 reachable rooms can silently violate an invariant by movement alone. A
@@ -403,7 +391,7 @@ per seed, each covering both suites in both conditions: Llama 3.3 70B
 (Groq API), Qwen 2.5 7B Instruct (run locally through Ollama as the
 4-bit Q4\_K\_M quantization of the \texttt{qwen2.5:7b-instruct} tag),
 Gemini 3.1 Flash Lite, and Gemini 3.6 Flash (both Gemini API; the
-latter a reasoning generation model). Each request carried the prompt
+latter a reasoning model). Each request carried the prompt
 as one user message, temperature 0, and the output limit in
 Table~\ref{tab:models}, and nothing else. No JSON mode or structured
 output constraint was used, so format failures measure the models'
@@ -421,8 +409,8 @@ rooms 483 times before the limit cuts it off.
 Table~\ref{tab:models} records the exact API checkpoint behind each
 run alias; every committed record carries the alias, and records
 written from now on carry the checkpoint string itself, so the mapping
-from a table row to the model that produced it is committed rather
-than remembered. The superseded version 1 obfuscated runs of Llama and
+from a table row to the model that produced it is recorded in the
+repository. The superseded version 1 obfuscated runs of Llama and
 Qwen are retained and marked in the tables, because the artefacts they
 exposed are part of the methodology's history.
 
@@ -440,9 +428,9 @@ generated from the committed manifest.}
 \label{sec:results}
 
 Numbers below are counts under the lenient extraction policy, one
-decode per seed at temperature 0 except in the two sampling
-paragraphs, with strict format failures reported per run; at $n=30$
-per condition they are hypotheses, not claims. Table~\ref{tab:runs} is
+decode per seed at temperature 0 unless a paragraph says otherwise,
+with strict format failures reported per run. At $n=30$ per condition
+they are hypotheses. Table~\ref{tab:runs} is
 generated directly from the committed records.
 
 \begin{table}[t]
@@ -453,7 +441,7 @@ generated directly from the committed records.
 \caption{Every complete committed run. Format failures are strict-policy
 malformed responses out of 30; all other columns use lenient extraction.
 Traps detected counts the 13 seeds per suite whose expected answer is a
-terminal, and is never read without the paired false positives on the 17
+terminal, and should be read with the paired false positives on the 17
 feasible instructions. Exact reasons counts detections whose reason code
 or candidate set was exactly right.}
 \label{tab:runs}
@@ -462,178 +450,153 @@ or candidate set was exactly right.}
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{confusion_matrices_headline.png}
-\caption{The headline artefact, on three of the eighteen runs. Rows are
-the planted trap, columns the observed verdict. The same 30
-instructions produce three shapes: Qwen drives almost every trap into
-one execution-failure column, Flash Lite refuses across the matrix
-including on feasible seeds, and the frontier model returns the
-diagonal. Full grids for every run are in Appendix~\ref{app:figures}.}
+\caption{Planted trap (rows) against observed verdict (columns) for
+three of the eighteen runs. The same 30 seeds produce three shapes:
+Qwen sends almost every trap to one execution-failure column, Flash
+Lite refuses across the matrix including on feasible seeds, and Gemini
+3.6 Flash returns the diagonal. Full grids for every run are in Appendix~\ref{app:figures}.}
 \label{fig:headline}
 \end{figure}
 
-\textbf{Models fail in distinct, stable ways.} Llama detects most traps
-but violates the response format in 18 of 30 plain responses,
-wrapping correct JSON in prose. Qwen is format-disciplined and almost
-never refuses: zero false positives in plain on both environments, with
-nearly every trap ending in an observed precondition violation. Gemini
-Flash Lite is format-perfect on house\_01 with near-ceiling detection,
-but solved none of house\_01's seven ordering traps and refused more
-feasible instructions than any other model. Each profile replicated in
-direction on the second environment; Llama's office\_01 plain run kept
-detection at exactly its house count (9 of 13) while format failures
-worsened to 24 of 30 and valid-seed success fell to 2 of 9.
+\subsection{Failure profiles}
 
-\textbf{A finding retired by the methodology's own versioning.} Under
-version 1 tokens, Llama appeared to show a dissociation: detection
-surviving obfuscation while valid-seed success collapsed from 5 of 9
-to 1 of 9. The version 2 rerun refutes the collapse: detection holds
-(9 of 13 to 10 of 13, false positives 3 of 17 to 0 of 17) and
-execution holds as well, 5 of 9 in both conditions on house\_01 and
-2 of 9 in both on office\_01, with Llama's hallucinated-entity count
-falling from 4 under version 1 to 0. The execution collapse was token
-confusability damage. What survives is simpler and still contrary to
-a pure pattern-matching account: for this model, planning judgement
-and execution are both essentially unimpaired by semantic removal.
+\textbf{Each model fails in its own way.} Llama detects most traps but
+breaks the response format in 18 of 30 plain responses by wrapping
+correct JSON in prose. Qwen keeps the format and almost never refuses:
+zero false positives in plain on both environments, with nearly every
+trap ending in a precondition violation. Gemini 3.1 Flash Lite keeps
+the format on house\_01 and detects 12 of 13 traps there, but solves
+none of house\_01's seven ordering traps and refuses more feasible
+instructions than any other model. Each profile holds in direction on
+office\_01. Llama's plain office\_01 run detects exactly as many traps
+as on house\_01 (9 of 13), while its format failures rise to 24 of 30
+and its valid-seed success falls to 2 of 9.
 
-\textbf{Over-refusal tracks surface semantics.} Gemini's false positives
-fell from 4 of 17 to 1 of 17 under obfuscation on house\_01 and from 7
-of 17 to 2 of 17 on office\_01. Qwen moved the other way: from zero
-false positives in plain to 3 of 17 on house\_01 and 2 of 17 on
-office\_01 under obfuscation, and its
-only exact-reason detections anywhere are constraint seeds under
-obfuscation, instructions it silently complied with in plain English.
+\textbf{The strongest model tested nearly clears the suite.} Gemini 3.6
+Flash makes no format errors, detects 13 of 13 traps (10 with the exact
+reason), refuses no feasible instruction, and solves 9 of 9 valid seeds
+in all four of its runs, plain and obfuscated on both environments. On
+house\_01 it also solves all seven ordering traps, which no other model
+managed, and takes the compliant route on the silent-violation seed
+even when the constraint names nonsense words; both house\_01 confusion
+matrices are the ideal diagonal. On office\_01 it detects all four
+unreachable seeds in both conditions, including the two annex seeds
+whose isolation must be inferred from the connection list. Its one
+blemish is an office\_01 sequencing trap whose stated order closes the
+robot's own route: in both conditions it returns a plan that satisfies
+one of two goal conjuncts (\texttt{goal\_not\_achieved}). The summary
+table cannot show this, because the seed lies outside the valid label.
+The benchmark therefore has little headroom at this model's level, and
+the failure findings below apply to the three smaller models.
 
-\textbf{For the smaller reasoning-generation model, stated facts
-survive obfuscation and inferred topology does not.} On house\_01,
-where the isolated room's doorlessness is stated in the environment
-description, Gemini 3.1 Flash Lite's unreachability detection survived
-obfuscation at 4 of 4 with exact reasons. On office\_01, where the
-annex's isolation must be inferred from the connection list, its
-unreachability detection fell from 3 of 4 to 1 of 4 under obfuscation,
-the survivor being a nonexistent object rather than any topology seed.
-The frontier model is not so bounded: it detects all four office
-unreachable seeds in both conditions, annex seeds included with exact
-reasons, so the stated-versus-inferred split separates the two
-reasoning-generation models rather than describing them both.
+\textbf{No model separates a missing capability from an unreachable
+goal.} No run has given the exact diagnosis on a locked-door seed:
+every model, Gemini 3.6 Flash included, calls them unreachable. That
+answer is true of this robot, so the finding concerns the distinction
+between the two reasons, which no model draws. The only exact
+missing-capability reasons came from Gemini 3.6 Flash on the
+inexpressible-verb seeds (mopping on house\_01, photocopying on
+office\_01): three exact diagnoses across the eighteen fixed-prompt
+runs. The house\_01 diagnosis reverted to unreachable under
+obfuscation, and the office\_01 one held in both conditions.
 
-\textbf{The methodology has caught two of its own artefacts.} Under
-version 1 tokens, Qwen showed 15 hallucinated-entity verdicts on
-house\_01 (version 2: 1) and Llama showed 4 (version 2: 0) alongside
-the spurious execution collapse retired above
-(Table~\ref{tab:hallucination}). Records carry their obfuscation
-version, so generations of results never mix silently, and the
-superseded runs remain visible in Table~\ref{tab:runs}.
+\subsection{Obfuscation}
 
-\textbf{Sampling stability: the small model's profile is not a decoding
-artefact.} Five decodes per seed at temperature 0.7 (Qwen, plain,
-house\_01) produced the identical lenient verdict on 26 of 30 seeds.
-Detection was exactly binary: the two object-level unreachable seeds
-were detected in all five samples (with the same wrong reasons), the
-remaining eleven trap seeds in none of their 55 decodes, and none of
-the 85 feasible-seed decodes produced a refusal. The never-refusing
-profile survives sampling. The obfuscated cell (same protocol) is
-noisier, 14 of 30 seeds fully stable, yet its structure repeats: the
-nonexistent-object and inexpressible-verb seeds and the compound
-constraint seed are detected in all five samples, and one valid seed
-is refused in all five, so the obfuscation-induced refusal mode is
-reproducible rather than decode luck. The office\_01 cells complete
-this model's grid and replicate both patterns: the plain cell is again
-stable (24 of 30 seeds, zero refusals across 85 feasible decodes) and
-the obfuscated cell again destabilises (17 of 30) around a
-reproducible refusal core, with the compound greasy constraint seed
-detected with the exact reason in all five samples. Sampling at
-temperature 0.7 also reintroduces token copy errors that the version 2
-edit distance guarantee suppresses at temperature 0: 13 of 150
-house\_01 and 11 of 150 office\_01 obfuscated decodes produced a
-hallucinated-entity verdict, against 1 and 0 of 30 at temperature 0.
+\textbf{Our first token scheme produced two artefacts, and versioning
+caught both.} Under version 1 tokens, Llama appeared to keep its
+detection while its valid-seed success fell from 5 of 9 to 1 of 9. The
+version 2 rerun removed the drop: detection 10 of 13 (plain 9 of 13),
+false positives 0 of 17 (plain 3 of 17), and valid-seed success 5 of 9
+in both conditions on house\_01 and 2 of 9 in both on office\_01. The
+same scheme produced 15 hallucinated-entity verdicts for Qwen on
+house\_01 (version 2: 1) and 4 for Llama (version 2: 0;
+Table~\ref{tab:hallucination}); these were confusable tokens copied
+wrongly. Records carry their obfuscation version, and the superseded
+runs stay in Table~\ref{tab:runs}. For Llama, what remains is that
+removing the semantics leaves both detection and execution essentially
+unchanged.
 
-\textbf{Sampling the wrapper model: instability is detection flicker,
-not a stable wrong answer.} The same protocol applied to Llama (plain,
-house\_01) gives 19 of 30 seeds the identical lenient verdict in all
-five samples, with strict format failures of 17, 18, 17, 18, and 16 of
-30 per sample and lenient extraction leaving 1, 4, 1, 0, and 1
-malformed. Seven of the 13 trap seeds are detected in all five
-samples, five in some, one in none; two of the 17 feasible seeds are
-refused at least once, one in every sample. Where Qwen's sampled
-verdicts freeze, Llama's flicker at the detection boundary: three
-infeasibility seeds mix \texttt{terminal\_infeasible} decodes with
-observed \texttt{precondition\_violation} decodes, the same seed
-detected in one sample and executing into the missing precondition in
-the next. The silent-violation constraint seed splits two to three:
-two decodes take the planted bait, a fully executing plan that
-breaches the constraint, and three refuse the feasible instruction,
-every case mechanically separated by the checker.
+\textbf{Over-refusal moves with surface semantics.} Flash Lite's false
+positives fall under obfuscation, from 4 of 17 to 1 of 17 on house\_01
+and from 7 of 17 to 2 of 17 on office\_01. Qwen moves the other way,
+from zero false positives in plain to 3 of 17 on house\_01 and 2 of 17
+on office\_01, and its only exact-reason detections anywhere are
+constraint seeds under obfuscation, instructions it complied with in
+plain language.
 
-\textbf{The frontier model clears house\_01 in both conditions, and
-the rows are identical.} Gemini 3.6 Flash, plain and fully obfuscated:
-no format failures, 13 of 13 traps detected (10 exact reasons), zero
-false positives, and 9 of 9 valid seeds solved in each condition,
-including all seven ordering traps that defeated every other model and
-the compliant route on the silent-violation constraint seed, chosen
-even when the constraint concerned nonsense words in nonsense rooms.
-Both confusion matrices are the ideal diagonal. For this model on this
-environment, the benchmark's central manipulation returns a clean
-answer: its planning judgement is state tracking, not lexical pattern
-matching. The micro-exceptions are diagnostic wording, not judgement:
-under obfuscation its one exact capability diagnosis reverted to
-unreachable while its unreachable reasons became 4 of 4 exact. Every
-failure claim in this paper is therefore bounded to smaller and
-non-reasoning models.
+\textbf{For Flash Lite, stated isolation survives obfuscation and
+inferred isolation does not.} On house\_01, where the environment
+description says the cellar has no doors, Flash Lite's unreachability
+detection stays at 4 of 4 with exact reasons under obfuscation. On
+office\_01, where the annex's isolation must be inferred from the
+connection list, it falls from 3 of 4 to 1 of 4, and the seed it keeps
+is the nonexistent object. Gemini 3.6 Flash detects all four office\_01
+unreachable seeds in both conditions, so this split separates the two
+Gemini models.
 
-\textbf{The frontier model's second environment: identical headline
-counts in both conditions, one repeated off-diagonal cell.} Gemini 3.6
-Flash on office\_01, plain and fully obfuscated alike, repeats every
-headline count of its house\_01 rows: no format failures, 13 of 13
-traps detected (10 exact reasons), zero false positives, 9 of 9 valid
-seeds solved. Its unreachability detection covers all four office
-seeds in both conditions, including the two annex seeds whose
-isolation is never stated and must be inferred from the connection
-list, so for this model topological inference itself survives semantic
-removal, where the smaller reasoning-generation model kept only the
-stated fact. Neither office matrix, however, is the ideal diagonal: in
-each condition the same sequencing trap, whose stated order closes the
-robot's own route so that only a reordered plan achieves the goal,
-produced a plan satisfying one of two goal conjuncts,
-\texttt{goal\_not\_achieved}, the model's only non-valid verdicts on
-feasible seeds across its four committed columns. Aggregates hide it:
-the failure sits on a feasible seed outside the valid label, so every
-column of the summary table stays perfect while the matrix does not.
-And the house\_01 pattern repeats in full: the two office rows are
-identical to each other, blemish included.
+\subsection{Stability across samples and prompts}
 
-\textbf{Format discipline is the model's habit, not the prompt's
-artefact.} Three prompts over the same seeds (Llama, plain,
-house\_01): the canonical prompt yields 18 of 30 strict format
-failures, a bare only-JSON variant 12 of 30, and a
-format-contract-last variant 15 of 30, so no wording cures the
-prose-wrapping. The bare variant backfires where it seems to help: 8
-of its 30 responses contain no recoverable JSON at all, against 1 of
-30 under the canonical prompt. Lenient planning metrics barely move
-across prompts (detection 8 to 10 of 13, false positives 2 to 3 of
-17), which is the separation the two-policy scoring exists to
-provide: format discipline is prompt-sensitive, planning conclusions
-are not.
+\textbf{Qwen's profile survives sampling.} Five decodes per seed at
+temperature 0.7 (plain, house\_01) gave the same lenient verdict on 26
+of 30 seeds. Detection was all or nothing: the two object-level
+unreachable seeds were detected in all five samples, with the same
+wrong reasons, the other eleven trap seeds in none of their 55 decodes,
+and none of the 85 feasible-seed decodes was a refusal. The obfuscated
+cell is noisier (14 of 30 seeds stable), but its structure repeats: the
+nonexistent-object, inexpressible-verb and compound seeds are detected
+in all five samples, and one valid seed is refused in all five. On
+office\_01 the plain cell is again stable (24 of 30 seeds, no refusals
+in 85 feasible decodes) and the obfuscated cell again less so (17 of
+30), with the compound seed detected with the exact reason in all five
+samples. Sampling also brings back the token copy errors that version 2
+suppresses at temperature 0: 13 of 150 house\_01 and 11 of 150
+office\_01 obfuscated decodes were hallucinated-entity verdicts,
+against 1 and 0 of 30 at temperature 0.
 
-\textbf{The capability distinction still defeats every model, and the
-crack in it now survives obfuscation.} The capability-grant seeds,
-where the suite proves a goal is sealed by a missing capability rather
-than topology, have never received the exact diagnosis in any run:
-even the frontier model calls them unreachable, on office\_01 as on
-house\_01, in every condition. The only exact missing-capability
-reasons ever produced came from Gemini 3.6 Flash on the two
-inexpressible-verb seeds, house\_01 mopping and office\_01
-photocopying: three exact diagnoses across eighteen committed
-fixed-prompt columns. The house\_01 diagnosis appeared in plain
-language and reverted to unreachable under obfuscation; the office\_01
-diagnosis held in both conditions, the first exact capability reason
-to survive semantic removal.
+\textbf{Llama's detection varies between samples.} The same protocol for
+Llama (plain, house\_01) gives 19 of 30 seeds the same lenient verdict
+in all five samples, with strict format failures of 17, 18, 17, 18 and
+16 of 30 and lenient extraction leaving 1, 4, 1, 0 and 1 malformed.
+Seven of the 13 trap seeds are detected in all five samples, five in
+some, and one in none; two of the 17 feasible seeds are refused at
+least once, one in every sample. Three infeasible seeds mix
+\texttt{terminal\_infeasible} decodes with
+\texttt{precondition\_violation} decodes, detected in one sample and
+planned into in the next. The silent-violation seed splits two to
+three: two decodes take the decoy, which executes fully and breaches
+the constraint, and three refuse a feasible instruction.
+
+\textbf{No prompt wording fixes Llama's format failures.} Over the same
+seeds (Llama, plain, house\_01), the canonical prompt gives 18 of 30
+strict format failures, a bare JSON-only variant 12 of 30, and a
+variant with the format rules moved to the end 15 of 30. The bare
+variant has a cost: 8 of its 30 responses contain no recoverable JSON,
+against 1 of 30 under the canonical prompt. The lenient planning
+metrics barely move across prompts (detection 8 to 10 of 13, false
+positives 2 to 3 of 17), which is the separation the two scoring
+policies exist to provide.
+
+\section{Conclusion}
+
+\benchname{} shows that a planner benchmark can be built without
+hand-written labels or judges: every label is proved, every response
+receives one mechanical verdict, and every detection count comes with
+its false positive count. Four results carry the most weight at this
+scale. The four models fail in distinct ways that the planted versus
+observed confusion matrix makes visible. Versioned obfuscation exposed
+one of our own apparent findings, Llama's execution drop, as a token
+artefact. No model distinguishes a missing capability from an
+unreachable goal. And Gemini 3.6 Flash nearly clears the suite in both
+conditions, so the benchmark needs harder environments, longer plans,
+and more sampled cells before its failure findings can speak to the
+strongest models.
 
 \section{Limitations}
 
 The scope is four models (Llama 3.3 70B, Qwen 2.5 7B Instruct, Gemini
 3.1 Flash Lite, Gemini 3.6 Flash), two environments, and 30 seeds per
-condition. Counts, not rates: every table cell is one decode at
-temperature 0, so no statistical treatment is attempted yet. The $k=5$ consistency
+condition. Every table cell is one decode at temperature 0, so we
+report counts and attempt no statistical treatment yet. The $k=5$ consistency
 experiment covers Qwen's four cells (both environments, both
 conditions), where it found the single decodes representative in
 direction, and Llama's plain house\_01 cell; the remaining cells are
@@ -641,12 +604,10 @@ unsampled. Two environments in one domain
 family (indoor rooms, doors, portable items) bound the generality of
 every claim. Prompt sensitivity is quantified for one model only (Llama, plain,
 house\_01); the other models' format behaviour under prompt variation
-is unmeasured. The frontier model's ideal diagonals are a house\_01
-result: its office\_01 columns repeat the headline counts in both
-conditions but not the perfect matrix. Qwen's results describe its
+is unmeasured. Qwen's results describe its
 4-bit quantized build, which may plan worse than the published
-weights. The lenient policy is a fixed syntactic
-extraction rule, not a semantic judge, by design. All hosted models ran
+weights. The lenient policy is a fixed syntactic extraction rule. All
+hosted models ran
 on free-tier quotas, which selected the model list.
 
 \section{Future work}
@@ -654,8 +615,9 @@ on free-tier quotas, which selected the model list.
 Extending the $k=5$ sampling protocol to the unsampled cells unlocks a
 statistical treatment and would most strengthen the claims here. More
 environments would test whether the taxonomy discriminates outside this
-domain family, and a second frontier-class model whether obfuscation
-invariance is a tier property.
+domain family, and a second model at Gemini 3.6 Flash's level would
+test whether its indifference to obfuscation holds for strong models
+generally.
 
 \bibliographystyle{plainnat}
 \bibliography{references}
@@ -689,57 +651,5 @@ Table~\ref{tab:runs} only.}
 \caption{office\_01: planted trap versus observed verdict for eight runs.}
 \label{fig:office}
 \end{figure}
-
-\clearpage
-
-\section{Citation verification record}
-\label{app:verification}
-
-Every citation in the related work section was checked against public
-records for its bibliographic details, and every finding attributed to
-a paper was checked against that paper's body rather than its abstract.
-This record states what each check established, so a reader can audit
-the section's claims about prior work the same way they can audit its
-numbers. (1) Bibliographic
-details of every entry confirmed against public records; Plancraft's
-venue upgraded to COLM 2025 and AmbiK's to ACL 2025 in the process.
-(2) Plancraft's paper body was read; the F1 0.71 figure, the overeager
-declaration trade-off, and its mechanical scoring are stated in the
-related work section from the body, not the abstract.
-(3) Unsolvability recognition under obfuscation is prior art and the
-related work section says so, with figures confirmed against the paper
-body (\citealp{valmeekam2024strawberry}); the specific dissociation we
-observe, detection surviving obfuscation while execution collapses
-within one model, remains unlocated in prior work. (4) Paired
-measurement exists within single families and the text credits each
-instance, AmbiK's counterparts, KnowNo's help budget, Plancraft's
-overeager declarations, and the false impossibility claims of
-\citealp{valmeekam2024strawberry}; our pairing claim is its systematic
-extension across all six families. (5) As far as searching can resolve
-it, no embodied refusal benchmark manipulating surface semantics was
-found, so that claim stands as ``to our knowledge''. (6) Yes-Man scores
-with an LLM judge and reports no false positive column on valid
-instructions, confirmed from the paper body; HomeBench and Semantic
-Denial of Service are cited; RoboBench is cited as a contrast on
-judge-free scoring. (7) TREK's feasible versus infeasible split, typed
-causes, judge-free deterministic scoring, and cause-naming requirement
-are stated from the paper body, as are AgentAbstain's paired-task
-construction, paired accuracy definition, and LLM-judge terminal
-scoring. (8) On the measurement-validity axis, the quantitative claims
-attributed to the 445-benchmark construct validity review and the
-21-judge reliability evaluation, and the design contrasts attributed to
-SIMMER (all tasks solvable; no refusal, no false positive column, no
-semantic manipulation), are stated from the paper bodies; the Clever
-Hans finding is stated in its abstract's own terms. (9) A final check
-of the entries not individually re-read in earlier rounds confirmed
-their bibliographic details against public records and their attributed
-findings against source text: the construct validity review's 445
-benchmarks and 29 reviewers, AmbiK's paired ambiguous and unambiguous
-counterparts for comparing detection methods, HomeBench's valid and
-invalid instructions with frontier failure concentrated on invalid
-multi-device cases, SIMMER's world-model executor, RoboBench's
-multimodal-model-as-world-simulator scoring, and the semantic
-denial-of-service result that short safety-plausible injected phrases
-halt execution independently of physical danger.
 
 \end{document}
