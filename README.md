@@ -100,7 +100,7 @@ it in two of five samples (lenient extraction recovering the plan from
 its prose), earning `constraint_violation` with the invariant named at
 the exact step, and refused the same feasible instruction outright in
 the other three. One instruction, three behaviours across committed
-runs: the frontier model's compliant plan at temperature 0, Llama's
+runs: Gemini 3.6 Flash's compliant plan at temperature 0, Llama's
 two bait-takings, and Llama's three refusals, each mechanically
 distinguished by the checker.
 
@@ -117,12 +117,13 @@ distinguished by the checker.
   feasible instructions. A model that always refuses looks exactly as bad
   as it is.
 
-## First results
+## Results
 
-Four models, and the fixed-prompt grid is complete: every model on
-both environments in both conditions (obfuscated columns under v2
-tokens, with superseded v1 runs retained and marked). Counts, not
-rates; hypotheses, not claims.
+Four models, each on both environments in both conditions, one decode
+per seed at temperature 0. The obfuscated columns use v2 tokens; the
+superseded v1 runs stay in the table, marked. At 30 seeds per condition
+these are counts and hypotheses, and the report renderer prints counts
+only.
 
 <!-- generated-results:begin -->
 | At a glance | |
@@ -171,228 +172,67 @@ hit the output limit.
 
 ![Planted versus observed confusion matrices for eight house_01 runs](docs/img/confusion_matrices.png)
 
-- **The two models fail in opposite ways.** Llama 3.3 70B wraps correct
-  JSON in prose (18/30 strict format failures) but, once recovered,
-  detects most infeasibility traps. Qwen 2.5 7B is format-disciplined
-  (3/30) but almost never refuses anything: zero false positives, near-zero
-  detection, nearly every trap ending in `precondition_violation`.
-- **A finding retired by our own methodology.** Under v1 tokens, Llama
-  showed an apparent dissociation: detection surviving obfuscation while
-  valid-seed success collapsed from 5/9 to 1/9. The v2-token rerun
-  refutes the collapse: detection still holds (9/13 to 10/13, false
-  positives 3/17 to 0/17) and execution holds too (5/9 in both
-  conditions; office: 2/9 in both). The "execution collapse" was token
-  confusability damage, not a property of the model. What survives is
-  simpler and still contrary to a pure pattern-matching account: for
-  this 70B model, planning judgement is essentially unimpaired by
-  semantic removal.
-- **The diagonal materialises.** All four planted precondition traps
-  produced observed `precondition_violation` from Llama in plain.
-- **Two artefacts caught and fixed in the open.** Under v1's confusable
-  tokens Qwen showed 15 `hallucinated_entity` verdicts (v2: 1) and Llama
-  showed 4 (v2: 0) alongside its spurious execution collapse. Records
-  carry their `obfuscation_version`, so generations of results never
-  silently mix, and superseded runs stay visible in the table above.
-- **The smaller reasoning-generation model does not clear the suite.** Gemini
-  3.1 Flash Lite: perfect format compliance, near-ceiling trap detection
-  in plain (12 of 13), yet zero of the seven ordering-trap seeds solved,
-  and the highest false positive count of any model (4 of 17), falling to
-  1 under obfuscation: its over-refusal is driven by surface semantics.
-  Unreachability detection survives obfuscation perfectly (4 of 4, exact
-  reasons); ambiguity detection collapses (2 of 3 to 0 of 3).
-- **A frontier reasoning model clears house_01 in both conditions, and
-  the two rows are identical.** Gemini 3.6 Flash, plain and fully
-  obfuscated alike: perfect format, 13/13 traps detected (10 exact
-  reasons), zero false positives, 9/9 valid seeds solved, including all
-  seven ordering traps that defeated every other model and the
-  compliant route on the silent-violation constraint seed, chosen even
-  when the constraint was about nonsense words in nonsense rooms. Both
-  confusion matrices are the ideal diagonal. For this model on this
-  environment, the central experiment answers: its judgement is state
-  tracking, not lexical pattern matching. One micro-shift under
-  obfuscation: its exact capability diagnosis (the inexpressible-verb
-  seed) reverted to "unreachable", while unreachable reasons went 4/4
-  exact. Its second-environment test is in the office results below.
-- **Format discipline is Llama's habit, not our prompt's fault.** Three
-  prompts, same seeds, same model: strict format failures 18/30
-  (canonical), 12/30 (bare JSON-only instructions), 15/30 (format
-  contract moved to the end). No wording cures the prose-wrapping, and
-  the harshest variant backfires: under the bare prompt, 8/30 responses
-  contain no recoverable JSON at all (canonical: 1/30). Meanwhile the
-  lenient planning metrics barely move (detection 8 to 10 of 13, false
-  positives 2 to 3 of 17), which is the separation the two-policy
-  scoring exists to provide: format discipline is prompt-sensitive,
-  planning conclusions are not.
-- **The capability distinction still defeats every model, and the
-  crack in it now survives obfuscation.** The unlock seeds, where the
-  suite proves the goal is sealed by a missing capability rather than
-  topology, have never received the exact diagnosis in any run: even
-  Gemini 3.6 calls them "unreachable", on office_01 as on house_01, in
-  every condition. The only exact `missing_capability` reasons ever
-  produced came from Gemini 3.6 on the two inexpressible-verb seeds
-  (no action in the vocabulary can express mopping on house_01 or
-  photocopying on office_01): three exact diagnoses across eighteen
-  committed columns. The house diagnosis appeared in plain and
-  reverted to "unreachable" under obfuscation; the office diagnosis
-  held in both conditions, the first exact capability reason to
-  survive semantic removal.
-- **Qwen's failure profile replicates on the second environment.** First
-  office_01 run (Qwen 2.5 7B, plain): 4/30 strict format failures (house:
-  3/30), and under lenient extraction zero false positives (0/17), 1/13
-  traps detected, and 2/9 valid seeds solved, all mirroring its house
-  numbers (0/17, 2/13, 2/9). In both environments the solved valid seeds
-  are exactly the one and two step floor cases, and detection is object
-  level only: the nonexistent stapler is refused while both disconnected
-  annex seeds are planned into, and the fixed photocopier is missed even
-  though the fixed television was house_01's one non-hallucination
-  detection.
-- **Obfuscation makes Qwen refuse, on both environments.** office_01
-  obfuscated (v2 tokens): strict format failures rise to 13/30 (plain:
-  4/30), and under lenient extraction detection rises to 3/13 with false
-  positives 2/17 (plain: 1/13 and 0/17); house_01 obfuscated shows the
-  same direction (3/13, 3/17). Its only exact-reason detections anywhere
-  are the two greasy-into-canteen constraint seeds, which it silently
-  complied with in plain English; the never-enter constraint seed is
-  still planned into, and one new false positive refuses a feasible
-  canteen delivery of a non-greasy item on constraint grounds. Hypothesis
-  at this n: removing semantics pushes Qwen from silent compliance
-  towards structural constraint matching, at the cost of format
-  discipline and new false positives. Zero hallucinated-entity verdicts
-  on the office lexicon (house v2: 1), so the token distinctness
-  guarantee is doing its job on a second vocabulary.
-
-Eight office_01 runs now exist (all four models, each in both
-conditions):
-
 ![Planted versus observed confusion matrices for the eight office_01 runs](docs/img/confusion_matrices_office.png)
 
-- **Gemini Flash Lite finds office_01 harder, and its over-refusal again
-  collapses under obfuscation.** Office plain: 10/13 traps detected with
-  7/17 false positives (house: 12/13 with 4/17); office obfuscated: 5/13
-  with 2/17 (house: 7/13 with 1/17). The false positive drop under
-  obfuscation now replicates on a second environment, in both cases
-  refusals of feasible instructions on constraint grounds. It also
-  solved its first ordering trap in any run (the nine step office s1;
-  house was 0 of 7, office is 1 of 7), and on the ambiguous spanner seed
-  it silently picked a binding and routed through the forbidden server
-  room, the first constraint_violation observed on office_01. Format is
-  no longer perfect: one unrecoverable response per office condition
-  (house: zero in both).
-- **Llama's split profile replicates on office_01.** Office plain:
-  detection identical to house at 9/13 with false positives improving
-  from 3/17 to 1/17, while strict format failures worsen from 18/30 to
-  24/30 (lenient recovers all but one) and valid-seed success falls
-  from 5/9 to 2/9. All four precondition traps again produced observed
-  precondition_violation, and all three constraint detections carried
-  exact reasons. Under v2 obfuscation the split keeps its shape: strict
-  format failures rise to 27/30 with lenient extraction recovering
-  every one, detection drops to 7/13 with all three constraint
-  detections still carrying exact reasons, and false positives hold at
-  1/17 with valid-seed success again 2/9. Five of the nine valid seeds
-  produce observed precondition_violation, and one decode names an
-  entity from outside the environment, the run's single
-  hallucinated_entity verdict.
-- **Sampling noise does not explain Qwen's profile.** First k-sampling
-  experiment (k=5 decodes per seed at temperature 0.7, Qwen plain,
-  house_01): 26/30 seeds produced the identical lenient verdict in all
-  five samples. Detection was exactly binary: the same two object-level
-  unreachable seeds (the fixed television, the nonexistent lamp) were
-  detected in all five samples, the other eleven trap seeds in none of
-  their 55 decodes, and none of the 85 feasible-seed decodes produced a
-  refusal. The never-refuse profile is a property of the model, not of
-  greedy decoding. All five sample files are committed;
-  `python -m plan_failure_bench.consistency` reproduces the report.
-- **Obfuscation destabilises Qwen's decoding, but its induced refusals
-  are reproducible.** Second sampled cell (k=5 at temperature 0.7, Qwen
-  obfuscated v2, house_01): only 14/30 seeds keep one verdict across
-  all five samples (plain: 26/30), with strict format failures ranging
-  8/30 to 12/30 per sample. Yet the structure underneath is stable: the
-  nonexistent-object and inexpressible-verb seeds are detected in all
-  five samples, the compound constraint seed in all five (reason exact
-  in two), its single-item twin in three; and on the feasible side one
-  valid seed is refused in all five samples with two precondition traps
-  refused in four of five. The obfuscation-induced refusal mode is a
-  reproducible behaviour, not decode luck. One honest caveat: 13 of the
-  150 decodes hallucinated an entity under v2 tokens (temperature 0:
-  1 of 30), so sampling partially reintroduces the token copy errors
-  that the edit distance guarantee suppresses at temperature 0.
-- **Qwen's full grid is now sampled and every pattern replicates.**
-  Office cells (same k=5 protocol): plain is again frozen, 24/30 seeds
-  fully stable, zero refusals across all 85 feasible decodes, only the
-  nonexistent stapler detected in every sample (the fixed photocopier
-  flickered in once, a trap the single decode never caught).
-  Obfuscation again destabilises decoding (17/30 stable, strict
-  failures 11/30 to 17/30 per sample) while the refusal core
-  reproduces on the second lexicon: both greasy-into-canteen
-  constraint seeds detected in all five samples, the compound one with
-  the exact reason all five times, one precondition trap refused in
-  every sample, and the feasible canteen delivery refused in four of
-  five. Token corruption under sampling appears here too: 11 of 150
-  obfuscated decodes (house: 13 of 150).
-- **Llama's sampled cell shows detection flicker, not a stable wrong
-  answer.** First k=5 cell for Llama (temperature 0.7, plain,
-  house_01): 19/30 seeds keep one lenient verdict across all five
-  samples (Qwen plain: 26/30). Strict format failures per sample are
-  17, 18, 17, 18, 16 of 30, with lenient extraction leaving 1, 4, 1,
-  0, 1 malformed. Seven of the 13 trap seeds are detected in all five
-  samples, 5 in some, 1 in none (a capability seed missed in every
-  decode), and 2/17 feasible seeds are refused at least once, one in
-  every sample. The instability sits at the detection boundary: the
-  movement-variant capability seed, its fabricated-affordance twin,
-  and the stated-isolation unreachable seed each mix
-  `terminal_infeasible` decodes with observed `precondition_violation`
-  decodes, the same seed detected in one sample and walking into the
-  wall in the next (one decode of the movement variant stays malformed
-  even under lenient). One ambiguous seed is missed in the first
-  sample and answers `clarify` in the other four; its sibling produces
-  three different verdicts in five decodes. The silent-violation split
-  described above, bait twice and refusal three times, is this cell.
-- **The frontier model's office columns: identical headline counts in
-  both conditions, no longer a perfect matrix.** Gemini 3.6 Flash on
-  office_01, plain and fully obfuscated alike, repeats every house_01
-  headline: 0/30 format failures, 13/13 traps detected (10 exact
-  reasons), 0/17 false positives, 9/9 valid seeds solved, and all four
-  unreachable seeds detected including both annex seeds whose
-  isolation must be inferred from the connection list. But neither
-  confusion matrix is the ideal diagonal: in each condition, the same
-  sequencing trap, whose stated order closes the robot's own route so
-  only a reordered plan achieves the goal, produced a plan satisfying
-  one of two goal conjuncts, verdict `goal_not_achieved`, this model's
-  only non-valid verdicts on feasible seeds across its four committed
-  columns. The summary table cannot show it: the failure sits on a
-  feasible seed outside the valid label, so every column stays perfect
-  while the matrix does not. And the house_01 pattern repeats in full:
-  the two office rows are identical to each other, blemish included,
-  so semantic removal again changes nothing this benchmark can
-  measure.
-- **Whether unreachability detection survives obfuscation depends on
-  the model, and the annex now separates them.** house_01 says
-  outright that the cellar has no doors, and Gemini 3.1 Flash Lite's
-  unreachability detection survived obfuscation there at 4/4 with
-  exact reasons. office_01's annex isolation must be inferred from the
-  connection list, and under obfuscation Lite's office unreachability
-  drops from 3/4 to 1/4, the survivor being the nonexistent stapler
-  rather than any topology seed. The frontier model detects all four
-  office unreachable seeds in both conditions, annex seeds included
-  with exact reasons. Hypothesis at this n, now bounded to the smaller
-  reasoning-generation model: for Lite, what survives semantic removal
-  is reading a stated fact, not topological inference; for the
-  frontier model, the inference itself survives, which is exactly the
-  distinction the annex was designed to expose.
+The main findings are below. The paper's results section has the full
+account, and [docs/seed_review.md](docs/seed_review.md) has every seed
+of every run.
 
-Per-seed detail for every run: [docs/seed_review.md](docs/seed_review.md).
-Raw records: [results/](results/).
+- **Each model fails in its own way.** Llama 3.3 70B detects most traps
+  (9 of 13 in plain on both environments) but wraps its JSON in prose:
+  18 of 30 strict format failures on house_01 and 24 on office_01. Qwen
+  2.5 7B keeps the format and almost never refuses, with zero false
+  positives in plain on both environments and nearly every trap ending
+  in a precondition violation. Gemini 3.1 Flash Lite detects 12 of 13
+  traps on house_01 but solves none of its seven ordering traps and
+  refuses the most feasible instructions (4 of 17 on house_01, 7 of 17
+  on office_01).
+- **Gemini 3.6 Flash nearly clears the suite.** No format failures, 13
+  of 13 traps detected, zero false positives and 9 of 9 valid seeds in
+  all four of its runs, and both house_01 matrices are the ideal
+  diagonal. Its one blemish is an office_01 sequencing seed where, in
+  both conditions, its plan satisfies one of two goal conjuncts. The
+  failure findings here therefore apply to the three smaller models.
+- **No model separates a missing capability from an unreachable goal.**
+  On the locked-door seeds every model, Gemini 3.6 Flash included,
+  answers "unreachable". The only exact `missing_capability` reasons
+  came from Gemini 3.6 Flash on the two inexpressible-verb seeds
+  (mopping on house_01, photocopying on office_01): three across
+  eighteen runs.
+- **Versioning caught two artefacts of our own first token scheme.**
+  Under v1 tokens, Llama's valid-seed success appeared to collapse
+  under obfuscation (5 of 9 to 1 of 9) and Qwen showed 15
+  hallucinated-entity verdicts on house_01. Under v2 tokens Llama holds
+  5 of 9 in both conditions and Qwen's count drops to 1: the models had
+  been miscopying confusable tokens. Every record carries its
+  obfuscation version, so the two generations never mix.
+- **Obfuscation moves over-refusal in opposite directions.** It lowers
+  Flash Lite's false positives (4 to 1 of 17 on house_01, 7 to 2 on
+  office_01) and raises Qwen's (0 to 3 on house_01, 0 to 2 on
+  office_01).
+- **Sampling confirms the profiles.** At k=5 and temperature 0.7, Qwen
+  in plain gives the same verdict on 26 of 30 house_01 seeds and 24 of
+  30 office_01 seeds, with no refusal in the 85 feasible decodes on
+  either. Llama in plain on house_01 keeps 19 of 30 seeds stable, and
+  its variation sits at the detection boundary: the same seed detected
+  in one sample and planned into in the next.
+  `python -m plan_failure_bench.consistency` reproduces these reports.
+- **No prompt wording fixes Llama's format failures.** Two prompt
+  variants give 12 and 15 of 30 strict failures against the canonical
+  prompt's 18, while lenient detection moves only between 8 and 10 of
+  13.
 
 ## Working paper
 
-A living draft lives in [paper/](paper/), with a compiled PDF at
-[paper/paper.pdf](paper/paper.pdf), completed as the research
-completes; [paper/STATUS.md](paper/STATUS.md) tracks section status
-honestly (nothing is ticked that cannot be inspected in this
-repository). Its results tables are generated from the committed run
-records by `tools/build_paper_results.py` and are never edited by hand,
-so the paper cannot drift from the data. The paper is public as a
-citable preprint: [DOI 10.5281/zenodo.21756817](https://doi.org/10.5281/zenodo.21756817).
+The paper is in [paper/](paper/), compiled at
+[paper/paper.pdf](paper/paper.pdf), and
+[paper/STATUS.md](paper/STATUS.md) records its history, including the
+TAE workshop review and the September 2026 revision. Its results tables
+are generated from the committed run records by
+`tools/build_paper_results.py` and never edited by hand. The citable
+preprint is [DOI 10.5281/zenodo.21756817](https://doi.org/10.5281/zenodo.21756817);
+until the revised version is uploaded there, the committed PDF is the
+current one.
 
 For a non-specialist reader there is a six-page plain-language guide,
 [docs/explainer/explainer.pdf](docs/explainer/explainer.pdf), which
@@ -419,8 +259,7 @@ house_01: seven rooms, six doors, ten items, two trajectory invariants
 a robot that cannot unlock. Every trap family has a surface here, including
 discriminative pairs: the same knife is legal to move in one seed and
 refusable in another; the same constraint wording has a compliant route in
-one seed and none in another. All model results so far are on this
-environment.
+one seed and none in another.
 
 ```mermaid
 graph LR
@@ -457,8 +296,10 @@ house_01 keeps confusion matrix columns comparable across environments.
   of PDDL 3 `always` constraints), and there the first inapplicable step
   must be the checker's first breach step, so constraint verdicts are
   cross-checked too, including every seed decoy.
-- Unreachability labels are proofs, not assertions: a sound
-  over-approximating abstraction that cannot miss real plans.
+- Unreachability labels are proved by a sound over-approximating
+  abstraction that cannot miss a real plan. The proofs are checked by
+  this repository's own code only; no independent verifier re-checks
+  them yet.
 - The obfuscated condition is a bijective renaming applied to the prompt
   and inverted on the response; the checker only ever sees the canonical
   world, so semantic equivalence holds by construction.
@@ -556,37 +397,24 @@ python tools/build_paper_results.py --list
 
 Stated here so nobody has to discover them:
 
-- **The frontier model clears house_01 in both conditions, and nearly
-  clears office_01 in both.** Gemini 3.6 Flash produced the ideal
-  diagonal plain and obfuscated alike on house_01, which bounds every
-  failure claim in this README to smaller and non-reasoning models
-  until proven otherwise. Its office_01 columns repeat every headline
-  count in both conditions but not the perfect matrix: one sequencing
-  seed fails identically in each (see First results).
-- **Cross-environment coverage is complete for the original grid.**
-  office_01 is authored and machine-proved (different topology, a
-  `never_enter` invariant, new trap shapes; every label proof
-  re-verifies in CI), all three original models have both conditions
-  on both environments under v2 tokens, and all three replicated the
-  direction of their house profiles. The frontier model's grid is
-  complete too: both environments, both conditions.
-- **Single sample per seed, mostly.** Table counts are one decode each
-  at temperature 0. The k=5 protocol (samples at temperature 0.7, each
-  an ordinary run in its own file, aggregated by
-  `python -m plan_failure_bench.consistency`) has covered Qwen's full
-  grid, both environments in both conditions, where it showed the
-  single decodes are representative in direction, and Llama's plain
-  house_01 cell (see First results); the remaining cells are single
-  decodes.
-- **Prompt sensitivity is quantified for one model.** The two prompt
-  variants in [prompts/](prompts/) have run for Llama on house_01 plain
-  (see First results): format failures moved within a band, planning
-  metrics barely moved, and no wording cured the wrapping. The other
-  models' prompt sensitivity remains unmeasured; every record carries
-  its prompt hash, so variant runs are separable by construction.
-- **Counts, not rates.** Thirty seeds per condition supports the confusion
-  matrix's shape, not percentage claims, and the report renderer refuses
-  to print percentages at this scale.
+- **The strongest model tested nearly clears the suite.** Gemini 3.6
+  Flash solves house_01 perfectly in both conditions and misses one
+  office_01 sequencing seed, so the benchmark has little headroom at
+  that level. Harder environments and longer plans are the next step.
+- **One decode per seed, mostly.** Table counts are one decode each at
+  temperature 0. The k=5 protocol has covered Qwen's full grid and
+  Llama's plain house_01 cell; the other cells are unsampled.
+- **Prompt sensitivity is measured for one model.** The two variants in
+  [prompts/](prompts/) have run only for Llama on house_01 plain. Every
+  record carries its prompt hash, so variant runs stay separable.
+- **Qwen ran as a 4-bit build.** Its results describe the Q4_K_M
+  quantization served by Ollama, which may plan worse than the
+  published weights.
+- **Unreachability proofs are not independently verified.** Plan
+  verdicts are cross-checked by pyperplan; the infeasibility proofs are
+  checked only by this repository's code.
+- **Thirty seeds per condition.** That supports the shape of a confusion
+  matrix, not percentages, which is why every number here is a count.
 
 ## How this fits the research programme
 
