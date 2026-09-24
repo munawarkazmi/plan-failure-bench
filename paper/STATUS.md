@@ -103,11 +103,30 @@ inspected.
   2014, Eriksson et al. 2017), each checked against its body and
   recorded in paper/citation_checks.md, and Limitations states that the
   proofs are checked only by our own code.
-- paper.pdf rebuilt from this revision on 24 September 2026 (clean
-  build, 12 pages, body ends on page 8, Type 1 fonts only, MD5
-  696f700d05c2920e3da83b15aac3ed27). Still open: post this exact file to
-  arXiv and to Zenodo as v2 under the concept DOI, together, and check
-  the uploaded copies against that MD5.
+- Next venue, decided 24 September 2026: TMLR. ICAPS 2027 was the
+  other candidate (paper deadline 14 December 2026), but its travel
+  support is partial reimbursement after the conference and is decided
+  only about two months before it, so in-person attendance in the USA
+  was not realistic. TMLR has rolling submissions, judges whether claims
+  are supported by evidence even when significance is modest, and
+  allows overlap with non-archival workshops and preprints.
+- The paper now uses the official TMLR style (tmlr.sty, tmlr.bst and
+  fancyhdr.sty vendored from github.com/JmlrOrg/tmlr-style-file), which
+  replaces the NeurIPS kit. Committed builds use the preprint option;
+  the submission build drops it, which gives "Anonymous authors", the
+  "Under review as submission to TMLR" header, and the anonymised
+  mirror link in the abstract. Both builds were checked on 24 September
+  2026: no undefined references, no overfull boxes, Type 1 fonts only,
+  13 pages, and no name, email, GitHub, Zenodo, or venue string in the
+  anonymous build.
+- Committed paper.pdf is the TMLR preprint build, MD5
+  20446c43db0d736400b66fc68b27b267. That is the file for arXiv and for
+  Zenodo v2; post both together and check each upload against the MD5.
+- Before submitting to TMLR: resync the anon-mirror branch, which was
+  last updated on 2 August 2026. It must exclude every compiled PDF (the
+  paper, the poster, and the explainer, which the mirror service cannot
+  scrub) and must not carry the Zenodo DOI, since TMLR forbids linking
+  the submission to a version that names the author.
 
 ## Submission and arXiv, 22 August 2026
 
